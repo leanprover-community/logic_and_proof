@@ -1,4 +1,4 @@
-Logic and Mathematical Inquiry
+# Logic and Mathematical Inquiry
 ---------------
 
 This is a fork of the original course [available here](https://github.com/leanprover/logic_and_proof/tree/master).
