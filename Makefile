@@ -12,14 +12,14 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-VENVDIR := .venv
+VENVDIR := "/home/jlh/.pyenv/versions/environment3.5.4"
 export PATH := $(VENVDIR)/bin:$(PATH)
 
 install-deps:
-	test -f $(VENVDIR)/bin/pip || python3 -m venv $(VENVDIR)
-	pip install https://bitbucket.org/gebner/pygments-main/get/default.tar.gz#egg=Pygments
-	pip install 'wheel>=0.29' # needed for old ubuntu versions, https://github.com/pallets/markupsafe/issues/59
-	pip install sphinx
+	# test -f $(VENVDIR)/bin/pip || python3 -m venv $(VENVDIR)
+	# pip install https://bitbucket.org/gebner/pygments-main/get/default.tar.gz#egg=Pygments
+	# pip install 'wheel>=0.29' # needed for old ubuntu versions, https://github.com/pallets/markupsafe/issues/59
+	# pip install sphinx
 .PHONY: help Makefile
 
 images:
