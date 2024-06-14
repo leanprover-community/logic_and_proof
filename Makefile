@@ -12,7 +12,7 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-VENVDIR := "/home/jlh/.pyenv/versions/environment3.5.4"
+VENVDIR := "$HOME/.pyenv/versions/environment3.5.4"
 export PATH := $(VENVDIR)/bin:$(PATH)
 
 install-deps:
