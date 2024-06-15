@@ -161,14 +161,13 @@ Since the end of the twentieth century, however, the advent of computational pro
 .. code-block:: lean
 
     section
-    variables (P Q : Prop)
+    variable (P Q : Prop)
 
-    theorem my_theorem : P ∧ Q → Q ∧ P :=
-    assume h : P ∧ Q,
-    have P, from and.left h,
-    have Q, from and.right h,
-    show Q ∧ P, from and.intro ‹Q› ‹P›
-
+    theorem my_theorem : P ∧ Q → Q ∧ P := by
+      rintro h : P ∧ Q
+      apply And.intro
+      . apply And.right h
+      . apply And.left h
     end
 
 If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
@@ -177,32 +176,40 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
 
 .. code-block:: lean
 
-  import data.nat.prime
-  open nat
+    import Mathlib.Data.Nat.Prime
+    open Nat
+    open Prime
 
-  theorem sqrt_two_irrational {a b : ℕ} (co : gcd a b = 1) :
-    a^2 ≠ 2 * b^2 :=
-  assume h : a^2 = 2 * b^2,
-  have 2 ∣ a^2,
-    by simp [h],
-  have 2 ∣ a,
-    from prime.dvd_of_dvd_pow prime_two this,
-  exists.elim this $
-  assume (c : nat) (aeq : a = 2 * c),
-  have 2 * (2 * c^2) = 2 * b^2,
-    by simp [eq.symm h, aeq];
-      simp [pow_succ', mul_comm, mul_assoc, mul_left_comm],
-  have 2 * c^2 = b^2,
-    from mul_left_cancel' dec_trivial this,
-  have 2 ∣ b^2,
-    by simp [eq.symm this],
-  have 2 ∣ b,
-    from prime.dvd_of_dvd_pow prime_two this,
-  have 2 ∣ gcd a b,
-    from dvd_gcd ‹2 ∣ a› ‹2 ∣ b›,
-  have 2 ∣ (1 : ℕ),
-    by simp * at *,
-  show false, from absurd ‹2 ∣ 1› dec_trivial
+    section
+
+    theorem sqrt_two_irrational {a b : ℕ} (co : gcd a b = 1) :
+        a^2 ≠ 2 * b^2 := by
+      rintro h : a^2 = 2 * b^2
+      have : 2 ∣ a^2 := by
+        simp [h]
+      have : 2 ∣ a :=
+      dvd_of_dvd_pow prime_two this
+      apply Exists.elim this
+      rintro c aeq
+      have : 2 * (2 * c^2) = 2 * b^2 := by
+        simp [Eq.symm h, aeq];
+        simp [pow_succ' _, mul_comm, mul_assoc, mul_left_comm]
+      have : 2 * c^2 = b^2 := by
+        apply mul_left_cancel₀ _ this
+        decide
+      have : 2 ∣ b^2 := by
+        simp [Eq.symm this]
+      have : 2 ∣ b := by
+            apply dvd_of_dvd_pow prime_two this
+      have : 2 ∣ gcd a b := by
+        apply dvd_gcd
+        . assumption
+        . assumption
+      have _ : 2 ∣ (1 : ℕ) := by
+        simp [co] at *
+      contradiction
+
+    end
 
 The third goal of this course is to teach you to write elementary proofs in Lean. The facts that we will ask you to prove in Lean will be more elementary than the informal proofs we will ask you to write, but our intent is that formal proofs will model and clarify the informal proof strategies we will teach you.
 
@@ -240,6 +247,16 @@ This book also aims to show you how mathematics is built up from fundamental con
 About this Textbook
 -------------------
 
-Both this online textbook and the *Lean* theorem prover are new and ongoing projects. You can learn more about Lean from its `project page <http://leanprover.github.io/>`_, the Lean `community pages <http://leanprover-community.github.io/>`_, and the online textbook, `Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
+Both this online textbook and the *Lean* theorem prover are ongoing projects.
+The original ``lean3`` version of this textbook is available `here <https://leanprover.github.io/logic_and_proof/index.html>`_.
+This version introduces ``lean4`` instead.
 
-We are grateful for feedback and corrections from a number of people, including Bruno Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky, Alexandre Rademaker, Matt Rice, and Jason Siefken.
+You can learn more about Lean from its `project page <http://leanlang.org>`_,
+the Lean `community pages <http://leanprover-community.github.io/>`_, and the online textbook,
+`Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
+
+This textbook was written by Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+We are grateful for feedback and corrections from a number of people,
+including Bruno Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky,
+Alexandre Rademaker, Matt Rice, and Jason Siefken.
+The translation to ``lean4`` is by Joseph Hua.

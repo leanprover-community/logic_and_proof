@@ -1,7 +1,7 @@
 from docutils import nodes
 from docutils.parsers.rst import Directive
 from sphinx.builders import Builder
-from sphinx.directives import CodeBlock
+from sphinx.directives.code import CodeBlock
 from sphinx.errors import SphinxError
 import os, os.path, fnmatch, subprocess
 import codecs
@@ -21,7 +21,7 @@ except:
 class lean_code_goodies(nodes.General, nodes.Element): pass
 
 def mk_try_it_uri(code):
-    uri = 'https://leanprover-community.github.io/lean-web-editor/#code='
+    uri = 'https://live.lean-lang.org/#code='
     uri += urlquote(code, safe='~()*!.\'')
     return uri
 
