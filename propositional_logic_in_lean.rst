@@ -193,6 +193,7 @@ Suppose ``A`` and ``B`` have type ``Prop``,
 and, assuming ``hA`` is the premise that ``A`` holds,
 ``hB`` is proof of ``B``, possibly involving ``hA``.
 Then the expression ``fun h : A ↦ hB`` is a proof of ``A → B``.
+You can type ``\mapsto`` for the ``↦`` symbol.
 For example, we can construct a proof of ``A → A ∧ A`` as follows:
 
 .. code-block:: lean
@@ -1203,7 +1204,7 @@ Finally, you can add comments to your proofs in two ways. First, any text after 
 Exercises
 ---------
 
-Prove the following in Lean in both term mode and tactic mode:
+Prove the following in both term mode and tactic mode:
 
 .. code-block:: lean
 

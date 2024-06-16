@@ -394,16 +394,15 @@ A formula built up from :math:`\wedge`, :math:`\vee`, and :math:`\neg` in which 
 
 In fact, using distributivity laws, one can go on to ensure that all the disjunctions are on the outside, so that the formulas is a big or of and's of propositional variables and negated propositional variables. Such a formula is said to be in *disjunctive normal form*. Alternatively, all the and's can be brought to the outside. Such a formula is said to be in *conjunctive normal form*. An exercise below, however, shows that putting formulas in disjunctive or conjunctive normal form can make them much longer.
 
-
-The ``contradiction`` Tactic
-----------------------------
+``contradiction``
+_________________
 
 Once we reach a contradiction in our proof,
 i.e. by having ``h1 : A`` and ``h2 : ¬A``,
 we can apply the tactic ``contradiction``.
 This will search for a contradiction among the hypotheses,
 and complete the proof if it succeeds in finding one.
-Revisiting our previous example:
+Revisiting our previous example example:
 
 .. code-block:: lean
 
@@ -431,17 +430,6 @@ Revisiting our previous example:
         contradiction
       have h5 : A ∨ ¬ A := Or.inr h2
       contradiction
-
-    end
-
-Since ``contradiction`` does not require the names of
-variables that form a contradiction
-we can even remove all of the names.
-
-.. code-block:: lean
-
-    section
-    open Classical
 
     example : A ∨ ¬ A := by
       apply byContradiction
