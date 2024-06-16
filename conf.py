@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Logic and Proof documentation build configuration file, created by
+# Logic and Mathematical Inquiry documentation build configuration file, created by
 # sphinx-quickstart on Tue Aug  8 19:01:05 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -45,7 +45,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Logic and Proof'
+project = u'Logic and Mathematical Inquiry'
 copyright = u'2017, Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn'
 author = u'Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn'
 
@@ -99,7 +99,7 @@ html_theme_options = {
     'font_family': 'Times New Roman, Times, serif',
     'head_font_family': 'Times New Roman, Times, serif',
     'code_bg': 'white',
-    'extra_nav_links': {'PDF version':'logic_and_proof.pdf',
+    'extra_nav_links': {'PDF version':'logic_and_mathematical_inquiry.pdf',
                        'Lean Home':'https://leanprover.github.io/'},
     # 'sidebar_width' : '200px',
     # 'page_width' : '960px',
@@ -134,7 +134,7 @@ html_sidebars = {
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'logic_and_proof'
+htmlhelp_basename = 'logic_and_mathematical_inquiry'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -171,7 +171,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'logic_and_proof.tex', u'Logic and Proof',
+    (master_doc, 'logic_and_mathematical_inquiry.tex', u'Logic and Mathematical Inquiry',
      u'Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn', 'manual'),
 ]
 
@@ -181,7 +181,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'logicandproof', u'Logic and Proof',
+    (master_doc, 'logicandmathematicalinquiry', u'Logic and Mathematical Inquiry',
      [author], 1)
 ]
 
@@ -192,7 +192,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'logic_and_proof', u'Logic and Proof',
-     author, 'logic_and_proof', 'One line description of project.',
+    (master_doc, 'logic_and_mathematical_inquiry', u'Logic and Mathematical Inquiry',
+     author, 'logic_and_mathematical_inquiry', 'One line description of project.',
      'Miscellaneous'),
 ]

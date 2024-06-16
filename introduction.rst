@@ -248,15 +248,16 @@ About this Textbook
 -------------------
 
 Both this online textbook and the *Lean* theorem prover are ongoing projects.
-The original ``lean3`` version of this textbook is available `here <https://leanprover.github.io/logic_and_proof/index.html>`_.
+The original ``lean3`` version of this textbook (called Logic and Proof)
+is available `here <https://leanprover.github.io/logic_and_proof/index.html>`_.
 This version introduces ``lean4`` instead.
 
 You can learn more about Lean from its `project page <http://leanlang.org>`_,
 the Lean `community pages <http://leanprover-community.github.io/>`_, and the online textbook,
-`Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean/>`_.
+`Theorem Proving in Lean <http://leanprover.github.io/theorem_proving_in_lean4/>`_.
 
 This textbook was written by Jeremy Avigad, Robert Y. Lewis, and Floris van Doorn.
+This version, using ``lean4`` rather than ``lean3`` was adapted by Joseph Hua.
 We are grateful for feedback and corrections from a number of people,
 including Bruno Cuconato, William DeMeo, Tobias Grosser, Lyle Kopnicky,
 Alexandre Rademaker, Matt Rice, and Jason Siefken.
-The translation to ``lean4`` is by Joseph Hua.

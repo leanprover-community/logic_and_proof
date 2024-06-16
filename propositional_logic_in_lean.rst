@@ -763,7 +763,7 @@ We can enter tactic mode by writing the keyword ``by``:
 .. code-block:: lean
 
     example (A B C : Prop) : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) := by
-      rintro h1 : A ∧ (B ∨ C)
+      intro (h1 : A ∧ (B ∨ C))
       cases h1 with
       | intro h1 h2 => cases h2 with
         | inl h2 =>
@@ -777,9 +777,9 @@ We can enter tactic mode by writing the keyword ``by``:
           exact h1
           exact h2
 
-Instead of ``fun h1 ↦ h2`` we use ``rintro h1``
+Instead of ``fun h1 ↦ h2`` we use ``intro (h1 : A ∧ (B ∨ C))``
 to "introduce" the assumption ``h1``,
-then give instructions for proving ``h2``.
+then give instructions for ``h2``.
 Instead of ``Or.elim h`` and ``And.elim h`` we use ``cases h with``
 and use ``|`` to list the cases that occur,
 proving a proof in each case.
@@ -824,7 +824,7 @@ Notice that ``show`` is also a tactic.
 
     -- tactic mode
     example : A → C := by
-      rintro h : A
+      intro (h : A)
       have h3 : B := h1 h
       show C
       exact h2 h3
@@ -865,16 +865,16 @@ which we partially translate to tactic mode:
       show C from h1 (And.left h2) (And.right h2)
 
     example (A B C : Prop) : (A → (B → C)) → (A ∧ B → C) := by
-      rintro (h1 : A → (B → C)) (h2 : A ∧ B)
+      intro (h1 : A → (B → C)) (h2 : A ∧ B)
       exact h1 (And.left h2) (And.right h2)
 
-Note that ``rintro`` can introduce multiple assumptions at once.
+Note that ``intro`` can introduce multiple assumptions at once.
 Using ``have``, it can be written more perspicuously as follows:
 
 .. code-block:: lean
 
     example (A B C : Prop) : (A → (B → C)) → (A ∧ B → C) := by
-      rintro (h1 : A → (B → C)) (h2 : A ∧ B)
+      intro (h1 : A → (B → C)) (h2 : A ∧ B)
       have h3 : A := And.left h2
       have h4 : B := And.right h2
       exact h1 h3 h4
@@ -884,7 +884,7 @@ We can be even more verbose, and add another line:
 .. code-block:: lean
 
     example (A B C : Prop) : (A → (B → C)) → (A ∧ B → C) := by
-      rintro (h1 : A → (B → C)) (h2 : A ∧ B)
+      intro (h1 : A → (B → C)) (h2 : A ∧ B)
       have h3 : A := And.left h2
       have h4 : B := And.right h2
       have h5 : B → C := h1 h3
@@ -898,7 +898,7 @@ Here is how some of the basic inferences look, when expanded with ``have``. In t
 .. code-block:: lean
 
     example (A B : Prop) : A ∧ B → B ∧ A := by
-      rintro (h1 : A ∧ B)
+      intro (h1 : A ∧ B)
       have h2 : A := And.left h1
       have h3 : B := And.right h1
       show B ∧ A
@@ -909,7 +909,7 @@ Compare that with this version, which instead states first that we will use the 
 .. code-block:: lean
 
     example (A B : Prop) : A ∧ B → B ∧ A := by
-      rintro (h1 : A ∧ B)
+      intro (h1 : A ∧ B)
       apply And.intro
       . show B
         exact And.right h1
@@ -935,9 +935,9 @@ When using the or-elimination rule, it is often clearest to state the relevant d
     have h : A ∨ B := sorry
     show C
     apply Or.elim h
-    . rintro hA
+    . intro (hA : A)
       sorry
-    . rintro hB
+    . intro (hB : B)
       sorry
 
 Here is a ``have``-structured presentation of an example from the previous section:
@@ -946,16 +946,16 @@ Here is a ``have``-structured presentation of an example from the previous secti
 
     -- tactic mode
     example (A B C : Prop) : A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) := by
-    rintro h1 : A ∧ (B ∨ C)
+    intro (h1 : A ∧ (B ∨ C))
     have h2 : A := And.left h1
     have h3 : B ∨ C := And.right h1
     show (A ∧ B) ∨ (A ∧ C)
     apply Or.elim h3
-    . rintro h4 : B
+    . intro (h4 : B)
       have h5 : A ∧ B := And.intro h2 h4
       show (A ∧ B) ∨ (A ∧ C)
       exact Or.inl h5
-    . rintro h4 : C
+    . intro (h4 : C)
       have h5 : A ∧ C := And.intro h2 h4
       show (A ∧ B) ∨ (A ∧ C)
       exact Or.inr h5
@@ -1003,6 +1003,8 @@ As with the ``example`` command, it does not matter whether the arguments ``A``,
 Later, we will see more interesting examples of definitions, like the following function from natural numbers to natural numbers, which doubles its input:
 
 .. code-block:: lean
+
+    import Mathlib.Data.Nat.Defs
 
     def double (n : ℕ) : ℕ := n + n
 
@@ -1096,90 +1098,96 @@ For one thing, you can use subscripted numbers with a backslash. For example, yo
 
 ..
   up to here
-Another feature is that you can omit the label in an ``assume`` statement,
-providing an "anonymous" hypothesis. You can then refer back to the last anonymous assumption using the keyword ``this``:
+Another feature is that you can omit the label in ``fun`` and ``intro``,
+providing an "anonymous" assumption.
+In tactic mode you can call the anonymous assumption
+using the tactic ``assumption``:
 
 .. code-block:: lean
 
-    variables A B : Prop
+    example : A → A ∨ B := by
+      intro
+      show A ∨ B
+      apply Or.inl
+      assumption
 
-    -- BEGIN
+In term mode you can call the anonymous assumption
+by enclosing the proposition name in French quotes,
+given by typing ``\f<`` and ``\f>``.
+
+.. code-block:: lean
+
     example : A → A ∨ B :=
-    assume : A,
-    show A ∨ B, from Or.inl this
-    -- END
-
-Alternatively, you can refer back to unlabeled assumptions by putting them in French quotes:
-
-.. code-block:: lean
-
-    variables A B : Prop
-
-    -- BEGIN
-    example : A → B → A ∧ B :=
-    assume : A,
-    assume : B,
-    show A ∧ B, from And.intro ‹A› ‹B›
-    -- END
+    fun _ ↦ Or.inl ‹A›
 
 You can also use the word ``have`` without giving a label, and refer back to them using the same conventions. Here is an example that uses these features:
 
 .. code-block:: lean
 
     theorem my_theorem {A B C : Prop} :
-      A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) :=
-    assume h : A ∧ (B ∨ C),
-    have A, from And.left h,
-    have B ∨ C, from And.right h,
-    show (A ∧ B) ∨ (A ∧ C), from
-      Or.elim ‹B ∨ C›
-        (assume : B,
-          have A ∧ B, from And.intro ‹A› ‹B›,
-          show (A ∧ B) ∨ (A ∧ C), from Or.inl this)
-        (assume : C,
-          have A ∧ C, from And.intro ‹A› ‹C›,
-          show (A ∧ B) ∨ (A ∧ C), from Or.inr this)
+        A ∧ (B ∨ C) → (A ∧ B) ∨ (A ∧ C) := by
+      intro (h : A ∧ (B ∨ C))
+      have : A := And.left h
+      have : (B ∨ C) := And.right h
+      show (A ∧ B) ∨ (A ∧ C)
+      apply Or.elim ‹B ∨ C›
+      . intro
+        have : A ∧ B := And.intro ‹A› ‹B›
+        show (A ∧ B) ∨ (A ∧ C)
+        apply Or.inl
+        assumption
+      . intro
+        have : A ∧ C := And.intro ‹A› ‹C›
+        show (A ∧ B) ∨ (A ∧ C)
+        apply Or.inr
+        assumption
 
-Another trick is that you can write ``h.left`` and ``h.right`` instead of ``And.left h`` and ``And.right h`` whenever ``h`` is a conjunction, and you can write ``⟨h1, h2⟩`` (using ``\<`` and ``\>``) instead of ``And.intro h1 h2`` whenever Lean can figure out that a conjunction is what you are trying to prove. With these conventions, you can write the following:
+Another trick is that you can write ``h.left`` and ``h.right`` instead of
+``And.left h`` and ``And.right h`` whenever ``h`` is a conjunction,
+and you can write ``⟨h1, h2⟩``
+using ``\<`` and ``\>`` (noting the difference with the French quotes)
+instead of ``And.intro h1 h2``
+whenever Lean can figure out that a conjunction is what you are trying to prove.
+With these conventions, you can write the following:
 
 .. code-block:: lean
 
     example (A B : Prop) : A ∧ B → B ∧ A :=
-    assume h : A ∧ B,
-    show B ∧ A, from ⟨h.right, h.left⟩
+    fun h : A ∧ B ↦
+    show B ∧ A from ⟨h.right, h.left⟩
 
 This is nothing more than shorthand for the following:
 
 .. code-block:: lean
 
     example (A B : Prop) : A ∧ B → B ∧ A :=
-    assume h : A ∧ B,
-    show B ∧ A, from And.intro (And.right h) (And.left h)
+    fun h : A ∧ B ↦
+    show B ∧ A from And.intro (And.right h) (And.left h)
 
 Even more concisely, you can write this:
 
 .. code-block:: lean
 
     example (A B : Prop) : A ∧ B → B ∧ A :=
-    assume h, ⟨h.right, h.left⟩
+    fun h ↦ ⟨h.right, h.left⟩
 
-You can even take apart a conjunction with an ``assume``, so that this works:
+You can even take apart a conjunction with ``fun``, so that this works:
 
 .. code-block:: lean
 
     example (A B : Prop) : A ∧ B → B ∧ A :=
-    assume ⟨h₁, h₂⟩, ⟨h₂, h₁⟩
+    fun ⟨h₁, h₂⟩ ↦ ⟨h₂, h₁⟩
 
 Similarly, if ``h`` is a biconditional, you can write ``h.mp`` and ``h.mpr`` instead of ``Iff.mp h`` and ``Iff.mpr h``, and you can write ``⟨h1, h2⟩`` instead of ``Iff.intro h1 h2``. As a result, Lean understands these proofs:
 
 .. code-block:: lean
 
     example (A B : Prop) : B ∧ (A ↔ B) → A :=
-    assume ⟨hB, hAB⟩,
+    fun ⟨hB, hAB⟩ ↦
     hAB.mpr hB
 
     example (A B : Prop) : A ∧ B ↔ B ∧ A :=
-    ⟨assume ⟨h₁, h₂⟩, ⟨h₂, h₁⟩, assume ⟨h₁, h₂⟩, ⟨h₂, h₁⟩⟩
+    ⟨fun ⟨h₁, h₂⟩ ↦ ⟨h₂, h₁⟩, fun ⟨h₁, h₂⟩ ↦ ⟨h₂, h₁⟩⟩
 
 Finally, you can add comments to your proofs in two ways. First, any text after a double-dash ``--`` until the end of a line is ignored by the Lean processOr. Second, any text between ``/-`` and ``-/`` denotes a block comment, and is also ignored. You can nest block comments.
 
@@ -1189,8 +1197,8 @@ Finally, you can add comments to your proofs in two ways. First, any text after 
        It can fill multiple lines. -/
 
     example (A : Prop) : A → A :=
-    assume : A,        -- assume the antecedent
-    show A, from this  -- use it to establish the conclusion
+    fun a : A ↦      -- assume the antecedent
+    show A from a     -- use it to establish the conclusion
 
 Exercises
 ---------
@@ -1199,7 +1207,8 @@ Prove the following in Lean:
 
 .. code-block:: lean
 
-    variables A B C D : Prop
+    section
+    variable (A B C D : Prop)
 
     example : A ∧ (A → B) → B :=
     sorry
@@ -1218,3 +1227,5 @@ Prove the following in Lean:
 
     example : ¬ (A ↔ ¬ A) :=
     sorry
+
+    end

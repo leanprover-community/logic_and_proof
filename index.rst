@@ -1,5 +1,5 @@
-Logic and Proof
-===============
+Logic and Mathematical Inquiry
+==============================
 
 .. toctree::
     :numbered:
