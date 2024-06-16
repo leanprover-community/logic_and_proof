@@ -1203,7 +1203,7 @@ Finally, you can add comments to your proofs in two ways. First, any text after 
 Exercises
 ---------
 
-Prove the following in Lean:
+Prove the following in Lean in both term mode and tactic mode:
 
 .. code-block:: lean
 
