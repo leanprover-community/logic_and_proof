@@ -24,7 +24,7 @@ In this chapter, we will not provide a fully rigorous mathematical treatment of 
 Truth Values and Assignments
 ----------------------------
 
-The first notion we will need is that of a *truth value*. We have already seen two, namely, "true" and "false." We will use the symbols :math:`\mathbf{T}` and :math:`\mathbf{F}` to represent these in informal mathematics. These are the values that :math:`\top` and :math:`\bot` are intended to denote in natural deduction, and ``true`` and ``false`` are intended to denote in Lean.
+The first notion we will need is that of a *truth value*. We have already seen two, namely, "true" and "false." We will use the symbols :math:`\mathbf{T}` and :math:`\mathbf{F}` to represent these in informal mathematics. These are the values that :math:`\top` and :math:`\bot` are intended to denote in natural deduction, and ``True`` and ``False`` are intended to denote in Lean.
 
 In this text, we will adopt a "classical" notion of truth, following our discussion in :numref:`classical_reasoning`. This can be understood in various ways, but, concretely, it comes down to this: we will assume that any proposition is either true or false (but, of course, not both). This conception of truth is what underlies the law of the excluded middle, :math:`A \vee \neg A`. Semantically, we read this sentence as saying "either :math:`A` is true, or :math:`\neg A` is true." Since, in our semantic interpretation, :math:`\neg A` is true exactly when :math:`A` is false, the law of the excluded middle says that :math:`A` is either true or false.
 
@@ -91,12 +91,14 @@ This follows from the proper reading of the implication introduction rule: given
 
 .. code-block:: lean
 
-    variables A B : Prop
-    variable hB : B
+    section
+    variable (A B : Prop) (hB : B)
 
     example : A → B :=
-    assume hA : A,
-      show B, from hB
+    fun hA : A ↦
+      show B from hB
+
+    end
 
 Similarly, if :math:`A` is false, we can prove :math:`A \to B` without any assumptions about :math:`B`:
 
@@ -120,12 +122,14 @@ In Lean:
 
 .. code-block:: lean
 
-    variables A B : Prop
-    variable hnA : ¬ A
+    section
+    variable (A B : Prop) (hnA : ¬ A)
 
     example : A → B :=
-    assume hA : A,
-      show B, from false.elim (hnA hA)
+    fun hA : A ↦
+      show B from False.elim (hnA hA)
+
+    end
 
 Finally, if :math:`A` is true and :math:`B` is false, we can prove :math:`\neg (A \to B)`:
 
@@ -151,14 +155,15 @@ Once again, in Lean:
 
 .. code-block:: lean
 
-    variables A B : Prop
-    variable hA : A
-    variable hnB : ¬B
+    section
+    variable (A B : Prop) (hA : A) (hnB : ¬B)
 
     example : ¬ (A → B) :=
-    assume h : A → B,
-    have hB : B, from h hA,
-    show false, from hnB hB
+    fun h : A → B ↦
+      have hB : B := h hA
+      show False from hnB hB
+
+    end
 
 Now that we have defined the truth of any formula relative to a truth assignment, we can answer our first semantic question: given an assignment :math:`v` of truth values to the propositional variables occurring in some formula :math:`\varphi`, how do we determine whether or not :math:`\varphi` is true? This amounts to evaluating :math:`\bar v(\varphi)`, and the recursive definition of :math:`\varphi` gives a recipe: we evaluate the expressions occurring in :math:`\varphi` from the bottom up, starting with the propositional variables, and using the evaluation of an expression's components to evaluate the expression itself. For example, suppose our truth assignment :math:`v` makes :math:`A` and :math:`B` true and :math:`C` false. To evaluate :math:`(B \to C) \vee (A \wedge B)` under :math:`v`, note that the expression :math:`B \to C` comes out false and the expression :math:`A \wedge B` comes out true. Since a disjunction "false or true" is true, the entire formula is true.
 
@@ -166,20 +171,24 @@ We can also go in the other direction: given a formula, we can attempt to find a
 
 .. code-block:: lean
 
-    -- Define your truth assignment here
-    def A := tt
-    def B := ff
-    def C := tt
-    def D := tt
-    def E := ff
+    section
 
-    def test (p : Prop) [decidable p] : string :=
+    -- Define your truth assignment here
+    def A := true
+    def B := false
+    def C := true
+    def D := true
+    def E := false
+
+    def test (p : Prop) [Decidable p] : String :=
     if p then "true" else "false"
 
     #eval test ((A ∧ B) ∨ ¬ C)
     #eval test (A → D)
     #eval test (C → (D ∨ ¬E))
     #eval test (¬(A ∧ B ∧ C ∧ D))
+
+    end
 
 Try varying the truth assignments, to see what happens. You can add your own formulas to the end of the input, and evaluate them as well. Try to find truth assignments that make each of the formulas tested above evaluate to true. For an extra challenge, try finding a single truth assignment that makes them all true at the same time.
 

@@ -485,6 +485,8 @@ Exercises
 
    .. code-block:: lean
 
+        import Mathlib.Tactic
+
         section
 
         open Classical
