@@ -740,7 +740,7 @@ Exercises
            ¬(Irreflexive R ∧ Transitive R) :=
          sorry
 
-#. Complete the following proof. You may results from Mathlib.
+#. Complete the following proof. You may use results from Mathlib.
 
    .. code-block:: lean
 

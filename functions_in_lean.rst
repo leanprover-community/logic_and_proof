@@ -130,7 +130,8 @@ These notions should seem familiar; we have been using these constructions, with
 Functions in Lean
 -----------------
 
-The fact that the notions we have been discussing have such a straightforward logical form means that it is easy to define them in Lean. The main difference between the formal representation in Lean and the informal representation above is that, in Lean, we distinguish between a type ``X`` and a subset ``A : set X`` of that type.
+The fact that the notions we have been discussing have such a straightforward logical form means that it is easy to define them in Lean. The main difference between the formal representation in Lean and the informal representation above is that, in Lean, we distinguish between a type ``X`` and a subset
+``A : Set X`` of that type.
 
 In Lean's library, composition and identity are defined as follows:
 
@@ -138,12 +139,12 @@ In Lean's library, composition and identity are defined as follows:
 
     namespace hidden
     -- BEGIN
-    variables {X Y Z : Type}
+    variable {X Y Z : Type}
 
     def comp (f : Y → Z) (g : X → Y) : X → Z :=
-    λx, f (g x)
+    fun x ↦ f (g x)
 
-    infixr  ` ∘ ` := comp
+    infixr:50 " ∘ " => comp
 
     def id (x : X) : X :=
     x
@@ -154,7 +155,7 @@ Ordinarily, we use ``funext`` (for "function extensionality") to prove that two 
 
 .. code-block:: lean
 
-    variables {X Y : Type}
+    variable {X Y : Type}
 
     -- BEGIN
     example (f g : X → Y) (h : ∀ x, f x = g x) : f = g :=
@@ -165,8 +166,10 @@ But Lean can prove some basic identities by simply unfolding definitions and sim
 
 .. code-block:: lean
 
-    open function
-    variables {X Y Z W : Type}
+    import Mathlib.Tactic.Basic
+
+    open Function
+    variable {X Y Z W : Type}
 
     -- BEGIN
     lemma left_id (f : X → Y) : id ∘ f = f := rfl
@@ -185,41 +188,42 @@ We can define what it means for :math:`f` to be injective, surjective, or biject
 
 .. code-block:: lean
 
-    variables {X Y Z : Type}
+    variable {X Y Z : Type}
 
     -- BEGIN
-    def injective (f : X → Y) : Prop :=
+    def Injective (f : X → Y) : Prop :=
     ∀ ⦃x₁ x₂⦄, f x₁ = f x₂ → x₁ = x₂
 
-    def surjective (f : X → Y) : Prop :=
+    def Surjective (f : X → Y) : Prop :=
     ∀ y, ∃ x, f x = y
 
-    def bijective (f : X → Y) := injective f ∧ surjective f
+    def Bijective (f : X → Y) := Injective f ∧ Surjective f
     -- END
 
-Marking the variables ``x₁`` and ``x₂`` implicit in the definition of ``injective`` means that we do not have to write them as often. Specifically, given ``h : injective f``, and ``h₁ : f x₁ = f x₂``, we write ``h h₁`` rather than ``h x₁ x₂ h₁`` to show ``x₁ = x₂``.
+Marking the variables ``x₁`` and ``x₂`` implicit in the definition of ``Injective`` means that we do not have to write them as often. Specifically, given ``h : Injective f``, and ``h₁ : f x₁ = f x₂``, we write ``h h₁`` rather than ``h x₁ x₂ h₁`` to show ``x₁ = x₂``.
 
 We can then prove that the identity function is bijective:
 
 .. code-block:: lean
 
-    open function
+    import Mathlib.Init.Function
+    open Function
 
     namespace hidden
-    variables {X Y Z : Type}
+    variable {X Y Z : Type}
 
     -- BEGIN
-    theorem injective_id : injective (@id X) :=
-    assume x₁ x₂,
-    assume H : id x₁ = id x₂,
-    show x₁ = x₂, from H
+    theorem injective_id : Injective (@id X) :=
+    fun x₁ x₂ ↦
+    fun H : id x₁ = id x₂ ↦
+    show x₁ = x₂ from H
 
-    theorem surjective_id : surjective (@id X) :=
-    assume y,
-    show ∃ x, id x = y, from exists.intro y rfl
+    theorem surjective_id : Surjective (@id X) :=
+    fun y ↦
+    show ∃ x, id x = y from Exists.intro y rfl
 
-    theorem bijective_id : bijective (@id X) :=
-    and.intro injective_id surjective_id
+    theorem bijective_id : Bijective (@id X) :=
+    And.intro injective_id surjective_id
     -- END
 
     end hidden
@@ -228,40 +232,43 @@ More interestingly, we can prove that the composition of injective functions is 
 
 .. code-block:: lean
 
-    open function
+    import Mathlib.Init.Function
+    open Function
 
     namespace hidden
-    variables {X Y Z : Type}
+    variable {X Y Z : Type}
 
     -- BEGIN
-    theorem injective_comp {g : Y → Z} {f : X → Y}
-        (Hg : injective g) (Hf : injective f) :
-      injective (g ∘ f) :=
-    assume x₁ x₂,
-    assume : (g ∘ f) x₁ = (g ∘ f) x₂,
-    have f x₁ = f x₂, from Hg this,
-    show x₁ = x₂, from Hf this
+    theorem Injective.comp {g : Y → Z} {f : X → Y}
+        (Hg : Injective g) (Hf : Injective f) :
+      Injective (g ∘ f) := by
+      intro x₁ x₂ (h : (g ∘ f) x₁ = (g ∘ f) x₂)
+      have : f x₁ = f x₂ := Hg h
+      show x₁ = x₂
+      exact Hf this
 
-    theorem surjective_comp {g : Y → Z} {f : X → Y}
-        (hg : surjective g) (hf : surjective f) :
-      surjective (g ∘ f) :=
-    assume z,
-    exists.elim (hg z) $
-    assume y (hy : g y = z),
-    exists.elim (hf y) $
-    assume x (hx : f x = y),
-    have g (f x) = z, from eq.subst (eq.symm hx) hy,
-    show ∃ x, g (f x) = z, from exists.intro x this
+    theorem Surjective.comp {g : Y → Z} {f : X → Y}
+        (hg : Surjective g) (hf : Surjective f) :
+      Surjective (g ∘ f) := by
+      intro z
+      cases hg z with
+      | intro y hy =>
+        cases hf y with
+        | intro x hx =>
+          show ∃ a, (g ∘ f) a = z
+          rw [← hy, ← hx]
+          show ∃ a, (g ∘ f) a = g (f x)
+          exact ⟨x, rfl⟩
 
-    theorem bijective_comp {g : Y → Z} {f : X → Y}
-        (hg : bijective g) (hf : bijective f) :
-      bijective (g ∘ f) :=
-    have ginj : injective g, from hg.left,
-    have gsurj : surjective g, from hg.right,
-    have finj : injective f, from hf.left,
-    have fsurj : surjective f, from hf.right,
-    and.intro (injective_comp ginj finj)
-      (surjective_comp gsurj fsurj)
+    theorem Bijective.comp {g : Y → Z} {f : X → Y}
+        (hg : Bijective g) (hf : Bijective f) :
+      Bijective (g ∘ f) :=
+    have gInj : Injective g := hg.left
+    have gSurj : Surjective g := hg.right
+    have fInj : Injective f := hf.left
+    have fSurj : Surjective f := hf.right
+    And.intro (injective_comp gInj fInj)
+      (surjective_comp gSurj fSurj)
     -- END
 
     end hidden
@@ -270,18 +277,18 @@ The notions of left and right inverse are defined in the expected way.
 
 .. code-block:: lean
 
-    variables {X Y : Type}
+    variable {X Y : Type}
 
     namespace hidden
 
     -- BEGIN
     -- g is a left inverse to f
-    def left_inverse (g : Y → X) (f : X → Y) : Prop :=
+    def LeftInverse (g : Y → X) (f : X → Y) : Prop :=
     ∀ x, g (f x) = x
 
     -- g is a right inverse to f
-    def right_inverse (g : Y → X) (f : X → Y) : Prop :=
-    left_inverse f g
+    def RightInverse (g : Y → X) (f : X → Y) : Prop :=
+    LeftInverse f g
     -- END
 
     end hidden
@@ -290,18 +297,23 @@ In particular, composing with a left or right inverse yields the identity.
 
 .. code-block:: lean
 
-    open function
-    variables {X Y Z : Type}
+    import Mathlib.Init.Function
+
+    open Function
+    section
+    variable {X Y Z : Type}
 
     -- BEGIN
-    def id_of_left_inverse {g : Y → X} {f : X → Y} :
-      left_inverse g f → g ∘ f = id :=
-    assume H, funext H
+    def LeftInverse.comp_eq_id {g : Y → X} {f : X → Y} :
+      LeftInverse g f → g ∘ f = id :=
+    fun H ↦ funext H
 
-    def id_of_right_inverse {g : Y → X} {f : X → Y} :
-      right_inverse g f → f ∘ g = id :=
-    assume H, funext H
+    def RightInverse.comp_eq_id {g : Y → X} {f : X → Y} :
+      RightInverse g f → f ∘ g = id :=
+    fun H ↦ funext H
     -- END
+
+    end
 
 Notice that we need to use ``funext`` to show the equality of functions.
 
@@ -309,72 +321,96 @@ The following shows that if a function has a left inverse, then it is injective,
 
 .. code-block:: lean
 
-    open function
-    variables {X Y : Type}
+    import Mathlib.Init.Function
 
+    open Function
+    variable {X Y : Type}
+
+    namespace hidden
     -- BEGIN
-    theorem injective_of_left_inverse {g : Y → X} {f : X → Y} :
-      left_inverse g f → injective f :=
-    assume h, assume x₁ x₂, assume feq,
-    calc x₁ = g (f x₁) : by rw h
-        ... = g (f x₂) : by rw feq
-        ... = x₂       : by rw h
+    theorem LeftInverse.injective {g : Y → X} {f : X → Y} :
+      LeftInverse g f → Injective f := by
+      intro h x₁ x₂ feq
+      calc x₁ = g (f x₁) := by rw [h]
+            _ = g (f x₂) := by rw [feq]
+            _ = x₂       := by rw [h]
 
-    theorem surjective_of_right_inverse {g : Y  → X} {f : X → Y} :
-      right_inverse g f → surjective f :=
-    assume h, assume y,
-    let  x : X := g y in
-    have f x = y, from calc
-      f x  = (f (g y))    : rfl
-       ... = y            : by rw [h y],
-    show ∃ x, f x = y, from exists.intro x this
+    theorem RightInverse.surjective {g : Y  → X} {f : X → Y} :
+      RightInverse g f → Surjective f :=
+      fun h y ↦
+      let x : X := g y
+      have : f x = y :=
+        calc
+          f x  = (f (g y)) := by rfl
+             _ = y         := by rw [h y]
+      show ∃ x, f x = y from Exists.intro x this
     -- END
+
+    end hidden
+
+Note that like ``have``,
+we used the command ``let`` to define an intermediate term.
+The difference is that ``have`` is used for proof terms only (of type ``Prop``),
+but ``let`` can be used for any term.
+
 
 Defining the Inverse Classically
 --------------------------------
 
 All the theorems listed in the previous section are found in the Lean
-library, and are available to you when you open the function namespace
-with ``open function``:
+library, and are available to you when you
+import ``Mathlib.Init.Function`` and open the function namespace
+with ``open Function``:
 
 .. code-block:: lean
 
-    open function
+    import Mathlib.Init.Function
+    open Function
 
     #check comp
-    #check left_inverse
-    #check has_right_inverse
+    #check LeftInverse
+    #check HasRightInverse
 
 Defining inverse functions, however, requires classical reasoning, which
 we get by opening the classical namespace:
 
 .. code-block:: lean
 
-    open classical
+    import Mathlib.Init.Function
+    open Classical
 
     section
-      variables A B : Type
-      variable P : A → Prop
-      variable R : A → B → Prop
+      variable (A B : Type)
+      variable (P : A → Prop)
+      variable (R : A → B → Prop)
 
       example : (∀ x, ∃ y, R x y) → ∃ f : A → B, ∀ x, R x (f x) :=
-      axiom_of_choice
+      axiomOfChoice
 
-      example (h : ∃ x, P x) : P (some h) :=
-      some_spec h
+      example (h : ∃ x, P x) : P (choose h) :=
+      choose_spec h
     end
 
-The axiom of choice tells us that if, for every ``x : X``, there is a ``y : Y`` satisfying ``R x y``, then there is a function ``f : X → Y`` which, for every ``x`` chooses such a ``y``. In Lean, this "axiom" is proved using a classical construction, the ``some`` function (sometimes called "the indefinite description operator") which, given that there is some ``x`` satisfying ``P x``, returns such an ``x``. With these constructions, the inverse function is defined as follows:
+The axiom of choice tells us that if, for every ``x : X``,
+there is a ``y : Y`` satisfying ``R x y``,
+then there is a function ``f : X → Y`` which,
+for every ``x`` chooses such a ``y``.
+In Lean, this "axiom" is proved using a classical construction,
+the ``choose`` function
+(sometimes called "the indefinite description operator") which,
+given that there is some choice ``x`` satisfying ``P x``,
+returns such an ``x``.
+With these constructions, the inverse function is defined as follows:
 
 .. code-block:: lean
 
-    open classical function
-    local attribute [instance] prop_decidable
+    import Mathlib.Init.Function
+    open Classical Function
 
-    variables {X Y : Type}
+    variable {X Y : Type}
 
     noncomputable def inverse (f : X → Y) (default : X) : Y → X :=
-    λ y, if h : ∃ x, f x = y then some h else default
+    fun y ↦ if h : ∃ x, f x = y then choose h else default
 
 Lean requires us to acknowledge that the definition is not computational, since, first, it may not be algorithmically possible to decide whether or not condition ``h`` holds, and even if it does, it may not be algorithmically possible to find a suitable value of ``x``.
 
@@ -382,30 +418,30 @@ Below, the proposition ``inverse_of_exists`` asserts that ``inverse`` meets its 
 
 .. code-block:: lean
 
-    open classical function
-    local attribute [instance] prop_decidable
+    import Mathlib.Init.Function
+    open Classical Function
 
-    variables {X Y : Type}
+    variable {X Y : Type}
 
     noncomputable def inverse (f : X → Y) (default : X) : Y → X :=
-    λ y, if h : ∃ x, f x = y then some h else default
+    fun y ↦ if h : ∃ x, f x = y then choose h else default
 
     -- BEGIN
     theorem inverse_of_exists (f : X → Y) (default : X) (y : Y)
-      (h : ∃ x, f x = y) :
-    f (inverse f default y) = y :=
-    have h1 : inverse f default y = some h, from dif_pos h,
-    have h2 : f (some h) = y, from some_spec h,
-    eq.subst (eq.symm h1) h2
+        (h : ∃ x, f x = y) :
+      f (inverse f default y) = y := by
+      have h1 : inverse f default y = choose h := dif_pos h
+      have h2 : f (choose h) = y := choose_spec h
+      rw [h1, h2]
 
     theorem is_left_inverse_of_injective (f : X → Y) (default : X)
-      (injf : injective f) :
-    left_inverse (inverse f default) f :=
-    let finv := (inverse f default) in
-    assume x,
-    have h1 : ∃ x', f x' = f x, from exists.intro x rfl,
-    have h2 : f (finv (f x)) = f x, from inverse_of_exists f default (f x) h1,
-    show finv (f x) = x, from injf h2
+      (injf : Injective f) :
+    LeftInverse (inverse f default) f :=
+      let finv := (inverse f default)
+      fun x ↦
+      have h1 : ∃ x', f x' = f x := Exists.intro x rfl
+      have h2 : f (finv (f x)) = f x := inverse_of_exists f default (f x) h1
+      show finv (f x) = x from injf h2
     -- END
 
 Functions and Sets in Lean
@@ -417,7 +453,7 @@ Lean also defines notation for relativized quantifiers:
 
 .. code-block:: lean
 
-    variables (X : Type) (A : set X) (P : X → Prop)
+    variable (X : Type) (A : Set X) (P : X → Prop)
 
     #check ∀ x ∈ A, P x
     #check ∃ x ∈ A, P x
@@ -426,7 +462,7 @@ Here is an example of how to use the bounded universal quantifier:
 
 .. code-block:: lean
 
-    variables (X : Type) (A : set X) (P : X → Prop)
+    variable (X : Type) (A : Set X) (P : X → Prop)
 
     -- BEGIN
     example (h : ∀ x ∈ A, P x) (x : X) (h1 : x ∈ A) : P x := h x h1
@@ -436,134 +472,142 @@ Using bounded quantifiers, we can talk about the behavior of functions on partic
 
 .. code-block:: lean
 
-    import data.set
-    open set function
+    import Mathlib.Data.Set.Basic
+    open Set Function
 
-    variables {X Y : Type}
-    variables (A  : set X) (B : set Y)
+    variable {X Y : Type}
+    variable (A  : Set X) (B : Set Y)
 
-    def maps_to (f : X → Y) (A : set X) (B : set Y) :=
+    def MapsTo (f : X → Y) (A : Set X) (B : Set Y) :=
       ∀ {x}, x ∈ A → f x ∈ B
 
-    def inj_on (f : X → Y) (A : set X) :=
+    def InjOn (f : X → Y) (A : Set X) :=
       ∀ {x₁ x₂}, x₁ ∈ A → x₂ ∈ A → f x₁ = f x₂ → x₁ = x₂
 
-    def surj_on (f : X → Y) (A : set X) (B : set Y) := B ⊆ f '' A
+    def SurjOn (f : X → Y) (A : Set X) (B : Set Y) := B ⊆ f '' A
 
-The expression ``maps_to f A B`` asserts that ``f`` maps elements of the set ``A`` to the set ``B``, and the expression ``inj_on f A`` asserts that ``f`` is injective on ``A``. The expression ``surj_on f A B`` asserts that, viewed as a function defined on elements of ``A``, the function ``f`` is surjective onto the set ``B``. Here are examples of how they can be used:
+The expression ``MapsTo f A B`` asserts that ``f`` maps elements of the set ``A`` to the set ``B``, and the expression ``InjOn f A`` asserts that ``f`` is injective on ``A``. The expression ``SurjOn f A B`` asserts that, viewed as a function defined on elements of ``A``, the function ``f`` is surjective onto the set ``B``. Here are examples of how they can be used:
 
 .. code-block:: lean
 
-    import data.set
-    open set function
+    import Mathlib.Data.Set.Basic
+    open Set Function
 
-    variables {X Y : Type}
+    variable {X Y : Type}
 
     -- BEGIN
-    variables (f : X → Y) (A : set X) (B : set Y)
+    variable (f : X → Y) (A : Set X) (B : Set Y)
 
-    example (h : maps_to f A B) (x : X) (h1 : x ∈ A) : f x ∈ B := h h1
+    example (h : MapsTo f A B) (x : X) (h1 : x ∈ A) : f x ∈ B := h h1
 
-    example (h : inj_on f A) (x₁ x₂ : X) (h1 : x₁ ∈ A) (h2 : x₂ ∈ A)
+    example (h : InjOn f A) (x₁ x₂ : X) (h1 : x₁ ∈ A) (h2 : x₂ ∈ A)
         (h3 : f x₁ = f x₂) : x₁ = x₂ :=
     h h1 h2 h3
     -- END
 
-In the examples below, we'll use the versions with implicit arguments. The expression ``surj_on f A B`` asserts that, viewed as a function defined on elements of ``A``, the function ``f`` is surjective onto the set ``B``.
+In the examples below, we'll use the versions with implicit arguments. The expression ``SurjOn f A B`` asserts that, viewed as a function defined on elements of ``A``, the function ``f`` is surjective onto the set ``B``.
 
 With these notions in hand, we can prove that the composition of injective functions is injective. The proof is similar to the one above, though now we have to be more careful to relativize claims to ``A`` and ``B``:
 
 .. code-block:: lean
 
-    import data.set
-    open set function
+    import Mathlib.Data.Set.Function
+    open Set Function
 
-    variables {X Y Z : Type}
-    variables (A : set X) (B : set Y)
-    variables (f : X → Y) (g : Y → Z)
+    variable {X Y Z : Type}
+    variable (A : Set X) (B : Set Y)
+    variable (f : X → Y) (g : Y → Z)
 
     -- BEGIN
-    theorem inj_on_comp (fAB : maps_to f A B) (hg : inj_on g B) (hf: inj_on f A) :
-      inj_on (g ∘ f) A :=
-    assume x1 : X,
-    assume x1A : x1 ∈ A,
-    assume x2 : X,
-    assume x2A : x2 ∈ A,
-    have fx1B : f x1 ∈ B, from fAB x1A,
-    have fx2B : f x2 ∈ B, from fAB x2A,
-    assume h1 : g (f x1) = g (f x2),
-    have h2 : f x1 = f x2, from hg fx1B fx2B h1,
-    show x1 = x2, from hf x1A x2A h2
+    theorem InjOn.comp (fAB : MapsTo f A B) (hg : InjOn g B) (hf: InjOn f A) :
+      InjOn (g ∘ f) A := by
+      intro (x1 : X)
+      intro (x1A : x1 ∈ A)
+      intro (x2 : X)
+      intro (x2A : x2 ∈ A)
+      have fx1B : f x1 ∈ B := fAB x1A
+      have fx2B : f x2 ∈ B := fAB x2A
+      intro (h1 : g (f x1) = g (f x2))
+      have h2 : f x1 = f x2 := hg fx1B fx2B h1
+      show x1 = x2
+      exact hf x1A x2A h2
     -- END
 
 We can similarly prove that the composition of surjective functions is surjective:
 
 .. code-block:: lean
 
-    import data.set
-    open set function
+    import Mathlib.Data.Set.Function
+    open Set Function
 
-    variables {X Y Z : Type}
-    variables (A : set X) (B : set Y) (C : set Z)
-    variables (f : X → Y) (g : Y → Z)
+    variable {X Y Z : Type}
+    variable (A : Set X) (B : Set Y)
+    variable (f : X → Y) (g : Y → Z)
 
     -- BEGIN
-    theorem surj_on_comp (hg : surj_on g B C) (hf: surj_on f A B) :
-      surj_on (g ∘ f) A C :=
-    assume z,
-    assume zc : z ∈ C,
-    exists.elim (hg zc) $
-    assume y (h1 : y ∈ B ∧ g y = z),
-    exists.elim (hf (and.left h1)) $
-    assume x (h2 : x ∈ A ∧ f x = y),
-    show ∃x, x ∈ A ∧ g (f x) = z, from
-      exists.intro x
-        (and.intro
-          (and.left h2)
-          (calc
-            g (f x) = g y : by rw and.right h2
-                ... = z   : by rw and.right h1))
+    theorem SurjOn.comp (hg : SurjOn g B C) (hf: SurjOn f A B) :
+      SurjOn (g ∘ f) A C := by
+    intro z
+    intro (zc : z ∈ C)
+    cases hg zc with
+    | intro y h1 => cases hf (h1.left) with
+      | intro x h2 =>
+        show ∃x, x ∈ A ∧ g (f x) = z
+        apply Exists.intro x
+        apply And.intro h2.left
+        show g (f x) = z
+        rw [h2.right]
+        show g y = z
+        exact h1.right
     -- END
 
 The following shows that the image of a union is the union of images:
 
 .. code-block:: lean
 
-  import data.set
-  open set function
+  import Mathlib.Data.Set.Function
+  open Set Function
 
-  variables {X Y : Type}
-  variables (A₁ A₂ : set X)
+  variable {X Y : Type}
+  variable (A₁ A₂ : Set X)
   variable (f : X → Y)
 
   -- BEGIN
-  theorem image_union : f '' (A₁ ∪ A₂) =f '' A₁ ∪ f '' A₂ :=
-  ext (assume y, iff.intro
-    (assume h : y ∈ image f (A₁ ∪ A₂),
-      exists.elim h $
-      assume x h1,
-      have xA₁A₂ : x ∈ A₁ ∪ A₂, from h1.left,
-      have fxy : f x = y, from h1.right,
-      or.elim xA₁A₂
-        (assume xA₁, or.inl ⟨x, xA₁, fxy⟩)
-        (assume xA₂, or.inr ⟨x, xA₂, fxy⟩))
-    (assume h : y ∈ image f A₁ ∪ image f A₂,
-      or.elim h
-        (assume yifA₁ : y ∈ image f A₁,
-          exists.elim yifA₁ $
-          assume x h1,
-          have xA₁ : x ∈ A₁, from h1.left,
-          have fxy : f x = y, from h1.right,
-          ⟨x, or.inl xA₁, fxy⟩)
-        (assume yifA₂ : y ∈ image f A₂,
-          exists.elim yifA₂ $
-          assume x h1,
-          have xA₂ : x ∈ A₂, from h1.left,
-          have fxy : f x = y, from h1.right,
-          ⟨x, (or.inr xA₂), fxy⟩)))
-  -- END
+  theorem image_union : f '' (A₁ ∪ A₂) = f '' A₁ ∪ f '' A₂ := by
+    ext y
+    constructor
+    . intro (h : y ∈ image f (A₁ ∪ A₂))
+      cases h with
+      | intro x hx =>
+        have xA₁A₂ : x ∈ A₁ ∪ A₂ := hx.left
+        have fxy : f x = y := hx.right
+        cases xA₁A₂ with
+        | inl xA₁ => exact Or.inl ⟨x, xA₁, fxy⟩
+        | inr xA₂ => exact Or.inr ⟨x, xA₂, fxy⟩
+    . intro (h : y ∈ image f A₁ ∪ image f A₂)
+      cases h with
+      | inl yifA₁ =>
+        cases yifA₁ with
+        | intro x hx =>
+          have xA₁ : x ∈ A₁ := hx.left
+          have fxy : f x = y := hx.right
+          exact ⟨x, Or.inl xA₁, fxy⟩
+      | inr yifA₂ => cases yifA₂ with
+        | intro x hx =>
+          have xA₂ : x ∈ A₂ := hx.left
+          have fxy : f x = y := hx.right
+          exact ⟨x, Or.inr xA₂, fxy⟩
 
-Note that the expression ``y ∈ image f A₁`` expands to ``∃ x, x ∈ A₁ ∧ f x = y``. We therefore need to provide three pieces of information: a value of ``x``, a proof that ``x ∈ A₁``, and a proof that ``f x = y``. On the eighth line of this proof, after ``or.inl``, we could justify the necessary information by writing ``exists.intro x (and.intro xA₁ fxy)`` in parentheses. But in this case Lean's "anonymous constructor" notation, that is, the corner brackets entered with ``\<`` and ``\>``, allow us to use the more compact expression ``⟨x, xA₁, fxy⟩``.
+Note that the expression ``y ∈ image f A₁`` expands to
+``∃ x, x ∈ A₁ ∧ f x = y``.
+We therefore need to provide three pieces of information: a value of ``x``,
+a proof that ``x ∈ A₁``, and a proof that ``f x = y``.
+Note also that ``f '' A`` is notation for ``image f A``.
+
+..
+   On the eighth line of this proof, after ``Or.inl``,
+   we could justify the necessary information by writing
+   ``Exists.intro x (and.intro xA₁ fxy)`` in parentheses. But in this case Lean's "anonymous constructor" notation, that is, the corner brackets entered with ``\<`` and ``\>``, allow us to use the more compact expression ``⟨x, xA₁, fxy⟩``.
 
 Exercises
 ---------
