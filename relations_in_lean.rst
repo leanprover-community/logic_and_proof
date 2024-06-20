@@ -44,9 +44,11 @@ symmetric, transitive, antisymmetric, and so on:
     def Irreflexive (R : A → A → Prop) : Prop :=
     ∀ x, ¬ R x x
 
+    def Total (R : A → A → Prop) : Prop :=
+    ∀ x y, R x y ∨ R y x
+
     end hidden
 
-We can then use the notions freely.
 Notice that Lean will unfold the definitions when necessary,
 for example, treating ``Reflexive R`` as ``∀ x, R x x``.
 
@@ -269,7 +271,7 @@ which you can write by typing ``\prec``.
 .. code-block:: lean
 
     import Mathlib.Tactic.Basic
-    import Mathlib.Init.Order.Defs
+    import Mathlib.Order.Basic
 
     namespace hidden
 
@@ -334,7 +336,7 @@ then use the above theorems to show that any (weak) ``PartialOrder`` is also a
 .. code-block:: lean
 
     import Mathlib.Tactic.Basic
-    import Mathlib.Init.Order.Defs
+    import Mathlib.Order.Basic
 
     namespace hidden
 
@@ -484,7 +486,7 @@ There are many theorems in Lean that are useful for proving facts about inequali
 
 .. code-block:: lean
 
-    import Mathlib.Init.Order.Defs
+    import Mathlib.Order.Basic
 
     variable (A : Type) [PartialOrder A]
     variable (a b c : A)
@@ -516,138 +518,176 @@ Equivalence Relations
 ---------------------
 
 In :numref:`equivalence_relations_and_equality` we saw that an *equivalence relation* is a binary relation on some domain :math:`A` that is reflexive, symmetric, and transitive. We will see such relations in Lean in a moment, but first let's define another kind of relation called a *preorder*, which is a binary relation that is reflexive and transitive.
+Again, we use a ``class`` to capture this data.
 
 .. code-block:: lean
+
+    import Mathlib.Order.Basic
 
     namespace hidden
 
     variable {A : Type}
 
-    def preorder (R : A → A → Prop) : Prop :=
-    Reflexive R ∧ Transitive R
+    class Preorder (A : Type u) where
+      le : A → A → Prop
+      refl : Reflexive le
+      trans : Transitive le
 
     end hidden
 
-Lean's library provides a different formulation of preorders, so, in order to use the same name, we have to put it in the ``hidden`` namespace. Lean's library defines other properties of relations, such as these:
+Lean's library provides its own formulation of preorders.
+In order to use the same name, we have to put it in the ``hidden`` namespace.
+Lean's library defines other properties of relations, such as these:
+
+Building on our definition of a preorder,
+we can describe partial orders as antisymmetric preorders,
+and equivalences as symmetric preorders.
 
 .. code-block:: lean
 
-    namespace hidden
-
-    variables {A : Type} (R : A → A → Prop)
-
-    def equivalence := Reflexive R ∧ Symmetric R ∧ Transitive R
-
-    def total := ∀ x y, R x y ∨ R y x
-
-    def Irreflexive := ∀ x, ¬ R x x
-
-    def AntiSymmetric := ∀ ⦃x y⦄, R x y → R y x → x = y
-
-    end hidden
-
-You can ask Lean to print their definitions:
-
-.. code-block:: lean
-
-    #print equivalence
-    #print total
-    #print Irreflexive
-    #print AntiSymmetric
-
-Building on our previous definition of a preorder, we can describe a partial order as an antisymmetric preorder, and show that an equivalence relation as a symmetric preorder.
-
-.. code-block:: lean
+    import Mathlib.Order.Basic
 
     namespace hidden
 
     variable {A : Type}
 
-    def preorder (R : A → A → Prop) : Prop :=
-    Reflexive R ∧ Transitive R
+    class Preorder (A : Type u) where
+      le : A → A → Prop
+      refl : Reflexive le
+      trans : Transitive le
 
-    def partial_order (R : A → A → Prop) : Prop :=
-    preorder R ∧ AntiSymmetric R
+    class PartialOrder (A : Type u) extends Preorder A where
+      antisymm : AntiSymmetric le
 
-    example (R : A → A → Prop):
-      equivalence R ↔ preorder R ∧ Symmetric R :=
-    iff.intro
-      (assume h1 : equivalence R,
-        have h2 : Reflexive R, from and.left h1,
-        have h3 : Symmetric R, from and.left (and.right h1),
-        have h4 : Transitive R, from and.right (and.right h1),
-        show preorder R ∧ Symmetric R,
-          from and.intro (and.intro h2 h4) h3)
-      (assume h1 : preorder R ∧ Symmetric R,
-        have h2 : preorder R, from and.left h1,
-        show equivalence R,
-          from and.intro (and.left h2)
-                 (and.intro (and.right h1) (and.right h2)))
+   class Equivalence (A : Type u) extends Preorder A where
+     symm : Symmetric le
 
     end hidden
 
-In :numref:`equivalence_relations_and_equality` we claimed that there is yet another way to define an equivalence relation, namely, as a binary relation satisfying the following two properties:
+The ``extends Preorder A`` in this definition now makes
+``PartialOrder`` a class that automatically
+inherits all the definitions and theorems from ``Preorder``.
+In particular ``le``, ``refl``, and ``trans`` become part of the data of
+``PartialOrder``.
+Using classes in this way we can write very general proofs
+(for example proofs just about preorders)
+and apply them in contexts that are more specific
+(for example proofs about equivalence relations and partial orders).
+
+Note: we might *not* want to design the library in this way specifically.
+Since we might want to use ``≤`` as notation for a partial order,
+but for an equivalence relation.
+Indeed ``Mathlib`` does not define ``Equivalence`` as an extension of
+``PartialOrder``.
+
+In :numref:`equivalence_relations_and_equality` we claimed that there is
+another way to define an equivalence relation,
+namely as a binary relation satisfying the following two properties:
 
 -  :math:`\forall a \; (a \equiv a)`
 -  :math:`\forall {a, b, c} \; (a \equiv b \wedge c \equiv b \to a \equiv c)`
 
-Let's prove this in Lean. Remember that the ``parameters`` and ``local infix`` commands serve to fix a relation ``R`` and introduce the notation ``≈`` to denote it. (You can type ``≈`` as ``\~~``.) In the assumptions ``Reflexive (≈)`` and ``Symmetric (≈)``, the notation ``(≈)`` denotes ``R``.
+We derive the two definitions from each other in the following
 
 .. code-block:: lean
 
+    import Mathlib.Order.Basic
+
     namespace hidden
 
-    def preorder {A : Type} (R : A → A → Prop) : Prop :=
-    Reflexive R ∧ Transitive R
+    class Equivalence (A : Type u) where
+      R : A → A → Prop
+      refl : Reflexive R
+      symm : Symmetric R
+      trans : Transitive R
 
-    -- BEGIN
+    local infix:50 " ~ " => Equivalence.R
+
+    class Equivalence' (A : Type u) where
+      R : A → A → Prop
+      refl : Reflexive R
+      trans' : ∀ {a b c}, R a b → R c b → R a c
+
+    -- type ``≈`` as ``\~~``
+    local infix:50 " ≈ " => Equivalence'.R
+
     section
-    parameters {A : Type} (R : A → A → Prop)
-    local infix ≈ := R
+    variable {A : Type u}
 
-    variable (h1 : Reflexive (≈))
-    variable (h2 : ∀ {a b c}, a ≈ b ∧ c ≈ b → a ≈ c)
+    theorem Equivalence.trans' [Equivalence A] {a b c : A} :
+        a ~ b → c ~ b → a ~ c := by
+      intro (hab : a ~ b)
+      intro (hcb : c ~ b)
+      apply trans hab
+      show b ~ c
+      exact symm hcb
 
-    example : Symmetric (≈) :=
-    assume a b (h : a ≈ b),
-    have b ≈ b ∧ a ≈ b, from and.intro (h1 b) h,
-    show b ≈ a, from h2 this
+    example [Equivalence A] : Equivalence' A where
+      R := Equivalence.R
+      refl := Equivalence.refl
+      trans':= Equivalence.trans'
 
-    example : Transitive (≈) :=
-    assume a b c (h3 : a ≈ b) (h4 : b ≈ c),
-    have c ≈ b, from h2 (and.intro (h1 c) h4),
-    have a ≈ b ∧ c ≈ b, from and.intro h3 this,
-    show a ≈ c, from h2 this
+    theorem Equivalence'.symm [Equivalence' A] {a b : A} :
+        a ≈ b → b ≈ a := by
+      intro (hab : a ≈ b)
+      have hbb : b ≈ b := Equivalence'.refl b
+      show b ≈ a
+      exact Equivalence'.trans' hbb hab
+
+    theorem Equivalence'.trans [Equivalence' A] {a b c : A} :
+      a ≈ b → b ≈ c → a ≈ c := by
+      intro (hab : a ≈ b) (hbc : b ≈ c)
+      have hcb : c ≈ b := Equivalence'.symm hbc
+      show a ≈ c
+      exact Equivalence'.trans' hab hcb
+
+   example [Equivalence' A] : Equivalence A where
+     R := Equivalence'.R
+     refl := Equivalence'.refl
+     symm _ _:= Equivalence'.symm
+     trans _ _ _ := Equivalence'.trans
 
     end
-    -- END
-
     end hidden
+
+For one of the definitions we use the infix notation ``~`` and we use
+``≈`` for the other. (You can type ``≈`` as ``\~~``.)
+We use ``example`` instead of ``instance`` so that we don't actually
+instantiate instances of the classes.
+
 
 Exercises
 ---------
 
-#. Replace the ``sorry`` commands in the following proofs to show that we can create a partial order ``R'​`` out of a strict partial order ``R``.
+#. Replace the ``sorry`` commands in the following proofs to show that we can
+   create a partial order ``R'​`` out of a strict partial order ``R``.
 
    .. code-block:: lean
 
+        import Mathlib.Order.Basic
+
+        class StrictPartialOrder (A : Type u) where
+          lt : A → A → Prop
+          irrefl : Irreflexive lt
+          trans : Transitive lt
+
+        local infix:50 " ≺ " => StrictPartialOrder.lt
+
         section
-        parameters {A : Type} {R : A → A → Prop}
-        parameter (irreflR : Irreflexive R)
-        parameter (transR : Transitive R)
+        variable {A : Type u} [StrictPartialOrder A]
 
-        local infix < := R
+        def R' (a b : A) : Prop :=
+        (a ≺ b) ∨ a = b
 
-        def R' (a b : A) : Prop := R a b ∨ a = b
-        local infix ≤ := R'
+        local infix:50 " ≼ " => R'
 
-        theorem reflR' (a : A) : a ≤ a := sorry
+        theorem reflR' (a : A) : a ≼ a := sorry
 
-        theorem transR' {a b c : A} (h1 : a ≤ b) (h2 : b ≤ c):
-          a ≤ c :=
+        theorem transR' {a b c : A} (h1 : a ≼ b) (h2 : b ≼ c) :
+          a ≼ c :=
         sorry
 
-        theorem antisymmR' {a b : A} (h1 : a ≤ b) (h2 : b ≤ a) :
+        theorem antisymmR' {a b : A} (h1 : a ≼ b) (h2 : b ≼ a) :
           a = b :=
         sorry
 
@@ -657,27 +697,38 @@ Exercises
 
    .. code-block:: lean
 
-        section
-        parameters {A : Type} {R : A → A → Prop}
-        parameter (reflR : Reflexive R)
-        parameter (transR : Transitive R)
+        import Mathlib.Order.Basic
 
-        def S (a b : A) : Prop := R a b ∧ R b a
+        namespace hidden
+        class Preorder (A : Type u) where
+            le : A → A → Prop
+            refl : Reflexive le
+            trans : Transitive le
 
-        example : Transitive S :=
+        namespace Preorder
+        def S (a b : A) [Preorder A] : Prop := le a b ∧ le b a
+
+        example (A : Type u) [Preorder A] {x y z : A} :
+          S x y → S y z → S x z :=
         sorry
 
-        end
+        end Preorder
+        end hidden
 
 #. Only one of the following two theorems is provable. Figure out which one is true, and replace the ``sorry`` command with a complete proof.
 
    .. code-block:: lean
 
-       section
-         parameters {A : Type} {a b c : A} {R : A → A → Prop}
-         parameter (Rab : R a b)
-         parameter (Rbc : R b c)
-         parameter (nRac : ¬ R a c)
+         import Mathlib.Order.Basic
+
+         axiom A : Type
+         axiom a : A
+         axiom b : A
+         axiom c : A
+         axiom R : A → A → Prop
+         axiom Rab : R a b
+         axiom Rbc : R b c
+         axiom nRac : ¬ R a c
 
          -- Prove one of the following two theorems:
 
@@ -688,14 +739,18 @@ Exercises
          theorem R_is_not_strict_partial_order :
            ¬(Irreflexive R ∧ Transitive R) :=
          sorry
-       end
 
-
-#. Complete the following proof.
+#. Complete the following proof. You may results from Mathlib.
 
    .. code-block:: lean
 
-       open nat
+    import Mathlib.Data.Nat.Defs
 
-       example : 1 ≤ 4 :=
-       sorry
+    section
+    open Nat
+    variable (n m : ℕ)
+
+    example : 1 ≤ 4 :=
+    sorry
+
+    end
