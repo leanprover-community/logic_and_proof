@@ -616,110 +616,104 @@ Exercises
 
    .. code-block:: lean
 
-       import data.set data.int.basic
-       open function int
+       import Mathlib.Tactic.Basic
+       import Mathlib.Algebra.Ring.Divisibility.Lemmas
+       open Function Int
 
        def f (x : ℤ) : ℤ := x + 3
        def g (x : ℤ) : ℤ := -x
        def h (x : ℤ) : ℤ := 2 * x + 3
 
-       example : injective f :=
-       assume x1 x2,
-       assume h1 : x1 + 3 = x2 + 3,   -- Lean knows this is the same as f x1 = f x2
-       show x1 = x2, from add_right_cancel h1
+       example : Injective f :=
+       fun x1 x2 ↦
+       fun h1 : x1 + 3 = x2 + 3 ↦   -- Lean knows this is the same as f x1 = f x2
+       show x1 = x2 from add_right_cancel h1
 
-       example : surjective f :=
-       assume y,
-       have h1 : f (y - 3) = y, from calc
-         f (y - 3) = (y - 3) + 3 : rfl
-               ... = y           : by rw sub_add_cancel,
-       show ∃ x, f x = y, from exists.intro (y - 3) h1
+       example : Surjective f :=
+         fun y ↦
+         have h1 : f (y - 3) = y :=
+           calc
+             f (y - 3) = (y - 3) + 3 := by rfl
+                     _ = y           := by rw [sub_add_cancel]
+       show ∃ x, f x = y from Exists.intro (y - 3) h1
 
        example (x y : ℤ) (h : 2 * x = 2 * y) : x = y :=
-       have h1 : 2 ≠ (0 : ℤ), from dec_trivial,  -- this tells Lean to figure it out itself
-       show x = y, from mul_left_cancel' h1 h
+       have h1 : 2 ≠ (0 : ℤ) := by decide  -- this tells Lean to figure it out itself
+       show x = y from mul_left_cancel₀ h1 h
 
        example (x : ℤ) : -(-x) = x := neg_neg x
 
-       example (A B : Type) (u : A → B) (v : B → A) (h : left_inverse u v) :
+       example (A B : Type) (u : A → B) (v : B → A) (h : LeftInverse u v) :
          ∀ x, u (v x) = x :=
        h
 
-       example (A B : Type) (u : A → B) (v : B → A) (h : left_inverse u v) :
-         right_inverse v u :=
+       example (A B : Type) (u : A → B) (v : B → A) (h : LeftInverse u v) :
+         RightInverse v u :=
        h
 
        -- fill in the sorry's in the following proofs
 
-       example : injective h :=
+       example : Injective h :=
        sorry
 
-       example : surjective g :=
+       example : Surjective g :=
        sorry
 
        example (A B : Type) (u : A → B) (v1 : B → A) (v2 : B → A)
-         (h1 : left_inverse v1 u) (h2 : right_inverse v2 u) : v1 = v2 :=
+         (h1 : LeftInverse v1 u) (h2 : RightInverse v2 u) : v1 = v2 :=
        funext
-         (assume x,
+         (fun x ↦
            calc
-             v1 x = v1 (u (v2 x)) : sorry
-              ... = v2 x          : sorry)
+             v1 x = v1 (u (v2 x)) := by sorry
+                _ = v2 x          := by sorry)
 
 #. Fill in the ``sorry`` in the proof below.
 
    .. code-block:: lean
 
-       import data.set
-       open function set
+      import Mathlib.Data.Set.Function
+      open Set Function
 
-       variables {X Y : Type}
-       variable  f : X → Y
-       variables A B : set X
+      variable {X Y : Type}
+      variable (A₁ A₂ : Set X)
+      variable (f : X → Y)
 
-       example : f '' (A ∪ B) = f '' A ∪ f '' B :=
-       eq_of_subset_of_subset
-         (assume y,
-           assume h1 : y ∈ f '' (A ∪ B),
-           exists.elim h1 $
-           assume x h,
-           have h2 : x ∈ A ∪ B, from h.left,
-           have h3 : f x = y, from h.right,
-           or.elim h2
-             (assume h4 : x ∈ A,
-               have h5 : y ∈ f '' A, from ⟨x, h4, h3⟩,
-               show y ∈ f '' A ∪ f '' B, from or.inl h5)
-             (assume h4 : x ∈ B,
-               have h5 : y ∈ f ''  B, from ⟨x, h4, h3⟩,
-               show y ∈ f '' A ∪ f '' B, from or.inr h5))
-         (assume y,
-           assume h2 : y ∈ f '' A ∪ f '' B,
-           or.elim h2
-             (assume h3 : y ∈ f '' A,
-               exists.elim h3 $
-               assume x h,
-               have h4 : x ∈ A, from h.left,
-               have h5 : f x = y, from h.right,
-               have h6 : x ∈ A ∪ B, from or.inl h4,
-               show y ∈ f '' (A ∪ B), from ⟨x, h6, h5⟩)
-             (assume h3 : y ∈ f '' B,
-               exists.elim h3 $
-               assume x h,
-               have h4 : x ∈ B, from h.left,
-               have h5 : f x = y, from h.right,
-               have h6 : x ∈ A ∪ B, from or.inr h4,
-               show y ∈ f '' (A ∪ B), from ⟨x, h6, h5⟩))
+      theorem image_union : f '' (A₁ ∪ A₂) = f '' A₁ ∪ f '' A₂ := by
+        ext y
+        constructor
+        . intro (h : y ∈ image f (A₁ ∪ A₂))
+          cases h with
+          | intro x hx =>
+            have xA₁A₂ : x ∈ A₁ ∪ A₂ := hx.left
+            have fxy : f x = y := hx.right
+            cases xA₁A₂ with
+            | inl xA₁ => exact Or.inl ⟨x, xA₁, fxy⟩
+            | inr xA₂ => exact Or.inr ⟨x, xA₂, fxy⟩
+        . intro (h : y ∈ image f A₁ ∪ image f A₂)
+          cases h with
+          | inl yifA₁ =>
+            cases yifA₁ with
+            | intro x hx =>
+              have xA₁ : x ∈ A₁ := hx.left
+              have fxy : f x = y := hx.right
+              exact ⟨x, Or.inl xA₁, fxy⟩
+          | inr yifA₂ => cases yifA₂ with
+            | intro x hx =>
+              have xA₂ : x ∈ A₂ := hx.left
+              have fxy : f x = y := hx.right
+              exact ⟨x, Or.inr xA₂, fxy⟩
 
        -- remember, x ∈ A ∩ B is the same as x ∈ A ∧ x ∈ B
-       example (x : X) (h1 : x ∈ A) (h2 : x ∈ B) : x ∈ A ∩ B :=
-       and.intro h1 h2
+       example (x : X) (h1 : x ∈ A₁) (h2 : x ∈ A₂) : x ∈ A₁ ∩ A₂ :=
+       And.intro h1 h2
 
-       example (x : X) (h1 : x ∈ A ∩ B) : x ∈ A :=
-       and.left h1
+       example (x : X) (h1 : x ∈ A₁ ∩ A₂) : x ∈ A₁ :=
+       And.left h1
 
        -- Fill in the proof below.
-       -- (It should take about 8 lines.)
 
-       example : f '' (A ∩ B) ⊆ f '' A ∩ f '' B :=
-       assume y,
-       assume h1 : y ∈ f '' (A ∩ B),
-       show y ∈ f '' A ∩ f '' B, from sorry
+       example : f '' (A₁ ∩ A₂) ⊆ f '' A₁ ∩ f '' A₂ := by
+       intro y
+       intro (h1 : y ∈ f '' (A₁ ∩ A₂))
+       show y ∈ f '' A₁ ∩ f '' A₂
+       sorry

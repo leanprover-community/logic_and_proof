@@ -12,121 +12,172 @@ Internally, in Lean, the natural numbers are defined as a type generated inducti
 
     namespace hidden
 
+    open Nat
+
     -- BEGIN
-    inductive nat : Type
-    | zero : nat
-    | succ : nat → nat
+    inductive Nat : Type
+    | zero : Nat
+    | succ : Nat → Nat
     -- END
     end hidden
 
-If you click the button that copies this text into the editor in the online version of this textbook, you will see that we wrap it with the phrases ``namespace hidden`` and ``end hidden``. This puts the definition into a new "namespace," so that the identifiers that are defined are ``hidden.nat``, ``hidden.nat.zero`` and ``hidden.nat.succ``, to avoid conflicting with the one that is in the Lean library. Below, we will do that in a number of places where our examples duplicate objects defined in the library. The unicode symbol ``ℕ``, entered with ``\N`` or ``\nat``, is a synonym for ``nat``.
+If you click the button that copies this text into the editor in the online version of this textbook, you will see that we wrap it with the phrases ``namespace hidden`` and ``end hidden``. This puts the definition into a new "namespace," so that the identifiers that are defined are ``hidden.Nat``, ``hidden.Nat.zero`` and ``hidden.Nat.succ``, to avoid conflicting with the one that is in the Lean library. Below, we will do that in a number of places where our examples duplicate objects defined in the library. The unicode symbol ``ℕ``, entered with ``\N`` or ``\nat``, is a synonym for ``Nat``.
 
-Declaring ``nat`` as an inductively defined type means that we can define functions by recursion, and prove theorems by induction. For example, these are the first two recursive definitions presented in the last chapter:
+Declaring ``Nat`` as an inductively defined type means that we can define functions by recursion, and prove theorems by induction. For example, these are the first two recursive definitions presented in the last chapter:
 
 .. code-block:: lean
 
-    open nat
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
 
     def two_pow : ℕ → ℕ
-    | 0        := 1
-    | (succ n) := 2 * two_pow n
+    | 0        => 1
+    | (succ n) => 2 * two_pow n
 
     def fact : ℕ → ℕ
-    | 0        := 1
-    | (succ n) := (succ n) * fact n
+    | 0        => 1
+    | (succ n) => (succ n) * fact n
 
 Addition and numerals are defined in such a way that Lean recognizes ``succ n`` and ``n + 1`` as essentially the same, so we could instead write these definitions as follows:
 
 .. code-block:: lean
 
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
+
+    -- BEGIN
     def two_pow : ℕ → ℕ
-    | 0       := 1
-    | (n + 1) := 2 * two_pow n
+    | 0       => 1
+    | (n + 1) => 2 * two_pow n
 
     def fact : ℕ → ℕ
-    | 0       := 1
-    | (n + 1) := (n + 1) * fact n
+    | 0       => 1
+    | (n + 1) => (n + 1) * fact n
+    -- END
 
 If we wanted to define the function ``m^n``, we would do that by fixing ``m``, and writing doing the recursion on the second argument:
 
 .. code-block:: lean
 
-    def pow : ℕ → ℕ → ℕ
-    | m 0        := 1
-    | m (n + 1)  := m * pow m n
+    import Mathlib.Data.Nat.Defs
 
-In fact, this is how the power function on the natural numbers, ``nat.pow``, is defined in Lean's library.
+    open Nat
+
+    -- BEGIN
+    def pow (m : ℕ) : ℕ → ℕ
+    | 0        => 1
+    | (n + 1)  => (pow m n) * m
+    -- END
+
+In fact, this is how the power function on the natural numbers,
+``Nat.pow``, is defined in Lean's library.
 
 Lean is also smart enough to interpret more complicated forms of recursion, like this one:
 
 .. code-block:: lean
 
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
+
+    -- BEGIN
     def fib : ℕ → ℕ
-    | 0        := 0
-    | 1        := 1
-    | (n + 2)  := fib (n + 1) + fib n
+    | 0        => 0
+    | 1        => 1
+    | (n + 2)  => fib (n + 1) + fib n
 
 In addition to defining functions by recursion, we can prove theorems by induction. In Lean, each clause of a recursive definition results in a new identity. For example, the two clauses in the definition of ``pow`` above give rise to the following two theorems:
 
 .. code-block:: lean
 
-    import data.nat.pow
-    open nat
+    import Mathlib.Data.Nat.Defs
 
-    example (n : ℕ) : pow n 0 = 1 := rfl
-    example (m n : ℕ) : pow m (n+1) = m * pow m n := rfl
+    open Nat
+
+    -- BEGIN
+    example (n : ℕ) : Nat.pow n 0 = 1 := rfl
+    example (m n : ℕ) : Nat.pow m (n+1) = (Nat.pow m n) * m := rfl
+    -- END
 
 Lean defines the usual notation for exponentiation:
 
 .. code-block:: lean
 
-    import data.nat.pow
-    open nat
+    import Mathlib.Data.Nat.Defs
 
+    open Nat
+
+    -- BEGIN
     example (n : ℕ) : n^0 = 1 := rfl
-    example (m n : ℕ) : m^(n+1) = m * m^n := rfl
+    example (m n : ℕ) : m^(n+1) = m^n * m := rfl
 
-    #check @pow_zero
-    #check @pow_succ
+    #check @Nat.pow_zero
+    #check @Nat.pow_succ
+    -- END
 
-Notice that we could alternatively have used ``pow m n * n`` in the second clause of the definition of ``pow``. Of course, we can prove that the two definitions are equivalent using the commutativity of multiplication, but, using a proof by induction, we can also prove it using only the associativity of multiplication, and the properties ``1 * m = m`` and ``m * 1 = m``. This is useful, because the power function is also often used in situations where multiplication is not commutative, such as with matrix multiplication. The theorem can be proved in Lean as follows:
-
-.. code-block:: lean
-
-    import data.nat.pow
-    open nat
-
-    example (m n : ℕ) : m^(succ n) = m^n * m :=
-    nat.rec_on n
-      (show m^(succ 0) = m^0 * m, from calc
-        m^(succ 0) = m * m^0 : by rw pow_succ
-              ... = m * 1   : by rw pow_zero
-              ... = m       : by rw mul_one
-              ... = 1 * m   : by rw one_mul
-              ... = m^0 * m : by rw pow_zero)
-      (assume n,
-        assume ih : m^(succ n) = m^n * m,
-        show m^(succ (succ n)) = m^(succ n) * m, from calc
-          m^(succ (succ n)) = m * m^(succ n)   : by rw pow_succ
-                        ... = m * (m^n * m)    : by rw ih
-                        ... = (m * m^n) * m    : by rw mul_assoc
-                        ... = m^(succ n) *m    : by rw pow_succ)
-
-This is a typical proof by induction in Lean. It begins with the phrase ``nat.rec_on n``, and is followed by the base case and the inductive hypothesis. (The phrase ``open nat`` allows us to write ``pow`` instead of ``nat.pow``. This theorem is called ``pow_succ'`` in the library.The proof can be shortened using ``rewrite``:
+Notice that we could alternatively have used ``m * Nat.pow m n``
+in the second clause of the definition of ``Nat.pow``.
+Of course, we can prove that the two definitions are equivalent using the
+commutativity of multiplication, but,
+using a proof by induction,
+we can also prove it using only the associativity of multiplication,
+and the properties ``1 * m = m`` and ``m * 1 = m``.
+This is useful, because the power function is also often used in situations
+where multiplication is not commutative,
+such as with matrix multiplication.
+The theorem can be proved in Lean as follows:
 
 .. code-block:: lean
 
-    import data.nat.pow
-    open nat
+    import Mathlib.Data.Nat.Defs
 
-    example (m n : ℕ) : m^(succ n) = m^n * m :=
-    nat.rec_on n
-      (show m^(succ 0) = m^0 * m, by
-        rw [pow_succ, pow_zero, mul_one, one_mul])
-      (assume n,
-        assume ih : m^(succ n) = m^n * m,
-        show m^(succ (succ n)) = m^(succ n) * m,
-          by rw [pow_succ, pow_succ, mul_assoc, ←ih, ←pow_succ])
+    open Nat
+
+    -- BEGIN
+    example (m n : ℕ) : m^(succ n) = m * m^n := by
+      induction n with
+      | zero =>
+        show m^(succ 0) = m * m^0
+        calc
+            m^(succ 0) = m^0 * m := by rw [Nat.pow_succ]
+                     _ = 1 * m   := by rw [Nat.pow_zero]
+                     _ = m       := by rw [Nat.one_mul]
+                     _ = m * 1   := by rw [Nat.mul_one]
+                     _ = m * m^0 := by rw [Nat.pow_zero]
+      | succ n ih =>
+        show m^(succ (succ n)) = m * m^(succ n)
+        calc
+          m^(succ (succ n)) = m^(succ n) * m   := by rw [Nat.pow_succ]
+                          _ = (m * m^n) * m    := by rw [ih]
+                          _ = m * (m^n * m)    := by rw [Nat.mul_assoc]
+                          _ = m * m^(succ n)    := by rw [Nat.pow_succ]
+    -- END
+
+This is a typical proof by induction in Lean.
+It begins with the tactic ``induction n with``,
+which is like ``cases n with``,
+but also supplies the induction hypothesis ``ih``
+in the successor case.
+Here is a shorter proof:
+
+.. code-block:: lean
+
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
+
+    -- BEGIN
+    example (m n : ℕ) : m^(succ n) = m * m^n := by
+      induction n with
+      | zero =>
+        show m^(succ 0) = m * m^0
+        rw [Nat.pow_succ, Nat.pow_zero, Nat.one_mul, Nat.mul_one]
+      | succ n ih =>
+        show m^(succ (succ n)) = m * m^(succ n)
+        rw [Nat.pow_succ, Nat.pow_succ, ← Nat.mul_assoc, ← ih, Nat.pow_succ]
+    -- END
 
 Remember that you can write a ``rewrite`` proof incrementally, checking the error messages to make sure things are working so far, and to see how far Lean got.
 
@@ -134,41 +185,57 @@ As another example of a proof by induction, here is a proof of the identity ``m^
 
 .. code-block:: lean
 
-    import data.nat.pow
-    open nat
+    import Mathlib.Data.Nat.Defs
 
-    example (m n k : ℕ) : m^(n + k) = m^n * m^k :=
-    nat.rec_on k
-      (show m^(n + 0) = m^n * m^0, from calc
-        m^(n + 0) = m^n       : by rw add_zero
-              ... = m^n * 1   : by rw mul_one
-              ... = m^n * m^0 : by rw pow_zero)
-      (assume k,
-        assume ih : m^(n + k) = m^n * m^k,
-        show m^(n + succ k) = m^n * m^(succ k), from calc
-          m^(n + succ k) = m^(succ (n + k)) : by rw nat.add_succ
-                    ... = m^(n + k) * m    : by rw pow_succ'
-                    ... = m^n * m^k * m    : by rw ih
-                    ... = m^n * (m^k * m)  : by rw mul_assoc
-                    ... = m^n * m^(succ k) : by rw pow_succ')
+    open Nat
 
-Notice the same pattern. This time, we do induction on ``k``, and the base case and inductive step are routine. The theorem is called ``pow_add`` in the library, and once again, with a bit of cleverness, we can shorten the proof with ``rewrite``:
+    -- BEGIN
+    example (m n k : ℕ) : m^(n + k) = m^n * m^k := by
+      induction n with
+      | zero =>
+        show m^(0 + k) = m^0 * m^k
+        calc m^(0 + k) = m^k       := by rw [Nat.zero_add]
+                     _ = 1 * m^k   := by rw [Nat.one_mul]
+                     _ = m^0 * m^k := by rw [Nat.pow_zero]
+      | succ n ih =>
+        show m^(succ n + k) = m^(succ n) * m^k
+        calc
+          m^(succ n + k) = m^(succ (n + k)) := by rw [Nat.succ_add]
+                      _ = m * m^(n + k)    := by rw [Nat.pow_succ']
+                      _ = m * (m^n * m^k)    := by rw [ih]
+                      _ = (m * m^n) * m^k  := by rw [Nat.mul_assoc]
+                      _ = m^(succ n) * m^k := by rw [Nat.pow_succ']
+    -- END
+
+Notice the same pattern.
+We do induction on ``n``,
+and the base case and inductive step are routine.
+The theorem is called ``pow_add`` in the library,
+and once again, with a bit of cleverness,
+we can shorten the proof with ``rewrite``:
 
 .. code-block:: lean
 
-  import data.nat.pow
-  open nat
+    import Mathlib.Data.Nat.Defs
 
-  example (m n k : ℕ) : m^(n + k) = m^n * m^k :=
-  nat.rec_on k
-    (show m^(n + 0) = m^n * m^0,
-      by rw [add_zero, pow_zero, mul_one])
-    (assume k,
-      assume ih : m^(n + k) = m^n * m^k,
-      show m^(n + succ k) = m^n * m^(succ k),
-      by rw [nat.add_succ, pow_succ', ih, mul_assoc, pow_succ'])
+    open Nat
 
-You should not hesitate to use ``calc``, however, to make the proofs more explicit. Remember that you can also use ``calc`` and ``rewrite`` together, using ``calc`` to structure the calculational proof, and using ``rewrite`` to fill in each justification step.
+    -- BEGIN
+    example (m n k : ℕ) : m^(n + k) = m^n * m^k := by
+      induction n with
+      | zero =>
+        show m^(0 + k) = m^0 * m^k
+        rw [Nat.zero_add, Nat.pow_zero, Nat.one_mul]
+      | succ n ih =>
+        show m^(succ n + k) = m^(succ n) * m^k
+        rw [Nat.succ_add, Nat.pow_succ', ih, ← Nat.mul_assoc, Nat.pow_succ']
+    -- END
+
+You should not hesitate to use ``calc``,
+however, to make the proofs more explicit.
+Remember that you can also use ``calc`` and ``rewrite`` together,
+using ``calc`` to structure the calculational proof,
+and using ``rewrite`` to fill in each justification step.
 
 Defining the Arithmetic Operations in Lean
 ------------------------------------------
@@ -177,135 +244,181 @@ In fact, addition and multiplication are defined in Lean essentially as describe
 
 .. code-block:: lean
 
-    import data.nat.basic
-    open nat
+    import Mathlib.Data.Nat.Defs
 
-    variables m n : ℕ
+    open Nat
 
-    example : m + 0 = m := add_zero m
-    example : m + succ n = succ (m + n) := add_succ m n
+    variable (m n : ℕ)
+
+    -- BEGIN
+    example : m + 0 = m := Nat.add_zero m
+    example : m + succ n = succ (m + n) := Nat.add_succ m n
+    -- END
 
 Similarly, we have the defining equations for the predecessor function
 and multiplication:
 
 .. code-block:: lean
 
-    import data.nat.basic
-    open nat
+    import Mathlib.Data.Nat.Defs
 
-    #check @pred_zero
-    #check @pred_succ
-    #check @mul_zero
-    #check @mul_succ
+    -- BEGIN
+    #check @Nat.pred_zero
+    #check @Nat.pred_succ
+    #check @Nat.mul_zero
+    #check @Nat.mul_succ
+    -- END
 
 Here are the five propositions proved in :numref:`defining_arithmetic_operations`.
 
 .. code-block:: lean
 
-    import data.nat.basic
-    open nat
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
 
     namespace hidden
 
     -- BEGIN
-    theorem succ_pred (n : ℕ) : n ≠ 0 → succ (pred n) = n :=
-    nat.rec_on n
-      (assume H : 0 ≠ 0,
-        show succ (pred 0) = 0, from absurd rfl H)
-      (assume n,
-        assume ih,
-        assume H : succ n ≠ 0,
-        show succ (pred (succ n)) = succ n,
-          by rewrite pred_succ)
-
-    theorem zero_add (n : nat) : 0 + n = n :=
-    nat.rec_on n
-      (show 0 + 0 = 0, from rfl)
-      (assume n,
-        assume ih : 0 + n = n,
-        show 0 + succ n = succ n, from
-          calc
-        0 + succ n = succ (0 + n) : rfl
-          ... = succ n : by rw ih)
-
-    theorem succ_add (m n : nat) : succ m + n = succ (m + n) :=
-    nat.rec_on n
-      (show succ m + 0 = succ (m + 0), from rfl)
-      (assume n,
-        assume ih : succ m + n = succ (m + n),
-        show succ m + succ n = succ (m + succ n), from
-          calc
-        succ m + succ n = succ (succ m + n) : rfl
-          ... = succ (succ (m + n)) : by rw ih
-          ... = succ (m + succ n) : rfl)
-
-    theorem add_assoc (m n k : nat) : m + n + k = m + (n + k) :=
-    nat.rec_on k
-      (show m + n + 0 = m + (n + 0), by rw [add_zero, add_zero])
-      (assume k,
-        assume ih : m + n + k = m + (n + k),
-        show m + n + succ k = m + (n + (succ k)), from calc
-          m + n + succ k = succ (m + n + k)   : by rw add_succ
-                     ... = succ (m + (n + k)) : by rw ih
-                     ... = m + succ (n + k)   : by rw ←add_succ
-                     ... = m + (n + succ k)   : by rw ←add_succ)
-
-    theorem add_comm (m n : nat) : m + n = n + m :=
-    nat.rec_on n
-      (show m + 0 = 0 + m, by rewrite [add_zero, zero_add])
-      (assume n,
-        assume ih : m + n = n + m,
-        show m + succ n = succ n + m, from calc
-          m + succ n = succ (m + n) : by rw add_succ
-                 ... = succ (n + m) : by rw ih
-                 ... = succ n + m   : by rw succ_add)
-
+    theorem succ_pred (n : ℕ) : n ≠ 0 → succ (pred n) = n := by
+      intro (hn : n ≠ 0)
+      cases n with
+      | zero => exact absurd rfl (hn : 0 ≠ 0)
+      | succ n => rw [Nat.pred_succ]
     -- END
     end hidden
+
+Note that we don't need to use ``induction`` here, only ``cases``.
+We prove the next one in term mode instead:
+
+.. code-block:: lean
+
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
+
+    namespace hidden
+
+    -- BEGIN
+    theorem zero_add (n : Nat) : 0 + n = n :=
+      match n with
+      | zero => show 0 + 0 = 0 from rfl
+      | succ n =>
+        show 0 + succ n = succ n from calc
+          0 + succ n = succ (0 + n) := by rfl
+                   _ = succ n := by rw [zero_add n]
+    -- END
+
+    end hidden
+
+The ``match`` notation is very similar to ``induction``,
+except it does not let us provide a name like ``ih``
+for the induction hypothesis.
+Instead, we call ``zero_add n : 0 + n = n``,
+which is the induction hypothesis.
+Note that calling ``zero_add (succ n)`` in the same place would be circular,
+and if we did so Lean would throw an error.
+
+.. code-block:: lean
+
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
+
+    namespace hidden
+
+    -- BEGIN
+    theorem succ_add (m n : Nat) : succ m + n = succ (m + n) :=
+      match n with
+      | 0 => show succ m + 0 = succ (m + 0) from rfl
+      | n + 1 =>
+        show succ m + succ n = succ (m + succ n) from calc
+             succ m + succ n = succ (succ m + n) := by rfl
+                           _ = succ (succ (m + n)) := by rw [succ_add m n]
+                           _ = succ (m + succ n) := by rfl
+    -- END
+
+    end hidden
+
+Note that this time we used ``0`` and ``n + 1`` in the ``match`` cases.
+Here are the final two:
+
+.. code-block:: lean
+
+    import Mathlib.Data.Nat.Defs
+
+    open Nat
+
+    namespace hidden
+
+    -- BEGIN
+    theorem add_assoc (m n k : Nat) : m + n + k = m + (n + k) :=
+      match k with
+      | 0 => show m + n + 0 = m + (n + 0) from by
+        rw [Nat.add_zero, Nat.add_zero]
+      | k + 1 => show m + n + succ k = m + (n + (succ k)) from by
+        rw [add_succ, add_assoc m n k, add_succ, add_succ]
+
+    theorem add_comm (m n : Nat) : m + n = n + m :=
+      match n with
+      | 0 => show m + 0 = 0 + m from by rw [Nat.add_zero, Nat.zero_add]
+      | n + 1 => show m + succ n = succ n + m from calc
+          m + succ n = succ (m + n) := by rw [add_succ]
+                   _ = succ (n + m) := by rw [add_comm m n]
+                   _ = succ n + m   := by rw [succ_add]
+    -- END
+
+    end hidden
+
+
 
 Exercises
 ---------
 
-#. Formalize as many of the identities from :numref:`defining_arithmetic_operations` as you can by replacing each `sorry` with a proof.
+#. Formalize as many of the identities from
+   :numref:`defining_arithmetic_operations`
+   as you can by replacing each `sorry` with a proof.
 
    .. code-block:: lean
 
-       import data.nat.basic
-       open nat
+        import Mathlib.Data.Nat.Defs
 
-       --1.a.
-       example : ∀ m n k : nat, m * (n + k) = m * n + m * k := sorry
+        open Nat
 
-       --1.b.
-       example : ∀ n : nat, 0 * n = 0 := sorry
+        --1.a.
+        example : ∀ m n k : Nat, m * (n + k) = m * n + m * k := sorry
 
-       --1.c.
-       example : ∀ n : nat, 1 * n = n := sorry
+        --1.b.
+        example : ∀ n : Nat, 0 * n = 0 := sorry
 
-       --1.d.
-       example : ∀ m n k : nat, (m * n) * k = m * (n * k) := sorry
+        --1.c.
+        example : ∀ n : Nat, 1 * n = n := sorry
 
-       --1.e.
-       example : ∀ m n : nat, m * n= n * m := sorry
+        --1.d.
+        example : ∀ m n k : Nat, (m * n) * k = m * (n * k) := sorry
+
+        --1.e.
+        example : ∀ m n : Nat, m * n= n * m := sorry
 
 #. Formalize as many of the identities from :numref:`arithmetic_on_the_natural_numbers` as you can by replacing each `sorry` with a proof.
 
    .. code-block:: lean
 
-      import data.nat.basic
-      open nat
+        import Mathlib.Data.Nat.Defs
 
-      --2.a.
-      example : ∀ m n k : nat, n ≤ m → n + k ≤ m  + k := sorry
+        open Nat
 
-      --2.b.
-      example : ∀ m n k : nat, n + k ≤ m + k → n ≤ m := sorry
+        --2.a.
+        example : ∀ m n k : Nat, n ≤ m → n + k ≤ m  + k := sorry
 
-      --2.c.
-      example : ∀ m n k : nat, n ≤ m → n * k ≤ m * k := sorry
+        --2.b.
+        example : ∀ m n k : Nat, n + k ≤ m + k → n ≤ m := sorry
 
-      --2.d.
-      example : ∀ m n : nat, m ≥ n → m = n ∨ m ≥ n+1 := sorry
+        --2.c.
+        example : ∀ m n k : Nat, n ≤ m → n * k ≤ m * k := sorry
 
-      --2.e.
-      example : ∀ n : nat, 0 ≤ n := sorry
+        --2.d.
+        example : ∀ m n : Nat, m ≥ n → m = n ∨ m ≥ n+1 := sorry
+
+        --2.e.
+        example : ∀ n : Nat, 0 ≤ n := sorry

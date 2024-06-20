@@ -1098,7 +1098,8 @@ Exercises
         sorry
         -- END
 
-#. Prove the following fact about power sets. You can use the theorems ``subset.trans`` and ``subset.refl``
+#. Prove the following fact about power sets.
+   You can use the theorems ``Subset.trans`` and ``Subset.refl``.
 
     .. code-block:: lean
 
