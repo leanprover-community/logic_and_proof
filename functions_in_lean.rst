@@ -703,17 +703,17 @@ Exercises
               have fxy : f x = y := hx.right
               exact ⟨x, Or.inr xA₂, fxy⟩
 
-       -- remember, x ∈ A ∩ B is the same as x ∈ A ∧ x ∈ B
-       example (x : X) (h1 : x ∈ A₁) (h2 : x ∈ A₂) : x ∈ A₁ ∩ A₂ :=
-       And.intro h1 h2
+      -- remember, x ∈ A ∩ B is the same as x ∈ A ∧ x ∈ B
+      example (x : X) (h1 : x ∈ A₁) (h2 : x ∈ A₂) : x ∈ A₁ ∩ A₂ :=
+      And.intro h1 h2
 
-       example (x : X) (h1 : x ∈ A₁ ∩ A₂) : x ∈ A₁ :=
-       And.left h1
+      example (x : X) (h1 : x ∈ A₁ ∩ A₂) : x ∈ A₁ :=
+      And.left h1
 
-       -- Fill in the proof below.
+      -- Fill in the proof below.
 
-       example : f '' (A₁ ∩ A₂) ⊆ f '' A₁ ∩ f '' A₂ := by
-       intro y
-       intro (h1 : y ∈ f '' (A₁ ∩ A₂))
-       show y ∈ f '' A₁ ∩ f '' A₂
-       sorry
+      example : f '' (A₁ ∩ A₂) ⊆ f '' A₁ ∩ f '' A₂ := by
+      intro y
+      intro (h1 : y ∈ f '' (A₁ ∩ A₂))
+      show y ∈ f '' A₁ ∩ f '' A₂
+      sorry

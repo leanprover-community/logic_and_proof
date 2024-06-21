@@ -575,7 +575,7 @@ We can then define the union and intersection as follows:
     def iInter (A : I → Set U) : Set U := { x | ∀ i : I, x ∈ A i }
 
     section
-    variables (x : U) (A : I → Set U)
+    variable (x : U) (A : I → Set U)
 
     example (h : x ∈ iUnion A) : ∃ i, x ∈ A i := h
     example (h : x ∈ iInter A) : ∀ i, x ∈ A i := h
@@ -1088,8 +1088,8 @@ Exercises
         end
 
         -- BEGIN
-        variables {I U : Type}
-        variables (A : I → Set U) (B : I → Set U) (C : Set U)
+        variable {I U : Type}
+        variable (A : I → Set U) (B : I → Set U) (C : Set U)
 
         example : (⋂ i, A i) ∩ (⋂ i, B i) ⊆ (⋂ i, A i ∩ B i) :=
         sorry

@@ -398,7 +398,7 @@ Exercises
         example : ∀ m n k : Nat, (m * n) * k = m * (n * k) := sorry
 
         --1.e.
-        example : ∀ m n : Nat, m * n= n * m := sorry
+        example : ∀ m n : Nat, m * n = n * m := sorry
 
 #. Formalize as many of the identities from :numref:`arithmetic_on_the_natural_numbers` as you can by replacing each `sorry` with a proof.
 
@@ -409,7 +409,7 @@ Exercises
         open Nat
 
         --2.a.
-        example : ∀ m n k : Nat, n ≤ m → n + k ≤ m  + k := sorry
+        example : ∀ m n k : Nat, n ≤ m → n + k ≤ m + k := sorry
 
         --2.b.
         example : ∀ m n k : Nat, n + k ≤ m + k → n ≤ m := sorry
