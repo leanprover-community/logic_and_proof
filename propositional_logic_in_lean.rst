@@ -1270,7 +1270,7 @@ Similarly, if ``h`` is a biconditional, you can write ``h.mp`` and ``h.mpr`` ins
     example (A B : Prop) : A ∧ B ↔ B ∧ A :=
     ⟨fun ⟨h₁, h₂⟩ ↦ ⟨h₂, h₁⟩, fun ⟨h₁, h₂⟩ ↦ ⟨h₂, h₁⟩⟩
 
-Finally, you can add comments to your proofs in two ways. First, any text after a double-dash ``--`` until the end of a line is ignored by the Lean processOr. Second, any text between ``/-`` and ``-/`` denotes a block comment, and is also ignored. You can nest block comments.
+Finally, you can add comments to your proofs in two ways. First, any text after a double-dash ``--`` until the end of a line is ignored by the Lean processor. Second, any text between ``/-`` and ``-/`` denotes a block comment, and is also ignored. You can nest block comments.
 
 .. code-block:: lean
 
