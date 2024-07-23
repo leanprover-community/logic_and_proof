@@ -205,34 +205,33 @@ Marking the variables ``x₁`` and ``x₂`` implicit in the definition of ``Inje
 We can then prove that the identity function is bijective:
 
 .. code-block:: lean
+   import Mathlib
+   open Function
+   
+   namespace hidden
+   variable {X Y Z : Type}
 
-    import Mathlib.Init.Function
-    open Function
+   -- BEGIN
+   theorem injective_id : Injective (@id X) :=
+   fun x₁ x₂ ↦
+   fun H : id x₁ = id x₂ ↦
+   show x₁ = x₂ from H
 
-    namespace hidden
-    variable {X Y Z : Type}
+   theorem surjective_id : Surjective (@id X) :=
+   fun y ↦
+   show ∃ x, id x = y from Exists.intro y rfl
 
-    -- BEGIN
-    theorem injective_id : Injective (@id X) :=
-    fun x₁ x₂ ↦
-    fun H : id x₁ = id x₂ ↦
-    show x₁ = x₂ from H
+   theorem bijective_id : Bijective (@id X) :=
+   And.intro injective_id surjective_id
+   -- END
 
-    theorem surjective_id : Surjective (@id X) :=
-    fun y ↦
-    show ∃ x, id x = y from Exists.intro y rfl
-
-    theorem bijective_id : Bijective (@id X) :=
-    And.intro injective_id surjective_id
-    -- END
-
-    end hidden
+   end hidden
 
 More interestingly, we can prove that the composition of injective functions is injective, and so on.
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
     open Function
 
     namespace hidden
@@ -267,8 +266,8 @@ More interestingly, we can prove that the composition of injective functions is 
     have gSurj : Surjective g := hg.right
     have fInj : Injective f := hf.left
     have fSurj : Surjective f := hf.right
-    And.intro (injective_comp gInj fInj)
-      (surjective_comp gSurj fSurj)
+    And.intro (Injective.comp gInj fInj)
+      (Surjective.comp gSurj fSurj)
     -- END
 
     end hidden
@@ -297,7 +296,7 @@ In particular, composing with a left or right inverse yields the identity.
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
 
     open Function
     section
@@ -321,7 +320,7 @@ The following shows that if a function has a left inverse, then it is injective,
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
 
     open Function
     variable {X Y : Type}
@@ -359,12 +358,12 @@ Defining the Inverse Classically
 
 All the theorems listed in the previous section are found in the Lean
 library, and are available to you when you
-import ``Mathlib.Init.Function`` and open the function namespace
+import ``Mathlib`` and open the function namespace
 with ``open Function``:
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
     open Function
 
     #check comp
@@ -376,7 +375,7 @@ we get by opening the classical namespace:
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
     open Classical
 
     section
@@ -404,7 +403,7 @@ With these constructions, the inverse function is defined as follows:
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
     open Classical Function
 
     variable {X Y : Type}
@@ -418,7 +417,7 @@ Below, the proposition ``inverse_of_exists`` asserts that ``inverse`` meets its 
 
 .. code-block:: lean
 
-    import Mathlib.Init.Function
+    import Mathlib
     open Classical Function
 
     variable {X Y : Type}
