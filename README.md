@@ -1,7 +1,10 @@
-# Logic and Mathematical Inquiry
+# Logic and Proof
 
-This is a fork of the original course [available here](https://github.com/leanprover/logic_and_proof/tree/master).
-That version uses `lean3`, whereas this version uses `lean4`.
+This is a textbook for learning logic and proofs, 
+as well as interactive theorem proving with `lean4`. 
+It is based on the older version
+[available here](https://github.com/leanprover/logic_and_proof_lean3/tree/master),
+which uses `lean3`.
 
 # Installation 
 
@@ -63,8 +66,8 @@ We need
 ## Clone the sphinx project repository
 - clone the project into project directory `/logic_and_proof/`, 
   ```
-    git clone https://github.com/Jlh18/LogicAndMathematicalInquiry.git
-    cd LogicAndMathematicalInquiry
+    git clone TODO
+    cd logic_and_proof
   ```
 
 - go to `MAKE` and make sure 
@@ -100,6 +103,10 @@ We need
 <!-- ./deploy.sh leanprover logic_and_proof -->
 <!-- ``` -->
 
-<!-- # How to contribute -->
+# How to contribute
 
-<!-- Pull requests with corrections are welcome. Please follow our `commit conventions <https://github.com/leanprover/lean/blob/master/doc/commit_convention.md>`. If you have questions about whether a change will be considered helpful, please contact Jeremy Avigad, ``avigad@cmu.edu``. -->
+Pull requests with corrections are welcome. 
+Please follow our 
+`commit conventions <https://github.com/leanprover/lean/blob/master/doc/commit_convention.md>`.
+If you have questions about whether a change will be considered helpful, 
+please contact Jeremy Avigad, ``avigad@cmu.edu``.
