@@ -66,7 +66,7 @@ We need
 ## Clone the sphinx project repository
 - clone the project into project directory `/logic_and_proof/`, 
   ```
-    git clone TODO
+    git clone https://github.com/leanprover-community/logic_and_proof.git
     cd logic_and_proof
   ```
 
