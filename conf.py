@@ -46,8 +46,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Logic and Proof'
-copyright = u'2017, Jeremy Avigad, Robert Y. Lewis, Floris van Doorn, and Joseph Hua'
-author = u'Jeremy Avigad, Robert Y. Lewis, Floris van Doorn, and Joseph Hua'
+copyright = u'2017, Jeremy Avigad, Joseph Hua, Robert Y. Lewis, and Floris van Doorn'
+author = u'Jeremy Avigad, Joseph Hua, Robert Y. Lewis, and Floris van Doorn'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -172,7 +172,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'logic_and_proof.tex', u'Logic and Proof',
-     u'Jeremy Avigad, Robert Y. Lewis, Floris van Doorn, and Joseph Hua', 'manual'),
+     u'Jeremy Avigad, Joseph Hua, Robert Y. Lewis, and Floris van Doorn', 'manual'),
 ]
 
 
