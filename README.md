@@ -3,7 +3,7 @@
 This is a textbook for learning logic and proofs, 
 as well as interactive theorem proving with `lean4`,
 written by Jeremy Avigad, Joseph Hua, Robert Y. Lewis, and Floris van Doorn. 
-It is [available here](https://leanprover.github.io/logic_and_proof).
+The web version is [available here](https://leanprover.github.io/logic_and_proof).
 It is based on the older version
 [available here](https://github.com/leanprover/logic_and_proof_lean3/tree/master),
 which uses `lean3`.
