@@ -1,2 +1,0 @@
-The Infinite in Lean
-====================

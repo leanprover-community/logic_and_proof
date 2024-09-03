@@ -1,9 +1,0 @@
-*.olean
-.venv/
-.vscode/
-/__pycache__
-/_build
-/_static
-/_target
-/leanpkg.path
-/latex_images
