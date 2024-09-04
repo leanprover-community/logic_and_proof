@@ -166,8 +166,8 @@ Since the end of the twentieth century, however, the advent of computational pro
     theorem my_theorem : P ∧ Q → Q ∧ P := by
       rintro h : P ∧ Q
       apply And.intro
-      . apply And.right h
-      . apply And.left h
+      . exact And.right h
+      . exact And.left h
     end
 
 If you are reading the present text in online form, you will find a button above the formal "proof script" that says "try it!" Pressing the button opens the proof in an editor window and runs a version of Lean inside your browser to process the proof, turn it into an axiomatic derivation, and verify its correctness. You can experiment by varying the text in the editor; any errors will be noted in the window to the right.
@@ -176,7 +176,7 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
 
 .. code-block:: lean
 
-    import Mathlib.Data.Nat.Prime
+    import Mathlib.Data.Nat.Prime.Basic
     open Nat
     open Prime
 
@@ -188,11 +188,11 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
       have : 2 ∣ a^2 := by
         simp [h]
       have : 2 ∣ a :=
-      dvd_of_dvd_pow prime_two this
+        dvd_of_dvd_pow prime_two this
       apply Exists.elim this
       rintro c aeq
       have : 2 * (2 * c^2) = 2 * b^2 := by
-        simp [Eq.symm h, aeq];
+        simp [Eq.symm h, aeq]
         simp [pow_succ' _, mul_comm, mul_assoc, mul_left_comm]
       have : 2 * c^2 = b^2 := by
         apply mul_left_cancel₀ _ this
@@ -200,7 +200,7 @@ Proofs in Lean can access a library of prior mathematical results, all verified 
       have : 2 ∣ b^2 := by
         simp [Eq.symm this]
       have : 2 ∣ b := by
-            apply dvd_of_dvd_pow prime_two this
+        exact dvd_of_dvd_pow prime_two this
       have : 2 ∣ gcd a b := by
         apply dvd_gcd
         . assumption
