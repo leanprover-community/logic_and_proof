@@ -548,6 +548,6 @@ Exercises
    Do the following:
 
    -  Give a natural deduction proof of the second, assuming the first as a hypothesis.
-   -  Give a natural deduction proof of the first, asssuming the second as a hypothesis.
+   -  Give a natural deduction proof of the first, assuming the second as a hypothesis.
 
    (Warning: these are long.)

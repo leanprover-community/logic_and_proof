@@ -316,7 +316,7 @@ which you can write by typing ``\prec``.
     -- END
     end hidden
 
-The variable declation ``[PartialOrder A]`` can be read as
+The variable declaration ``[PartialOrder A]`` can be read as
 "assume ``A`` is a partial order".
 Then Lean will use this "instance" of the class ``PartialOrder``
 to figure out what ``le`` and ``lt`` are referring to.
@@ -326,7 +326,7 @@ referring back to them with the French quotes, ```\f<`` and ``\f>``,
 or ``assumption`` (in tactic mode).
 The proof of transitivity switches from term mode to tactic mode,
 to use ``rewrite`` to replace ``c`` for ``a`` in ``a ≤ b``.
-Recall that ``contradiction`` intructs Lean to find
+Recall that ``contradiction`` instructs Lean to find
 a hypothesis and its negation in the context, and hence complete the proof.
 
 We could even define the class ``StrictPartialOrder`` in a similar manner,
