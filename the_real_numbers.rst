@@ -33,7 +33,7 @@ We can do the same for the rationals, defining them to be the set of pairs :math
 
 In the next section, we will define a more sophisticated approach, one which will scale to a definition of the real numbers. And in a later chapter, we will show how to construct the natural numbers from the axioms of set theory. This shows that we can construct all the number systems from the bottom up.
 
-But first, let us pause for a moment to consider why the real numbers are needed. We have seen that :math:`2` has no rational square root. This means, in a sense, that there is a "gap" in the rationals: the are rationals whose squares are arbitrarily close to 2, but there is no rational :math:`x` with the property that :math:`x^2 = 2`. But it seems intuitively clear that there should be some *number* with that property: :math:`\sqrt{2}` is the length of the diagonal of a square with side length :math:`1`. Similarly, :math:`\pi`, the area of a circle with radius 1, is missing from the rationals. These are the kinds of defects that the real numbers are designed to repair.
+But first, let us pause for a moment to consider why the real numbers are needed. We have seen that :math:`2` has no rational square root. This means, in a sense, that there is a "gap" in the rationals: there are rationals whose squares are arbitrarily close to 2, but there is no rational :math:`x` with the property that :math:`x^2 = 2`. But it seems intuitively clear that there should be some *number* with that property: :math:`\sqrt{2}` is the length of the diagonal of a square with side length :math:`1`. Similarly, :math:`\pi`, the area of a circle with radius 1, is missing from the rationals. These are the kinds of defects that the real numbers are designed to repair.
 
 You may be used to thinking of real numbers as (potentially) infinite decimals: for example, :math:`\sqrt{2} = 1.41421356\ldots` and :math:`\pi = 3.14159265\ldots`. A central goal of this chapter is to make the "..." precise. The idea is that we can take an infinite decimal to represent a sequence of rational approximations. For example, we can approximate the square root of 2 with the sequence :math:`1, 1.4, 1.41, 1.414, \ldots`. We would like to define :math:`\sqrt{2}` to be the "limit" of that sequence, but we have seen that the sequence does not have a limit in the rationals. So we have to construct new objects, the real numbers, to serve that purpose.
 
@@ -84,7 +84,7 @@ Subtracting :math:`m' + n'` from both sides, we get :math:`m + n'' = n + m''`, w
 
 ----
 
-We can now define the integers to be :math:`\mathbb{N} \times \mathbb{N} / \mathord{\equiv}`. How should we define addition? If :math:`[(m, n)]` represents :math:`m - n`, and :math:`[(u, v)]` represents :math:`u - v`, then :math:`[(m, n)] + [(u, v)]` should represent :math:`(m + u) - (n + v)`. Thus, it makes sense to define :math:`[(m, n)] + [(u, v)]` to be :math:`[(m + u) - (n + v)]`. For this to work, we need to know that the operation which sends :math:`(m, n)` and :math:`(u, v)` to :math:`(m + u, n + v)` respects the equivalence relation.
+We can now define the integers to be :math:`\mathbb{N} \times \mathbb{N} / \mathord{\equiv}`. How should we define addition? If :math:`[(m, n)]` represents :math:`m - n`, and :math:`[(u, v)]` represents :math:`u - v`, then :math:`[(m, n)] + [(u, v)]` should represent :math:`(m + u) - (n + v)`. Thus, it makes sense to define :math:`[(m, n)] + [(u, v)]` to be :math:`[(m + u), (n + v)]`. For this to work, we need to know that the operation which sends :math:`(m, n)` and :math:`(u, v)` to :math:`(m + u, n + v)` respects the equivalence relation.
 
 ----
 
@@ -109,7 +109,7 @@ The problem we face is that the sequence :math:`1, 1.4, 1.41, 1.414, 1.4142, \ld
 
 ----
 
-Roughly speaking, a Cauchy sequence is one where the elements become arbitrarily close, not just to their successors but to all following elements. It is common in mathematics to use :math:`\varepsilon` to represent a quantity that is intended to denote something small; you should read the phrase "for every :math:`\varepsilon > 0`" as saying "no matter how small :math:`\varepsilon` is." So a sequence is Cauchy if, for any :math:`\varepsilon > 0`, no matter how small, there is some point :math:`N`, beyond which the elements stay within a distance of :math:`\varepsilon` of one another.
+Roughly speaking, a Cauchy sequence is one where the elements become arbitrarily close, not just to their successors, but to all following elements. It is common in mathematics to use :math:`\varepsilon` to represent a quantity that is intended to denote something small; you should read the phrase "for every :math:`\varepsilon > 0`" as saying "no matter how small :math:`\varepsilon` is." So a sequence is Cauchy if, for any :math:`\varepsilon > 0`, no matter how small, there is some point :math:`N`, beyond which the elements stay within a distance of :math:`\varepsilon` of one another.
 
 Cauchy sequences can be used to describe these gaps in the rationals, but, as noted above, many Cauchy sequences can be used to describe the same gap. At this stage, it is slightly misleading to say that they "approach the same point," since there is no rational point that they approach; a more precise statement is that the sequences eventually become arbitrarily close.
 
