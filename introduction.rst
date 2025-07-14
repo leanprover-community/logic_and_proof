@@ -34,7 +34,7 @@ A natural number :math:`n` greater than or equal to 2 is said to be *composite* 
 
 **Theorem.** Every natural number greater than or equal to 2 can be written as a product of primes.
 
-**Proof.** We proceed by induction on :math:`n`. Let :math:`n` be any natural number greater than 2. If :math:`n` is prime, we are done; we can consider :math:`n` itself as a product with one term. Otherwise, :math:`n` is composite, and we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the inductive hypothesis, each of :math:`m` and :math:`k` can be written as a product of primes, say
+**Proof.** We proceed by induction on :math:`n`. Let :math:`n` be any natural number greater than 2. If :math:`n` is prime, we are done; we can consider :math:`n` itself as a product with one factor. Otherwise, :math:`n` is composite, and we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the inductive hypothesis, each of :math:`m` and :math:`k` can be written as a product of primes, say
 :math:`m = p_1 \cdot p_2 \cdot \ldots \cdot p_u` and :math:`k = q_1 \cdot q_2 \cdot \ldots \cdot q_v`. But then we have
 
 .. math::
