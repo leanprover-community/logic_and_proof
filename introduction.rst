@@ -53,7 +53,7 @@ The first goal of this course is to teach you to write clear, readable mathemati
 Symbolic Logic
 --------------
 
-Toward understanding how proofs work, it will be helpful to study a subject known as "symbolic logic," which provides an idealized model of mathematical language and proof. In the *Prior Analytics*, the ancient Greek philosopher set out to analyze patterns of reasoning, and developed the theory of the *syllogism*. Here is one instance of a syllogism:
+Toward understanding how proofs work, it will be helpful to study a subject known as "symbolic logic," which provides an idealized model of mathematical language and proof. In the *Prior Analytics*, the ancient Greek philosopher Aristotle set out to analyze patterns of reasoning, and developed the theory of the *syllogism*. Here is one instance of a syllogism:
 
 ----
 
