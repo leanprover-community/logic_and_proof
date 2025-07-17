@@ -69,7 +69,7 @@ In addition to declaring variables, if ``P`` is any expression of type ``Prop`` 
 
 Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Just as a proposition variable ``A : Prop`` can take the place of an actual proposition, and just as a boolean variable in a programming language can take the place of an actual boolean, a hypothesis in Lean is represented as a proof variable, which can be used whenever we require a proof of the assumed proposition.
 
-Building proofs is then a matter of writing down expressions of the correct type. For example, if ``h`` is any expression of type ``A ∧ B``, then ``And.left h`` is an expression of type ``A``, and ``And.right h`` is an expression of type ``B``. In other words, if ``h`` is a proof of ``A ∧ B``, and ``And.left h`` is a name for the proof you get by applying the left elimination rule for and:
+Building proofs is then a matter of writing down expressions of the correct type. For example, if ``h`` is any expression of type ``A ∧ B``, then ``And.left h`` is an expression of type ``A``, and ``And.right h`` is an expression of type ``B``. In other words, if ``h`` is a proof of ``A ∧ B``, then ``And.left h`` is a name for the proof you get by applying the left elimination rule for and:
 
 .. raw:: html
 
