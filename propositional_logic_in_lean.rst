@@ -877,8 +877,8 @@ Forward Reasoning
 
 Lean supports forward reasoning by allowing you to write
 proofs using ``have``,
-which is both a term mode expression and a tactic.
-Notice that ``show`` is also a tactic.
+which exists both as a term mode expression and as a tactic.
+Notice that ``show`` also exists as a tactic.
 
 .. code-block:: lean
 
@@ -905,16 +905,15 @@ Notice that ``show`` is also a tactic.
 
     end
 
-Writing a proof with
-``have h : A := _`` then continuing the proof with
-``... h ...`` has the same effect as writing ``... _ ...``.
-This ``have`` command checks that ``_`` is a proof of ``A``,
-and then give you the label ``h`` to use in place of ``_``.
+The line ``have h : A := expr`` assigns the name ``h``
+to the (possibly long) proof expression ``expr`` of ``A``.
+In the remainder of the proof, the full proof expression ``expr`` or its name ``h``
+can be used interchangeably and have precisely the same meaning.
 Thus the last line of the previous proof can be thought of as
 abbreviating ``exact h2 (h1 h)``,
 since ``h3`` abbreviates ``h1 h``.
 Such abbreviations can make a big difference,
-especially when the proof ``_`` is long and repeatedly used.
+especially when the proof ``expr`` is long and repeatedly used.
 
 There are a number of advantages to using ``have``.
 For one thing, it makes the proof more readable:
@@ -929,6 +928,9 @@ informative error message when the goal is not properly met.
 Note that ``have`` and ``exact`` are mixing term mode and tactic mode,
 since the expression ``h1 h`` is a term mode proof of ``B``
 and ``h2 h3`` is a term mode proof of ``C``.
+For ``exact``, this is the very purpose of the tactic.
+For ``have``, we can switch back to tactic mode to prove the auxiliary goal
+by writing ``have h3 : B := by ...``.
 
 Previously we have considered the following statement,
 which we partially translate to tactic mode:
