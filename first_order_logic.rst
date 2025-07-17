@@ -24,10 +24,10 @@ These statements are true, but we generally do not think of them as *logically v
 Rather than fix a single language once and for all, first-order logic allows us to specify the symbols we wish to use for any given domain of interest. In this section, we will use the following running example:
 
 -  The domain of interest is the natural numbers, :math:`\mathbb{N}`.
--  There are objects, :math:`0`, :math:`1`, :math:`2`, :math:`3`, ....
--  There are functions, addition and multiplication, as well as the square function, on this domain.
--  There are predicates on this domain, "even," "odd," and "prime."
--  There are relations between elements of this domain, "equal," "less than", and "divides."
+-  There are objects: :math:`0`, :math:`1`, :math:`2`, :math:`3`, ....
+-  There are functions: addition and multiplication, as well as the square function, on this domain.
+-  There are predicates on this domain: "even," "odd," and "prime."
+-  There are relations between elements of this domain: "equal," "less than", and "divides."
 
 For our logical language, we will choose symbols 1, 2, 3, :math:`\mathit{add}`, :math:`\mathit{mul}`, :math:`\mathit{square}`, :math:`\mathit{even}`, :math:`\mathit{odd}`, :math:`\mathit{prime}`, :math:`\mathit{lt}`, and so on, to denote these things. We will also have variables :math:`x`, :math:`y`, and :math:`z` ranging over the natural numbers. Note all of the following.
 
@@ -81,13 +81,13 @@ Here are some notes on syntax:
 
 - Be careful, however. In other contexts, especially in computer science, people often give quantifiers the *widest* scope possible. This is the case with Lean. For example, ``∀ x, P ∨ Q`` is interpreted as ``∀ x, (P ∨ Q)``, and we would write ``(∀ x, P) ∨ Q`` to limit the scope.
 
-- When you put the quantifier :math:`\forall x` in front a formula that involves the variable :math:`x`, all the occurrences of that variable are *bound* by the quantifier. For example, the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` is expresses that every number is even or odd. Notice that the variable :math:`x` does not appear anywhere in the informal statement. The statement is not about :math:`x` at all; rather :math:`x` is a dummy variable, a placeholder that stands for the "thing" referred to within a phrase that beings with the words "every thing." We think of the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` as being the same as the expression :math:`\forall y \; (\mathit{even}(y) \vee \mathit{odd}(y))`. Lean also treats these expressions as the same.
+- When you put the quantifier :math:`\forall x` in front a formula that involves the variable :math:`x`, all the occurrences of that variable are *bound* by the quantifier. For example, the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` is expresses that every number is even or odd. Notice that the variable :math:`x` does not appear anywhere in the informal statement. The statement is not about :math:`x` at all; rather :math:`x` is a dummy variable, a placeholder that stands for the "thing" referred to within a phrase that begins with the words "every thing." We think of the expression :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))` as being the same as the expression :math:`\forall y \; (\mathit{even}(y) \vee \mathit{odd}(y))`. Lean also treats these expressions as the same.
 
 - In Lean, the expression ``∀ x y z, x ∣ y → y ∣ z → x ∣ z`` is interpreted as ``∀ x y z, x ∣ y → (y ∣ z → x ∣ z)``, with parentheses associated to the *right*. The part of the expression after the universal quantifier can therefore be interpreted as saying "given that ``x`` divides ``y`` and that ``y`` divides ``z``, ``x`` divides ``z``." The expression is logically equivalent to ``∀ x y z, x ∣ y ∧ y ∣ z → x ∣ z``, but we will see that, in Lean, it is often convenient to express facts like this as an iterated implication.
 
 A variable that is not bound is called *free*. Notice that formulas in first-order logic say things about their free variables. For example, in the interpretation we have in mind, the formula :math:`\forall y \; (x \le y)` says that :math:`x` is less than or equal to every natural number. The formula :math:`\forall z \; (x \le z)` says exactly the same thing; we can always rename a bound variable, as long as we pick a name that does not clash with another name that is already in use. On the other hand, the formula :math:`\forall y (w \le y)` says that :math:`w` is less than or equal to every natural number. This is an entirely different statement: it says something about :math:`w`, rather than :math:`x`. So renaming a *free* variable changes the meaning of a formula.
 
-Notice also that some formulas, like :math:`\forall x, y \; (x \le y \vee y \le x)`, have no free variables at all. Such a formula is called a *sentence*, because it makes an outright assertion, a statement that is either true or false about the intended interpretation. In :numref:`Chapter %s <semantics_of_first_order_logic>` we will make the notion of an "intended interpretation" precise, and explain what it means to be "true in an interpretation." For now, the idea that formulas say things about an object in an intended interpretation should motivate the rules for reasoning with such expressions.
+Notice also that some formulas, like :math:`\forall x, y \; (x \le y \vee y \le x)`, have no free variables at all. Such a formula is called a *sentence*, because it makes an outright assertion, a statement that is either true or false about the intended interpretation. In :numref:`Chapter %s <semantics_of_first_order_logic>` on semantics of first-order logic, we will make the notion of an "intended interpretation" precise, and explain what it means to be "true in an interpretation." For now, the idea that formulas say things about an object in an intended interpretation should motivate the rules for reasoning with such expressions.
 
 In :numref:`Chapter %s <introduction>` we proved that the square root of two is irrational. One way to construe the statement is as follows:
 
@@ -152,7 +152,7 @@ This example motivates the following rule in natural deduction:
    \UIM{\forall x \; A(x)}
    \end{prooftree}
 
-provided :math:`x` is not free in any uncanceled hypothesis. Here :math:`A(x)` stands for any formula that (potentially) mentions :math:`x`. Also remember that if :math:`y` is any "fresh" variable that does not occur in :math:`A`, we are thinking of :math:`\forall x \; A(x)` as being the same as :math:`\forall y \; A(y)`.
+provided :math:`x` is not free in any uncanceled or not yet canceled hypothesis. Here :math:`A(x)` stands for any formula that (potentially) mentions :math:`x`. Also remember that if :math:`y` is any "fresh" variable that does not occur in :math:`A`, we are thinking of :math:`\forall x \; A(x)` as being the same as :math:`\forall y \; A(y)`.
 
 What about the elimination rule? Suppose we know that every number is even or odd. Then, in an ordinary proof, we are free to assert ":math:`a` is even or :math:`a` is odd," or ":math:`a^2` is even or :math:`a^2` is odd." In terms of symbolic logic, this amounts to the following inference: from :math:`\forall x \; (\mathit{even}(x) \vee \mathit{odd}(x))`, we can conclude :math:`\mathit{even}(t) \vee \mathit{odd}(t)` for any term :math:`t`. This motivates the elimination rule for the universal quantifier:
 
@@ -169,7 +169,7 @@ What about the elimination rule? Suppose we know that every number is even or od
 
 where :math:`t` is an arbitrary term, subject to the restriction described at the end of the next section.
 
-In a sense, this feels like the elimination rule for implication; we might read the hypothesis as saying "if :math:`x` is any thing, then :math:`x` is even or odd." The conclusion is obtained by applying it to the fact that :math:`n` is a thing. Note that, in general, we could replace :math:`n` by any *term* in the language, like :math:`n (m + 5) +2`. Similarly, the introduction rule feels like the introduction rule for implication. If we want to show that everything has a certain property, we temporarily let :math:`x` denote an arbitrary thing, and then show that it has the relevant property.
+In a sense, this feels like the elimination rule for implication; we might read the hypothesis as saying "if :math:`x` is any thing, then :math:`x` is even or odd." The conclusion is obtained by applying it to the fact that :math:`n` is a thing. Note that, in general, we could replace :math:`n` by any *term* in the language, like :math:`k (m + 5) +2`. Similarly, the introduction rule feels like the introduction rule for implication. If we want to show that everything has a certain property, we temporarily let :math:`x` denote an arbitrary thing, and then show that it has the relevant property.
 
 The Existential Quantifier
 --------------------------
@@ -255,7 +255,11 @@ In natural deduction, the elimination rule is expressed as follows:
    \BIM{B}
    \end{prooftree}
 
-Here we require that :math:`y` is not free in :math:`B`, and that the only uncanceled hypotheses where :math:`y` occurs freely are the hypotheses :math:`A(y)` that are canceled when you apply this rule. Formally, this is what it means to say that :math:`y` is "arbitrary." As was the case for or elimination and implication introduction, you can use the hypothesis :math:`A(y)` multiple times in the proof of :math:`B`, and cancel all of them at once. Intuitively, the rule says that you can prove :math:`B` from the assumption :math:`\exists x A(x)` by assuming :math:`A(y)` for a fresh variable :math:`y`, and concluding, in any number of steps, that :math:`B` follows. You should compare this rule to the rule for or elimination, which is somewhat analogous.
+Here we require that :math:`y` is not free in :math:`B`, and that the only uncanceled hypotheses where :math:`y` occurs freely are the hypotheses :math:`A(y)` that are canceled when you apply this rule. Formally, this is what it means to say that :math:`y` is "arbitrary." As was the case for or elimination and implication introduction, you can use the hypothesis :math:`A(y)` multiple times in the proof of :math:`B`, and cancel all of them at once. Intuitively, the rule says that you can prove :math:`B` from the assumption :math:`\exists x A(x)` by assuming :math:`A(y)` for a fresh variable :math:`y`, and concluding, in any number of steps, that :math:`B` follows. You should compare this rule to the rule for or elimination, which is somewhat analogous. Indeed, we can think of an existential formula :math:`\exists x A(x)` ranging over the natural numbers, as a disjunction of infinitely many possible cases, one for each natural number:
+
+.. math::
+
+    A(0) \vee A(1) \vee A(2) \vee A(3) \vee A(4) \vee A(5) \vee \ldots
 
 There is a restriction on the term :math:`t` that appears in the elimination rule for the universal quantifier and the introduction rule for the existential quantifier, namely, that no variable that appears in :math:`t` becomes bound when you plug it in for :math:`x`. To see what can go wrong if you violate this restriction, consider the sentence :math:`\forall x \; \exists y \; y > x`. If we interpret this as a statement about the natural numbers, it says that for every number :math:`x`, there is a bigger number :math:`y`. This is a true statement, and so it should hold whatever we substitute for :math:`x`. But what happens if we substitute :math:`y + 1`? We get the statement :math:`\exists y \; y > y + 1`, which is false. The problem is that before the substitution the variable :math:`y` in :math:`y + 1` refers to an arbitrary number, but after the substitution, it refers to the number that is asserted to exist by the existential quantifier, and that is not what we want.
 
@@ -305,7 +309,7 @@ Now, suppose we are studying geometry, and we want to express the fact that give
    \wedge q \neq p \wedge \mathit{on}(p,L) \wedge \mathit{on}(q,L) \wedge \mathit{on}(p,M) \wedge
    \mathit{on}(q,M) \to L = M).
 
-But dealing with such predicates is tedious, and there is a mild extension of first-order logic, called *many-sorted first-order logic*, which builds in some of the bookkeeping. In many-sorted logic, one can have different sorts of objects---such as points and lines---and a separate stock of variables and quantifiers ranging over each. Moreover, the specification of function symbols and predicate symbols indicates what sorts of arguments they expect, and, in the case of function symbols, what sort of argument they return. For example, we might choose to have a sort with variables :math:`p, q, r, \ldots` ranging over points, a sort with variables :math:`L, M, N, \ldots` ranging over lines, and a relation :math:`\mathit{on}(p, L)` relating the two. Then the assertion above is rendered more simply as follows:
+But dealing with such predicates is tedious, and there is a mild extension of first-order logic, called *many-sorted first-order logic*, which builds in some of the bookkeeping. In many-sorted logic, one can have different sorts of objects---such as points and lines---and a separate stock of variables and quantifiers ranging over each. Moreover, the specification of function symbols and predicate symbols indicates what sorts of arguments they expect, and, in the case of function symbols, what sort of object they return. For example, we might choose to have a sort with variables :math:`p, q, r, \ldots` ranging over points, a sort with variables :math:`L, M, N, \ldots` ranging over lines, and a relation :math:`\mathit{on}(p, L)` relating the two. Then the assertion above is rendered more simply as follows:
 
 .. math::
 
