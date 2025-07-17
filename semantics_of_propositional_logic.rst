@@ -114,6 +114,7 @@ Similarly, if :math:`A` is false, we can prove :math:`A \to B` without any assum
    \RLM{1}
    \UIM{A}
    \BIM{\bot}
+   \UIM{B}
    \RLM{1}
    \UIM{A \to B}
    \end{prooftree}
@@ -270,7 +271,7 @@ Soundness and Completeness
 
 Suppose we have a fixed deduction system in mind, such as natural deduction. A propositional formula is said to be *provable* if there is a formal proof of it in that system. A propositional formula is said to be a *tautology*, or *valid*, if it is true under any truth assignment. Provability is a syntactic notion, in that it asserts the existence of a syntactic object, namely, a proof. Validity is a semantic notion, in that it has to do with truth assignments and valuations. But, intuitively, these notions should coincide: both express the idea that a formula :math:`A` *has* to be true, or is *necessarily* true, and one would expect a good proof system to enable us to derive the valid formulas.
 
-The statement that every provable formula is valid is known as *soundness*. If :math:`A` is any formula, logicians use the notation :math:`\vdash A` to express the fact that :math:`A` is provable and the notation :math:`\vDash A` to express that :math:`A` is valid. (The first symbol is sometimes called a "turnstile" and the second symbol is sometimes called a "double-turnstile.") With this notation, soundness says that for every propositional formula :math:`A`, if :math:`\vdash A`, then :math:`\vDash A`. The converse, which says that every valid formula is provable, is known as *completeness*. In symbolic terms, it says that for every formula :math:`A`, if :math:`\vDash A`, then :math:`\vdash A`.
+The statement that every provable formula is valid is known as *soundness* (of the proof system, w.r.t. the valuation-based semantics). If :math:`A` is any formula, logicians use the notation :math:`\vdash A` to express the fact that :math:`A` is provable and the notation :math:`\vDash A` to express that :math:`A` is valid. (The first symbol is sometimes called a "turnstile" and the second symbol is sometimes called a "double-turnstile.") With this notation, soundness says that for every propositional formula :math:`A`, if :math:`\vdash A`, then :math:`\vDash A`. The converse, which says that every valid formula is provable, is known as *completeness* (again: of the proof system, w.r.t. the valuation-based semantics). In symbolic terms, it says that for every formula :math:`A`, if :math:`\vDash A`, then :math:`\vdash A`.
 
 Because of the way we have chosen our inference rules and defined the notion of a valuation, this intuition that the two notions should coincide holds true. In other words, the system of natural deduction we have presented for propositional logic is sound and complete with respect to truth-table semantics.
 
@@ -284,13 +285,13 @@ Proving soundness and completeness belongs to the realm of *metatheory*, since i
 
 Proving soundness is easier than proving completeness. We wish to show that whenever :math:`A` is provable from a set of hypotheses, :math:`\Gamma`, then :math:`A` is a logical consequence of :math:`\Gamma`. In a later chapter, we will consider proofs by induction, which allows us to establish a property holds of a general collection of objects by showing that it holds of some "simple" ones and is preserved under the passage to objects that are more complex. In the case of natural deduction, it is enough to show that soundness holds of the most basic proofs---using the assumption rule---and that it is preserved under each rule of inference. The base case is easy: the assumption rule says that :math:`A` is provable from hypothesis :math:`A`, and clearly every truth assignment that makes :math:`A` true makes :math:`A` true. The inductive steps are not much harder; they involve checking that the rules we have chosen mesh with the semantic notions. For example, suppose the last rule is the and-introduction rule. In that case, we have a proof of :math:`A` from some hypotheses :math:`\Gamma`, and a proof of :math:`B` from some hypotheses :math:`\Delta`, and we combine these to form a proof of :math:`A \wedge B` from the hypotheses in :math:`\Gamma \cup \Delta`, that is, the hypotheses in both. Inductively, we can assume that :math:`A` is a logical consequence of :math:`\Gamma` and that :math:`B` is a logical consequence of :math:`\Delta`. Let :math:`v` be any truth assignment that makes every formula in :math:`\Gamma \cup \Delta` true. Then by the inductive hypothesis, we have that it makes :math:`A` true, and :math:`B` true as well. By the definition of the valuation function, :math:`\bar v (A \wedge B) = \mathbf{T}`, as required.
 
-Proving completeness is harder. It suffices to show that if :math:`A` is any tautology, then :math:`A` is provable. One strategy is to show that natural deduction can simulate the method of truth tables. For example, suppose :math:`A` is build up from propositional variables :math:`B` and :math:`C`. Then in natural deduction, we should be able to prove
+Proving completeness is harder. It suffices to show that if :math:`A` is any tautology, then :math:`A` is provable. One strategy is to show that natural deduction can simulate the method of truth tables. For example, suppose :math:`A` is built up from propositional variables :math:`B` and :math:`C`. Then in natural deduction, we should be able to prove
 
 .. math::
 
    (B \wedge C) \vee (B \wedge \neg C) \vee (\neg B \wedge C) \vee (\neg B \wedge \neg C),
 
-with one disjunct for each line of the truth table. Then, we should be able to use each disjunct to "evaluate" each expression occurring in :math:`A`, proving it true or false in accordance with its valuation, until we have a proof of :math:`A` itself.
+with one disjunct for each line of the truth table. Then, we should be able to use each disjunct to "evaluate" each subformula of the formula :math:`A`, proving it true or false in accordance with its valuation, until we have a proof of :math:`A` itself.
 
 A nicer way to proceed is to express the rules of natural deduction in a way that allows us to work backward from :math:`A` in search of a proof. In other words, first, we give a procedure for constructing a derivation of :math:`A` by working backward from :math:`A`. Then we argue that if the procedure fails, then, at the point where it fails, we can find a truth assignment that makes :math:`A` false. As a result, if every truth assignment makes :math:`A` true, the procedure returns a proof of :math:`A`.
 
