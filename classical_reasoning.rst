@@ -3,11 +3,11 @@
 Classical Reasoning
 ===================
 
-If we take all the rules of propositional logic we have seen so far and exclude *reductio ad absurdum*, or proof by contradiction, we have what is known as *intuitionistic logic*. In intuitionistic logic, it is possible to view proofs in computational terms: a proof of :math:`A \wedge B` is a proof of :math:`A` paired with a proof of :math:`B`, a proof of :math:`A \to B` is a procedure which transforms evidence for :math:`A` into evidence for :math:`B`, and a proof of :math:`A \vee B` is a proof of one or the other, tagged so that we know which is the case. The *ex falso* rule makes sense only because we expect that there is no proof of falsity; it is like the empty data type.
+If we take all the rules of propositional logic we have seen so far and exclude *reductio ad absurdum*, or proof by contradiction, we have what is known as *intuitionistic logic* (sometimes also referred to by the more general term *constructive logic*). In intuitionistic logic, it is possible to view proofs in computational terms: a proof of :math:`A \wedge B` is a proof of :math:`A` paired with a proof of :math:`B`, a proof of :math:`A \to B` is a procedure which transforms evidence for :math:`A` into evidence for :math:`B`, and a proof of :math:`A \vee B` is a proof of one or the other, tagged so that we know which is the case. The *ex falso* rule makes sense only because we expect that there is no proof of falsity; it is like the empty data type.
 
-Proof by contradiction does not fit in well with this world view: from a proof of a contradiction from :math:`\neg A`, we are supposed to magically produce a proof of :math:`A`. We will see that with proof by contradiction, we can prove the following law, known as the *law of the excluded middle*: :math:`\forall A, A \vee \neg A`. From a computational perspective, this says that for every :math:`A` we can decide whether or not :math:`A` is true.
+Proof by contradiction does not fit in well with this world view: from a proof of a contradiction from :math:`\neg A`, we are supposed to magically produce a proof of :math:`A`. We will see that with proof by contradiction, we can prove the following law, known as the *law of the excluded middle*: :math:`\forall A, A \vee \neg A`. From a computational perspective, this says that for every proposition :math:`A` we can decide whether or not :math:`A` is true.
 
-Classical reasoning does introduce a number of principles into logic, however, that can be used to simplify reasoning. In this chapter, we will consider these principles, and see how they follow from the basic rules.
+Classical reasoning, where we do allow ourselves to use *reductio ad absurdum*, does introduce a number of principles into logic, however, that can be used to simplify reasoning. In this chapter, we will consider these principles, and see how they follow from the basic rules.
 
 Proof by Contradiction
 ----------------------
@@ -114,7 +114,7 @@ Here is the same proof rendered in Lean:
     end
 
 The principle is known as the law of the excluded middle because it says that a proposition ``A`` is either true or false;
-there is no middle ground. As a result,
+there is no middle ground. Abbreviating this name,
 the theorem is named ``em`` in the Lean library.
 For any proposition ``A``, ``em A`` denotes a proof of ``A ∨ ¬ A``,
 and you are free to use it any time ``Classical`` is open:
