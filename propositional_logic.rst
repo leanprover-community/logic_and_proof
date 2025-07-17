@@ -146,28 +146,7 @@ This is a form of *hypothetical reasoning*. On the supposition that :math:`A` ho
 
 The rule above is called the *introduction rule* for implication (labeled :math:`\mathord{\to}\mathrm{I}`), as it tells us how to introduce the knowledge that an implication holds. The implication's hypothesis is given the label :math:`1`; when the introduction rule is applied, the label :math:`1` indicates the relevant hypothesis. The line over the hypothesis indicates that the assumption has been "canceled" by the introduction rule.
 
-If we make the list of hypotheses explicit as we did in the last chapter, then we can render the above derivation as
-
-.. raw:: html
-
-   <img src="_static/propositional_logic.3b.png">
-
-.. raw:: latex
-
-   \begin{center}
-   \AXM{}
-   \RLM{\mathrm{Hyp}}
-   \UIM{A \vdash A}
-   \noLine
-   \UIM{\vdots}
-   \noLine
-   \UIM{\Gamma, A \vdash B}
-   \RLM{\mathord{\to}\mathrm{I}}
-   \UIM{\Gamma \vdash A \to B}
-   \DP
-   \end{center}
-   
-The introduction rule then states that if :math:`B` follows from the hypotheses :math:`\Gamma` as well as :math:`A`, then the implication :math:`A \to B` follows from the hypotheses :math:`\Gamma`. Since the hypothesis :math:`A` is now explicitly listed, we do not need to remind ourselves what belongs to what using numbered labels. Rather, at the point where we want to make use of the hypothesis :math:`A`, we invoke a rule labeled :math:`\mathrm{Hyp}` which states that :math:`A` holds under the hypothesis that :math:`A` holds.
+As a side note: If we make the list of hypotheses explicit as we did in the last chapter, then we can understand the implication introduction rule more precisely as deriving :math:`\Gamma \vdash A \to B` from :math:`\Gamma, A \vdash B`: in order to prove the implication :math:`A \to B` from the hypotheses in :math:`\Gamma`, we have to prove :math:`B` from the same hypotheses *and* the hypothesis that :math:`A` holds.
 
 Conjunction
 ~~~~~~~~~~~
