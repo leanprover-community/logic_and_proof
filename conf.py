@@ -99,8 +99,8 @@ html_theme_options = {
     'font_family': 'Times New Roman, Times, serif',
     'head_font_family': 'Times New Roman, Times, serif',
     'code_bg': 'white',
-    'extra_nav_links': {'PDF version':'logic_and_proof.pdf',
-                       'Lean Home':'https://leanprover.github.io/'},
+    # 'extra_nav_links': {'PDF version':'logic_and_proof.pdf',
+                       # 'Lean Home':'https://leanprover.github.io/'},
     # 'sidebar_width' : '200px',
     # 'page_width' : '960px',
     # 'fixed_sidebar' : True
