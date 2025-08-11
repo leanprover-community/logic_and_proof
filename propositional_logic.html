@@ -79,7 +79,7 @@
 <p>Alice was in the bar.</p>
 <p>Alice was with her brother or son.</p>
 <hr class="docutils" />
-<p>This rule is sometimes known as <em>modus ponens</em>, or &#8220;implication elimination,&#8221; since it tells us how to use an implication in an argument. As a rule, it is expressed as follows:</p>
+<p>This rule is sometimes known as <em>modus ponens</em>, or &#8220;implication elimination&#8221; (labeled as <span class="math notranslate nohighlight">\(\mathord{\to}\mathrm{E}\)</span>), since it tells us how to use an implication in an argument. Here, <em>eliminating</em> a piece of knowledge is somewhat dramatic terminology to say that we are <em>using</em> the knowledge. Implication elimination tells us how to draw a conclusion from the knowledge that an implication holds. As a rule, it is expressed as follows:</p>
 <img src="_static/propositional_logic.2.png"><p>Read this as saying that if you have a proof of <span class="math notranslate nohighlight">\(A \to B\)</span>, possibly from some hypotheses, and a proof of <span class="math notranslate nohighlight">\(A\)</span>, possibly from hypotheses, then combining these yields a proof of <span class="math notranslate nohighlight">\(B\)</span>, from the hypotheses in both subproofs.</p>
 <p>The rule for deriving an &#8220;if &#8230; then&#8221; statement is more subtle. Consider the beginning of the third paragraph, which argues that if Alice&#8217;s husband was in the bar, then Alice or her brother was the victim. Abstracting away some of the details, the argument has the following form:</p>
 <hr class="docutils" />
@@ -90,7 +90,8 @@
 <p>Thus, if Alice&#8217;s husband was in the bar, then Alice or her brother was the victim.</p>
 <hr class="docutils" />
 <p>This is a form of <em>hypothetical reasoning</em>. On the supposition that <span class="math notranslate nohighlight">\(A\)</span> holds, we argue that <span class="math notranslate nohighlight">\(B\)</span> holds as well. If we are successful, we have shown that <span class="math notranslate nohighlight">\(A\)</span> implies <span class="math notranslate nohighlight">\(B\)</span>, without supposing <span class="math notranslate nohighlight">\(A\)</span>. In other words, the temporary assumption that <span class="math notranslate nohighlight">\(A\)</span> holds is &#8220;canceled&#8221; by making it explicit in the conclusion.</p>
-<img src="_static/propositional_logic.3.png"><p>The hypothesis is given the label <span class="math notranslate nohighlight">\(1\)</span>; when the introduction rule is applied, the label <span class="math notranslate nohighlight">\(1\)</span> indicates the relevant hypothesis. The line over the hypothesis indicates that the assumption has been &#8220;canceled&#8221; by the introduction rule.</p>
+<img src="_static/propositional_logic.3.png"><p>The rule above is called the <em>introduction rule</em> for implication (labeled <span class="math notranslate nohighlight">\(\mathord{\to}\mathrm{I}\)</span>), as it tells us how to introduce the knowledge that an implication holds. The implication&#8217;s hypothesis is given the label <span class="math notranslate nohighlight">\(1\)</span>; when the introduction rule is applied, the label <span class="math notranslate nohighlight">\(1\)</span> indicates the relevant hypothesis. The line over the hypothesis indicates that the assumption has been &#8220;canceled&#8221; by the introduction rule.</p>
+<p>As a side note: If we make the list of hypotheses explicit as we did in the last chapter, then we can understand the implication introduction rule more precisely as deriving <span class="math notranslate nohighlight">\(\Gamma \vdash A \to B\)</span> from <span class="math notranslate nohighlight">\(\Gamma, A \vdash B\)</span>: in order to prove the implication <span class="math notranslate nohighlight">\(A \to B\)</span> from the hypotheses in <span class="math notranslate nohighlight">\(\Gamma\)</span>, we have to prove <span class="math notranslate nohighlight">\(B\)</span> from the same hypotheses <em>and</em> the hypothesis that <span class="math notranslate nohighlight">\(A\)</span> holds.</p>
 </div>
 <div class="section" id="conjunction">
 <h3><span class="section-number">2.3.2. </span>Conjunction<a class="headerlink" href="#conjunction" title="Permalink to this headline">&#182;</a></h3>
@@ -223,7 +224,7 @@ as in the following example:</p>
 <p>This situation is impossible.</p>
 <p>Therefore Alice&#8217;s husband was on the beach.</p>
 <hr class="docutils" />
-<p>At first glance, you might think this argument follows the same pattern as the one before. But a closer look should reveal a difference: in the first argument, a negation is <em>introduced</em> into the conclusion, whereas in the second, it is <em>eliminated</em> from the hypothesis. Using negation introduction to close the second argument would yield the conclusion &#8220;It is not the case that Alice&#8217;s husband was not on the beach.&#8221; The rule of inference that replaces the conclusion with the positive statement that Alice&#8217;s husband <em>was</em> on the beach is called a <em>proof by contradiction</em>. (It also has a fancy name, <em>reductio ad absurdum</em>, &#8220;reduction to an absurdity.&#8221;)</p>
+<p>At first glance, you might think this argument follows the same pattern as the one before. But a closer look should reveal a difference: in the first argument, a negation is <em>introduced</em> into the conclusion, whereas in the second, it is <em>eliminated</em> from the hypothesis. Using negation introduction to close the second argument would yield the conclusion &#8220;It is not the case that Alice&#8217;s husband was not on the beach.&#8221; The rule of inference that replaces the conclusion with the positive statement that Alice&#8217;s husband <em>was</em> on the beach is called a <em>proof by contradiction</em>. (It also has a fancy name, <em>reductio ad absurdum</em>, &#8220;reduction to an absurdity&#8221;, labeled <span class="math notranslate nohighlight">\(\mathrm{RAA}\)</span> below.)</p>
 <p>It may be hard to see the difference between the two rules, because we commonly take the statement &#8220;Alice&#8217;s husband was not not on the beach&#8221; to be a roundabout and borderline ungrammatical way of saying that Alice&#8217;s husband was on the beach. Indeed, the rule is equivalent to adding an axiom that says that for every statement A, &#8220;not not A&#8221; is equivalent to A.</p>
 <p>There is a style of doing mathematics known as &#8220;constructive mathematics&#8221; that denies the equivalence of &#8220;not not A&#8221; and A. Constructive arguments tend to have much better computational interpretations; a proof that something is true should provide explicit evidence that the statement is true, rather than evidence that it can&#8217;t possibly be false. We will discuss constructive reasoning in a later chapter. Nonetheless, proof by contradiction is used extensively in contemporary mathematics, and so, in the meanwhile, we will use proof by contradiction freely as one of our basic rules.</p>
 <p>In natural deduction, proof by contradiction is expressed by the following pattern:</p>
@@ -260,7 +261,7 @@ as in the following example:</p>
 <li><p><span class="math notranslate nohighlight">\(B\)</span>: Alice&#8217;s son was on the beach</p></li>
 <li><p><span class="math notranslate nohighlight">\(C\)</span>: Alice&#8217;s husband was alone</p></li>
 </ul>
-<p>In that case, we might represent the statement in symbols as <span class="math notranslate nohighlight">\(A \wedge B \wedge C\)</span>. Using the word &#8220;with&#8221; may seem to connote more than the fact that Alice and her son were both on the beach; for example, it seems to connote that they aware of each others&#8217; presence, interacting, etc. Similarly, although we have translated the word &#8220;but&#8221; and &#8220;and,&#8221; the word &#8220;but&#8221; also convey information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.</p>
+<p>In that case, we might represent the statement in symbols as <span class="math notranslate nohighlight">\(A \wedge B \wedge C\)</span>. Using the word &#8220;with&#8221; may seem to connote more than the fact that Alice and her son were both on the beach; for example, it seems to connote that they were aware of each others&#8217; presence, interacting, etc. Similarly, although we have translated the word &#8220;but&#8221; as &#8220;and,&#8221; the word &#8220;but&#8221; also conveys information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.</p>
 </div>
 <div class="section" id="exercises">
 <h2><span class="section-number">2.5. </span>Exercises<a class="headerlink" href="#exercises" title="Permalink to this headline">&#182;</a></h2>
@@ -354,9 +355,9 @@ as in the following example:</p>
 <hr />
 <ul>
     
-    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
-    
     <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
     
 </ul>
 

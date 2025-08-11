@@ -34,9 +34,9 @@
             
   <div class="section" id="classical-reasoning">
 <span id="id1"></span><h1><span class="section-number">5. </span>Classical Reasoning<a class="headerlink" href="#classical-reasoning" title="Permalink to this headline">&#182;</a></h1>
-<p>If we take all the rules of propositional logic we have seen so far and exclude <em>reductio ad absurdum</em>, or proof by contradiction, we have what is known as <em>intuitionistic logic</em>. In intuitionistic logic, it is possible to view proofs in computational terms: a proof of <span class="math notranslate nohighlight">\(A \wedge B\)</span> is a proof of <span class="math notranslate nohighlight">\(A\)</span> paired with a proof of <span class="math notranslate nohighlight">\(B\)</span>, a proof of <span class="math notranslate nohighlight">\(A \to B\)</span> is a procedure which transforms evidence for <span class="math notranslate nohighlight">\(A\)</span> into evidence for <span class="math notranslate nohighlight">\(B\)</span>, and a proof of <span class="math notranslate nohighlight">\(A \vee B\)</span> is a proof of one or the other, tagged so that we know which is the case. The <em>ex falso</em> rule makes sense only because we expect that there is no proof of falsity; it is like the empty data type.</p>
-<p>Proof by contradiction does not fit in well with this world view: from a proof of a contradiction from <span class="math notranslate nohighlight">\(\neg A\)</span>, we are supposed to magically produce a proof of <span class="math notranslate nohighlight">\(A\)</span>. We will see that with proof by contradiction, we can prove the following law, known as the <em>law of the excluded middle</em>: <span class="math notranslate nohighlight">\(\forall A, A \vee \neg A\)</span>. From a computational perspective, this says that for every <span class="math notranslate nohighlight">\(A\)</span> we can decide whether or not <span class="math notranslate nohighlight">\(A\)</span> is true.</p>
-<p>Classical reasoning does introduce a number of principles into logic, however, that can be used to simplify reasoning. In this chapter, we will consider these principles, and see how they follow from the basic rules.</p>
+<p>If we take all the rules of propositional logic we have seen so far and exclude <em>reductio ad absurdum</em>, or proof by contradiction, we have what is known as <em>intuitionistic logic</em> (sometimes also referred to by the more general term <em>constructive logic</em>). In intuitionistic logic, it is possible to view proofs in computational terms: a proof of <span class="math notranslate nohighlight">\(A \wedge B\)</span> is a proof of <span class="math notranslate nohighlight">\(A\)</span> paired with a proof of <span class="math notranslate nohighlight">\(B\)</span>, a proof of <span class="math notranslate nohighlight">\(A \to B\)</span> is a procedure which transforms evidence for <span class="math notranslate nohighlight">\(A\)</span> into evidence for <span class="math notranslate nohighlight">\(B\)</span>, and a proof of <span class="math notranslate nohighlight">\(A \vee B\)</span> is a proof of one or the other, tagged so that we know which is the case. The <em>ex falso</em> rule makes sense only because we expect that there is no proof of falsity; it is like the empty data type.</p>
+<p>Proof by contradiction does not fit in well with this world view: from a proof of a contradiction from <span class="math notranslate nohighlight">\(\neg A\)</span>, we are supposed to magically produce a proof of <span class="math notranslate nohighlight">\(A\)</span>. We will see that with proof by contradiction, we can prove the following law, known as the <em>law of the excluded middle</em>: <span class="math notranslate nohighlight">\(\forall A, A \vee \neg A\)</span>. From a computational perspective, this says that for every proposition <span class="math notranslate nohighlight">\(A\)</span> we can decide whether or not <span class="math notranslate nohighlight">\(A\)</span> is true.</p>
+<p>Classical reasoning, where we do allow ourselves to use <em>reductio ad absurdum</em>, does introduce a number of principles into logic, however, that can be used to simplify reasoning. In this chapter, we will consider these principles, and see how they follow from the basic rules.</p>
 <div class="section" id="proof-by-contradiction">
 <h2><span class="section-number">5.1. </span>Proof by Contradiction<a class="headerlink" href="#proof-by-contradiction" title="Permalink to this headline">&#182;</a></h2>
 <p>Remember that in natural deduction, proof by contradiction is expressed by the following pattern:</p>
@@ -92,7 +92,7 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 </pre></div>
 </div>
 </div><p>The principle is known as the law of the excluded middle because it says that a proposition <code class="docutils literal notranslate"><span class="pre">A</span></code> is either true or false;
-there is no middle ground. As a result,
+there is no middle ground. Abbreviating this name,
 the theorem is named <code class="docutils literal notranslate"><span class="pre">em</span></code> in the Lean library.
 For any proposition <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">em</span> <span class="pre">A</span></code> denotes a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8744;</span> <span class="pre">&#172;</span> <span class="pre">A</span></code>,
 and you are free to use it any time <code class="docutils literal notranslate"><span class="pre">Classical</span></code> is open:</p>
@@ -419,9 +419,9 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 <hr />
 <ul>
     
-    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
-    
     <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
     
 </ul>
 

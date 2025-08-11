@@ -342,7 +342,7 @@ The second shows that :math:`B` follows from :math:`A` and :math:`\neg A \vee B`
    \DP
    \end{center}
 
-In some proof systems, these rules are taken to be part of the system. But we do not need to that with our system: these two examples show that the rules can be *derived* from our other rules.
+In some proof systems, these rules are taken to be part of the system. But we do not need to do that with our system: these two examples show that the rules can be *derived* from our other rules.
 
 .. _forward_and_backward_reasoning:
 
@@ -429,13 +429,13 @@ Therefore we have shown that if Susan is tall and John is happy, then John is ha
 
 However, when we *read* natural deduction proofs, we often read them backward. First, we look at the bottom to see what is being proved. Then we consider the rule that is used to prove it, and see what premises the rule demands. Then we look to see how those claims are proved, and so on. Similarly, when we *construct* a natural deduction proof, we typically work backward as well: we start with the claim we are trying to prove, put that at the bottom, and look for rules to apply.
 
-At times that process breaks down. Suppose we are left with a goal that is a single propositional variable, :math:`A`. There are no introduction rules that can be applied, so, unless :math:`A` is a hypothesis, it has to come from an elimination rule. But that underspecifies the problem: perhaps the :math:`A` comes from applying the and-elimination rule to :math:`A \wedge B`, or from applying the or-elimination rule to :math:`C` and :math:`C \to A`. At that point, we look to the hypotheses, and start working forward. If, for example, our hypotheses are :math:`C` and :math:`C \to A \wedge B`, we would then work forward to obtain :math:`A \wedge B` and :math:`A`.
+At times that process breaks down. Suppose we are left with a goal that is a single propositional variable, :math:`A`. There are no introduction rules that can be applied, so, unless :math:`A` is a hypothesis, it has to come from an elimination rule. But that underspecifies the problem: perhaps the :math:`A` comes from applying the and-elimination rule to :math:`A \wedge B`, or from applying the implication-elimination rule to :math:`C` and :math:`C \to A`. At that point, we look to the hypotheses, and start working forward. If, for example, our hypotheses are :math:`C` and :math:`C \to A \wedge B`, we would then work forward to obtain :math:`A \wedge B` and :math:`A`.
 
 There is thus a general heuristic for proving theorems in natural deduction:
 
 #. Start by working backward from the conclusion, using the introduction rules. For example, if you are trying to prove a statement of the form :math:`A \to B`, add :math:`A` to your list of hypotheses and try to derive :math:`B`. If you are trying to prove a statement of the form :math:`A \wedge B`, use the and-introduction rule to reduce your task to proving :math:`A`, and then proving :math:`B`.
 
-#. When you have run out things to do in the first step, use elimination rules to work forward. If you have hypotheses :math:`A \to B` and :math:`A`, apply modus ponens to derive :math:`B`. If you have a hypothesis :math:`A \vee B`, use or-elimination to split on cases, considering :math:`A` in one case and :math:`B` in the other.
+#. When you have run out of things to do in the first step, use elimination rules to work forward. If you have hypotheses :math:`A \to B` and :math:`A`, apply modus ponens to derive :math:`B`. If you have a hypothesis :math:`A \vee B`, use or-elimination to split on cases, considering :math:`A` in one case and :math:`B` in the other.
 
 In :numref:`Chapter %s <classical_reasoning>` we will add one more element to this list: if all else fails, try a proof by contradiction.
 
@@ -577,7 +577,7 @@ For reference, the following list contains some commonly used propositional equi
 #. :math:`(A \to C \vee D) \to ((A \to C) \vee (A \to D))`
 #. :math:`(((A \to B) \to A) \to A)`
 
-All of these can be derived in natural deduction using the fundamental rules listed in :numref:`derivations_in_natural_deduction`. But some of them require the use of the *reductio ad absurdum* rule, or proof by contradiction, which we have not yet discussed in detail. We will discuss the use of this rule, and other patterns of classical logic, in the :numref:`Chapter %s <classical_reasoning>`.
+All of these can be derived in natural deduction using the fundamental rules listed in :numref:`derivations_in_natural_deduction`. But some of them require the use of the *reductio ad absurdum* rule, or proof by contradiction, which we have not yet discussed in detail. We will discuss the use of this rule, and other patterns of classical logic, in :numref:`Chapter %s <classical_reasoning>`.
 
 Exercises
 ---------

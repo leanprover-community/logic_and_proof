@@ -47,7 +47,7 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 </pre></div>
 </div>
 </div><p>In the online version of this text, you can press the &#8220;try it!&#8221; button to copy the example to an editor window, and then hover over the markers on the text to read the messages.</p>
-<p>In the example, we declare three variables ranging over propositions, and ask Lean to check the expression <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span> <span class="pre">&#8594;</span> <span class="pre">C</span></code>. The output of the <code class="docutils literal notranslate"><span class="pre">#check</span></code> command is <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span> <span class="pre">&#8594;</span> <span class="pre">C</span> <span class="pre">:</span> <span class="pre">Prop</span></code>, which asserts that <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span> <span class="pre">&#8594;</span> <span class="pre">C</span></code> is of type <code class="docutils literal notranslate"><span class="pre">Prop</span></code>. In Lean, every well-formed expression has a type.</p>
+<p>In the example, we declare three variables ranging over propositions, and ask Lean to check the expression <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span> <span class="pre">&#8594;</span> <span class="pre">C</span></code>. The output of the <code class="docutils literal notranslate"><span class="pre">#check</span></code> command is <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span> <span class="pre">&#8594;</span> <span class="pre">C</span> <span class="pre">:</span> <span class="pre">Prop</span></code>, which asserts that <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span> <span class="pre">&#8594;</span> <span class="pre">C</span></code> is of type <code class="docutils literal notranslate"><span class="pre">Prop</span></code>, i.e. that it is a well formed proposition. In Lean, every well-formed expression has a type.</p>
 <p>The logical connectives are rendered in unicode. The following chart shows you how you can type these symbols in the editor, and also provides ascii equivalents, for the purists among you.</p>
 <table class="docutils align-default">
 <colgroup>
@@ -107,7 +107,7 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 </tbody>
 </table>
 <p>So far, we have only talked about the first seven items on the list. We will discuss the quantifiers, lambda, and equality later. Try typing some expressions and checking them on your own. You should try changing one of the variables in the example above to <code class="docutils literal notranslate"><span class="pre">D</span></code>, or inserting a nonsense symbol into the expression, and take a look at the error message that Lean returns.</p>
-<p>In addition to declaring variables, if <code class="docutils literal notranslate"><span class="pre">P</span></code> is any expression of type <code class="docutils literal notranslate"><span class="pre">Prop</span></code>, we can declare the hypothesis that <code class="docutils literal notranslate"><span class="pre">P</span></code> is true:</p>
+<p>In addition to declaring variables, if <code class="docutils literal notranslate"><span class="pre">P</span></code> is any expression of type <code class="docutils literal notranslate"><span class="pre">Prop</span></code> such as <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">&#172;</span> <span class="pre">B</span></code>, we can declare the hypothesis that <code class="docutils literal notranslate"><span class="pre">P</span></code> is true:</p>
 <div style="position: relative">
 <div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(A%20B%20%3A%20Prop)%0A--%20BEGIN%0Avariable%20(h%20%3A%20A%20%E2%88%A7%20%C2%AC%20B)%0A%0A%23check%20h%0A--%20END%0Aend" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="bp">&#172;</span> <span class="n">B</span><span class="o">)</span>
@@ -115,7 +115,8 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 <span class="k">#check</span> <span class="n">h</span>
 </pre></div>
 </div>
-</div><p>Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Building proofs is then a matter of writing down expressions of the correct type. For example, if <code class="docutils literal notranslate"><span class="pre">h</span></code> is any expression of type <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">B</span></code>, then <code class="docutils literal notranslate"><span class="pre">And.left</span> <span class="pre">h</span></code> is an expression of type <code class="docutils literal notranslate"><span class="pre">A</span></code>, and <code class="docutils literal notranslate"><span class="pre">And.right</span> <span class="pre">h</span></code> is an expression of type <code class="docutils literal notranslate"><span class="pre">B</span></code>. In other words, if <code class="docutils literal notranslate"><span class="pre">h</span></code> is a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">B</span></code>, and <code class="docutils literal notranslate"><span class="pre">And.left</span> <span class="pre">h</span></code> is a name for the proof you get by applying the left elimination rule for and:</p>
+</div><p>Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Just as a proposition variable <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">:</span> <span class="pre">Prop</span></code> can take the place of an actual proposition, and just as a boolean variable in a programming language can take the place of an actual boolean, a hypothesis in Lean is represented as a proof variable, which can be used whenever we require a proof of the assumed proposition.</p>
+<p>Building proofs is then a matter of writing down expressions of the correct type. For example, if <code class="docutils literal notranslate"><span class="pre">h</span></code> is any expression of type <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">B</span></code>, then <code class="docutils literal notranslate"><span class="pre">And.left</span> <span class="pre">h</span></code> is an expression of type <code class="docutils literal notranslate"><span class="pre">A</span></code>, and <code class="docutils literal notranslate"><span class="pre">And.right</span> <span class="pre">h</span></code> is an expression of type <code class="docutils literal notranslate"><span class="pre">B</span></code>. In other words, if <code class="docutils literal notranslate"><span class="pre">h</span></code> is a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">B</span></code>, then <code class="docutils literal notranslate"><span class="pre">And.left</span> <span class="pre">h</span></code> is a name for the proof you get by applying the left elimination rule for and:</p>
 <img src="_static/propositional_logic_in_lean.1.png"><p>Similarly, <code class="docutils literal notranslate"><span class="pre">And.right</span> <span class="pre">h</span></code> is the proof of <code class="docutils literal notranslate"><span class="pre">B</span></code> you get by applying the right elimination rule. So, continuing the example above, we can write</p>
 <div style="position: relative">
 <div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(A%20B%20%3A%20Prop)%0A--%20BEGIN%0Avariable%20(h%20%3A%20A%20%E2%88%A7%20%C2%AC%20B)%0A%0A%23check%20And.left%20h%0A%23check%20And.right%20h%0A--%20END%0Aend" target="_blank">
@@ -188,7 +189,7 @@ The expression <code class="docutils literal notranslate"><span class="pre">fun<
 makes the premise <code class="docutils literal notranslate"><span class="pre">h</span></code> local to the expression in parentheses,
 and we can refer to <code class="docutils literal notranslate"><span class="pre">h</span></code> later within the parentheses.
 Given the assumption <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">:</span> <span class="pre">A</span></code>,
-<code class="docutils literal notranslate"><span class="pre">And.intro</span> <span class="pre">h</span> <span class="pre">h</span></code> is a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">A</span></code>,
+the expression <code class="docutils literal notranslate"><span class="pre">And.intro</span> <span class="pre">h</span> <span class="pre">h</span></code> is a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">A</span></code>,
 and so the expression <code class="docutils literal notranslate"><span class="pre">fun</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">A</span> <span class="pre">&#8614;</span> <span class="pre">And.intro</span> <span class="pre">h</span> <span class="pre">h</span></code>
 is a proof of <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">&#8594;</span> <span class="pre">A</span> <span class="pre">&#8743;</span> <span class="pre">A</span></code>.
 In this case,
@@ -341,19 +342,19 @@ and the variables and hypotheses that are available to you at that stage.</p>
 <h3><span class="section-number">4.3.1. </span>Implication<a class="headerlink" href="#implication" title="Permalink to this headline">&#182;</a></h3>
 <p>We have already explained that implication introduction is implemented with <code class="docutils literal notranslate"><span class="pre">fun</span></code>, and implication elimination is written as application.</p>
 <div style="position: relative">
-<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(A%20B%20%3A%20Prop)%0A%0Aexample%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0Afun%20h%20%3A%20A%20%E2%86%A6%0Ashow%20B%20from%20sorry%0A%0Asection%0Avariable%20(h1%20%3A%20A%20%E2%86%92%20B)%20(h2%20%3A%20A)%0A%0Aexample%20%3A%20B%20%3A%3D%20h1%20h2%0Aend%0Aend" target="_blank">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0A%20%20variable%20(A%20B%20%3A%20Prop)%0A%0A%20%20example%20%3A%20A%20%E2%86%92%20B%20%3A%3D%0A%20%20fun%20h%20%3A%20A%20%E2%86%A6%0A%20%20show%20B%20from%20sorry%0A%0A%20%20section%0A%20%20%20%20variable%20(h1%20%3A%20A%20%E2%86%92%20B)%20(h2%20%3A%20A)%0A%0A%20%20%20%20example%20%3A%20B%20%3A%3D%20h1%20h2%0A%20%20end%0Aend" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">A</span> <span class="n">B</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
-<span class="k">fun</span> <span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8614;</span>
-<span class="k">show</span> <span class="n">B</span> <span class="k">from</span> <span class="gr">sorry</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span> <span class="o">:=</span>
+  <span class="k">fun</span> <span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8614;</span>
+  <span class="k">show</span> <span class="n">B</span> <span class="k">from</span> <span class="gr">sorry</span>
 
-<span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
+  <span class="kn">section</span>
+    <span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">h1</span> <span class="n">h2</span>
-<span class="kd">end</span>
+    <span class="kd">example</span> <span class="o">:</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">h1</span> <span class="n">h2</span>
+  <span class="kd">end</span>
 <span class="kd">end</span>
 </pre></div>
 </div>
@@ -364,18 +365,18 @@ two new variables.</p>
 <h3><span class="section-number">4.3.2. </span>Conjunction<a class="headerlink" href="#conjunction" title="Permalink to this headline">&#182;</a></h3>
 <p>We have already seen that and-introduction is implemented with <code class="docutils literal notranslate"><span class="pre">And.intro</span></code>, and the elimination rules are <code class="docutils literal notranslate"><span class="pre">And.left</span></code> and <code class="docutils literal notranslate"><span class="pre">And.right</span></code>.</p>
 <div style="position: relative">
-<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(h1%20%3A%20A)%20(h2%20%3A%20B)%0A%0Aexample%20%3A%20A%20%E2%88%A7%20B%20%3A%3D%20And.intro%20h1%20h2%0Aend%0A%0Asection%0Avariable%20(h%20%3A%20A%20%E2%88%A7%20B)%0A%0Aexample%20%3A%20A%20%3A%3D%20And.left%20h%0Aexample%20%3A%20B%20%3A%3D%20And.right%20h%0Aend" target="_blank">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0A%20%20variable%20(h1%20%3A%20A)%20(h2%20%3A%20B)%0A%0A%20%20example%20%3A%20A%20%E2%88%A7%20B%20%3A%3D%20And.intro%20h1%20h2%0Aend%0A%0Asection%0A%20%20variable%20(h%20%3A%20A%20%E2%88%A7%20B)%0A%0A%20%20example%20%3A%20A%20%3A%3D%20And.left%20h%0A%20%20example%20%3A%20B%20%3A%3D%20And.right%20h%0Aend" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">B</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">B</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">And.intro</span> <span class="n">h1</span> <span class="n">h2</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">And.intro</span> <span class="n">h1</span> <span class="n">h2</span>
 <span class="kd">end</span>
 
 <span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="o">:=</span> <span class="n">And.left</span> <span class="n">h</span>
-<span class="kd">example</span> <span class="o">:</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">And.right</span> <span class="n">h</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="o">:=</span> <span class="n">And.left</span> <span class="n">h</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">And.right</span> <span class="n">h</span>
 <span class="kd">end</span>
 </pre></div>
 </div>
@@ -384,17 +385,17 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 <h3><span class="section-number">4.3.3. </span>Disjunction<a class="headerlink" href="#disjunction" title="Permalink to this headline">&#182;</a></h3>
 <p>The or-introduction rules are given by <code class="docutils literal notranslate"><span class="pre">Or.inl</span></code> and <code class="docutils literal notranslate"><span class="pre">Or.inr</span></code>.</p>
 <div style="position: relative">
-<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(h%20%3A%20A)%0A%0Aexample%20%3A%20A%20%E2%88%A8%20B%20%3A%3D%20Or.inl%20h%0Aend%0A%0Asection%0Avariable%20(h%20%3A%20B)%0A%0Aexample%20%3A%20A%20%E2%88%A8%20B%20%3A%3D%20Or.inr%20h%0Aend" target="_blank">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0A%20%20variable%20(h%20%3A%20A)%0A%0A%20%20example%20%3A%20A%20%E2%88%A8%20B%20%3A%3D%20Or.inl%20h%0Aend%0A%0Asection%0A%20%20variable%20(h%20%3A%20B)%0A%0A%20%20example%20%3A%20A%20%E2%88%A8%20B%20%3A%3D%20Or.inr%20h%0Aend" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">Or.inl</span> <span class="n">h</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">Or.inl</span> <span class="n">h</span>
 <span class="kd">end</span>
 
 <span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">B</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h</span> <span class="o">:</span> <span class="n">B</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">Or.inr</span> <span class="n">h</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8744;</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">Or.inr</span> <span class="n">h</span>
 <span class="kd">end</span>
 </pre></div>
 </div>
@@ -465,19 +466,19 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 <p>The elimination rules are <code class="docutils literal notranslate"><span class="pre">Iff.mp</span></code> and <code class="docutils literal notranslate"><span class="pre">Iff.mpr</span></code> for &#8220;modus ponens&#8221;
 and &#8220;modus ponens (reverse)&#8221;:</p>
 <div style="position: relative">
-<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(h1%20%3A%20A%20%E2%86%94%20B)%0Avariable%20(h2%20%3A%20A)%0A%0Aexample%20%3A%20B%20%3A%3D%20Iff.mp%20h1%20h2%0Aend%0A%0Asection%0Avariable%20(h1%20%3A%20A%20%E2%86%94%20B)%0Avariable%20(h2%20%3A%20B)%0A%0Aexample%20%3A%20A%20%3A%3D%20Iff.mpr%20h1%20h2%0Aend" target="_blank">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0A%20%20variable%20(h1%20%3A%20A%20%E2%86%94%20B)%0A%20%20variable%20(h2%20%3A%20A)%0A%0A%20%20example%20%3A%20B%20%3A%3D%20Iff.mp%20h1%20h2%0Aend%0A%0Asection%0A%20%20variable%20(h1%20%3A%20A%20%E2%86%94%20B)%0A%20%20variable%20(h2%20%3A%20B)%0A%0A%20%20example%20%3A%20A%20%3A%3D%20Iff.mpr%20h1%20h2%0Aend" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8596;</span> <span class="n">B</span><span class="o">)</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8596;</span> <span class="n">B</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">A</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">Iff.mp</span> <span class="n">h1</span> <span class="n">h2</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">B</span> <span class="o">:=</span> <span class="n">Iff.mp</span> <span class="n">h1</span> <span class="n">h2</span>
 <span class="kd">end</span>
 
 <span class="kn">section</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8596;</span> <span class="n">B</span><span class="o">)</span>
-<span class="kd">variable</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">B</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8596;</span> <span class="n">B</span><span class="o">)</span>
+  <span class="kd">variable</span> <span class="o">(</span><span class="n">h2</span> <span class="o">:</span> <span class="n">B</span><span class="o">)</span>
 
-<span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="o">:=</span> <span class="n">Iff.mpr</span> <span class="n">h1</span> <span class="n">h2</span>
+  <span class="kd">example</span> <span class="o">:</span> <span class="n">A</span> <span class="o">:=</span> <span class="n">Iff.mpr</span> <span class="n">h1</span> <span class="n">h2</span>
 <span class="kd">end</span>
 </pre></div>
 </div>
@@ -535,15 +536,14 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 <p>Finally, we constructed the following proof of <span class="math notranslate nohighlight">\(A \wedge (B \vee C) \to (A \wedge B) \vee (A \wedge C)\)</span>:</p>
 <img src="_static/propositional_logic_in_lean.5.png"><p>Here is a version in Lean:</p>
 <div style="position: relative">
-<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=example%20(A%20B%20C%20%3A%20Prop)%20%3A%20A%20%E2%88%A7%20(B%20%E2%88%A8%20C)%20%E2%86%92%20(A%20%E2%88%A7%20B)%20%E2%88%A8%20(A%20%E2%88%A7%20C)%20%3A%3D%0Afun%20h1%20%3A%20A%20%E2%88%A7%20(B%20%E2%88%A8%20C)%20%E2%86%A6%0AOr.elim%20(And.right%20h1)%0A%20%20(fun%20h2%20%3A%20B%20%E2%86%A6%0A%20%20%20%20show%20(A%20%E2%88%A7%20B)%20%E2%88%A8%20(A%20%E2%88%A7%20C)%20from%20Or.inl%20(And.intro%20(And.left%20h1)%20h2))%0A%20%20(fun%20h2%20%3A%20C%20%E2%86%A6%0A%20%20%20%20show%20(A%20%E2%88%A7%20B)%20%E2%88%A8%20(A%20%E2%88%A7%20C)%0A%20%20%20%20%20%20from%20Or.inr%20(And.intro%20(And.left%20h1)%20h2))" target="_blank">
+<div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=example%20(A%20B%20C%20%3A%20Prop)%20%3A%20A%20%E2%88%A7%20(B%20%E2%88%A8%20C)%20%E2%86%92%20(A%20%E2%88%A7%20B)%20%E2%88%A8%20(A%20%E2%88%A7%20C)%20%3A%3D%0Afun%20h1%20%3A%20A%20%E2%88%A7%20(B%20%E2%88%A8%20C)%20%E2%86%A6%0AOr.elim%20(And.right%20h1)%0A%20%20(fun%20h2%20%3A%20B%20%E2%86%A6%0A%20%20%20%20show%20(A%20%E2%88%A7%20B)%20%E2%88%A8%20(A%20%E2%88%A7%20C)%20from%20Or.inl%20(And.intro%20(And.left%20h1)%20h2))%0A%20%20(fun%20h2%20%3A%20C%20%E2%86%A6%0A%20%20%20%20show%20(A%20%E2%88%A7%20B)%20%E2%88%A8%20(A%20%E2%88%A7%20C)%20from%20Or.inr%20(And.intro%20(And.left%20h1)%20h2))" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kd">example</span> <span class="o">(</span><span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="o">:</span> <span class="kt">Prop</span><span class="o">)</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="o">(</span><span class="n">B</span> <span class="bp">&#8744;</span> <span class="n">C</span><span class="o">)</span> <span class="bp">&#8594;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">C</span><span class="o">)</span> <span class="o">:=</span>
 <span class="k">fun</span> <span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8743;</span> <span class="o">(</span><span class="n">B</span> <span class="bp">&#8744;</span> <span class="n">C</span><span class="o">)</span> <span class="bp">&#8614;</span>
 <span class="n">Or.elim</span> <span class="o">(</span><span class="n">And.right</span> <span class="n">h1</span><span class="o">)</span>
   <span class="o">(</span><span class="k">fun</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">B</span> <span class="bp">&#8614;</span>
     <span class="k">show</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">C</span><span class="o">)</span> <span class="k">from</span> <span class="n">Or.inl</span> <span class="o">(</span><span class="n">And.intro</span> <span class="o">(</span><span class="n">And.left</span> <span class="n">h1</span><span class="o">)</span> <span class="n">h2</span><span class="o">))</span>
   <span class="o">(</span><span class="k">fun</span> <span class="n">h2</span> <span class="o">:</span> <span class="n">C</span> <span class="bp">&#8614;</span>
-    <span class="k">show</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">C</span><span class="o">)</span>
-      <span class="k">from</span> <span class="n">Or.inr</span> <span class="o">(</span><span class="n">And.intro</span> <span class="o">(</span><span class="n">And.left</span> <span class="n">h1</span><span class="o">)</span> <span class="n">h2</span><span class="o">))</span>
+    <span class="k">show</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">B</span><span class="o">)</span> <span class="bp">&#8744;</span> <span class="o">(</span><span class="n">A</span> <span class="bp">&#8743;</span> <span class="n">C</span><span class="o">)</span> <span class="k">from</span> <span class="n">Or.inr</span> <span class="o">(</span><span class="n">And.intro</span> <span class="o">(</span><span class="n">And.left</span> <span class="n">h1</span><span class="o">)</span> <span class="n">h2</span><span class="o">))</span>
 </pre></div>
 </div>
 </div><p>In fact,
@@ -630,7 +630,7 @@ and for any <code class="docutils literal notranslate"><span class="pre">h</span
 We can see this as &#8220;since <code class="docutils literal notranslate"><span class="pre">A</span></code> implies <code class="docutils literal notranslate"><span class="pre">B</span></code>, in order to prove <code class="docutils literal notranslate"><span class="pre">B</span></code>
 it suffices to prove <code class="docutils literal notranslate"><span class="pre">A</span></code>&#8221;.
 Finally, when our goal is <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">h1</span> <span class="pre">:</span> <span class="pre">A</span></code> we can close the goal
-by writing <code class="docutils literal notranslate"><span class="pre">exact</span> <span class="pre">A</span></code>.</p>
+by writing <code class="docutils literal notranslate"><span class="pre">exact</span> <span class="pre">h1</span></code>.</p>
 <p>We will mix tactics and terms in order to suit our needs.
 We will slowly introduce more and more tactics throughout this textbook.</p>
 <p>Note that tactic mode proofs are sensitive to indentation and returns.
@@ -644,8 +644,8 @@ show the structure of proofs and make them easier to read.</p>
 <h2><span class="section-number">4.5. </span>Forward Reasoning<a class="headerlink" href="#forward-reasoning" title="Permalink to this headline">&#182;</a></h2>
 <p>Lean supports forward reasoning by allowing you to write
 proofs using <code class="docutils literal notranslate"><span class="pre">have</span></code>,
-which is both a term mode expression and a tactic.
-Notice that <code class="docutils literal notranslate"><span class="pre">show</span></code> is also a tactic.</p>
+which exists both as a term mode expression and as a tactic.
+Notice that <code class="docutils literal notranslate"><span class="pre">show</span></code> also exists as a tactic.</p>
 <div style="position: relative">
 <div style='position: absolute; right: 0; top: 0; padding: 1ex'><a href="https://live.lean-lang.org/#code=section%0Avariable%20(A%20B%20C%20%3A%20Prop)%0A%0A--%20BEGIN%0Avariable%20(h1%20%3A%20A%20%E2%86%92%20B)%0Avariable%20(h2%20%3A%20B%20%E2%86%92%20C)%0A%0A--%20term%20mode%0Aexample%20%3A%20A%20%E2%86%92%20C%20%3A%3D%0A%20%20fun%20h%20%3A%20A%20%E2%86%A6%0A%20%20have%20h3%20%3A%20B%20%3A%3D%20h1%20h%0A%20%20show%20C%20from%20h2%20h3%0A%0A--%20tactic%20mode%0Aexample%20%3A%20A%20%E2%86%92%20C%20%3A%3D%20by%0A%20%20intro%20(h%20%3A%20A)%0A%20%20have%20h3%20%3A%20B%20%3A%3D%20h1%20h%0A%20%20show%20C%0A%20%20exact%20h2%20h3%0A--%20END%0A%0Aend" target="_blank">
 try it!</a></div><div class="highlight-lean notranslate"><div class="highlight"><pre><span></span><span class="kd">variable</span> <span class="o">(</span><span class="n">h1</span> <span class="o">:</span> <span class="n">A</span> <span class="bp">&#8594;</span> <span class="n">B</span><span class="o">)</span>
@@ -665,16 +665,15 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
   <span class="n">exact</span> <span class="n">h2</span> <span class="n">h3</span>
 </pre></div>
 </div>
-</div><p>Writing a proof with
-<code class="docutils literal notranslate"><span class="pre">have</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">A</span> <span class="pre">:=</span> <span class="pre">_</span></code> then continuing the proof with
-<code class="docutils literal notranslate"><span class="pre">...</span> <span class="pre">h</span> <span class="pre">...</span></code> has the same effect as writing <code class="docutils literal notranslate"><span class="pre">...</span> <span class="pre">_</span> <span class="pre">...</span></code>.
-This <code class="docutils literal notranslate"><span class="pre">have</span></code> command checks that <code class="docutils literal notranslate"><span class="pre">_</span></code> is a proof of <code class="docutils literal notranslate"><span class="pre">A</span></code>,
-and then give you the label <code class="docutils literal notranslate"><span class="pre">h</span></code> to use in place of <code class="docutils literal notranslate"><span class="pre">_</span></code>.
+</div><p>The line <code class="docutils literal notranslate"><span class="pre">have</span> <span class="pre">h</span> <span class="pre">:</span> <span class="pre">A</span> <span class="pre">:=</span> <span class="pre">expr</span></code> assigns the name <code class="docutils literal notranslate"><span class="pre">h</span></code>
+to the (possibly long) proof expression <code class="docutils literal notranslate"><span class="pre">expr</span></code> of <code class="docutils literal notranslate"><span class="pre">A</span></code>.
+In the remainder of the proof, the full proof expression <code class="docutils literal notranslate"><span class="pre">expr</span></code> or its name <code class="docutils literal notranslate"><span class="pre">h</span></code>
+can be used interchangeably and have precisely the same meaning.
 Thus the last line of the previous proof can be thought of as
 abbreviating <code class="docutils literal notranslate"><span class="pre">exact</span> <span class="pre">h2</span> <span class="pre">(h1</span> <span class="pre">h)</span></code>,
 since <code class="docutils literal notranslate"><span class="pre">h3</span></code> abbreviates <code class="docutils literal notranslate"><span class="pre">h1</span> <span class="pre">h</span></code>.
 Such abbreviations can make a big difference,
-especially when the proof <code class="docutils literal notranslate"><span class="pre">_</span></code> is long and repeatedly used.</p>
+especially when the proof <code class="docutils literal notranslate"><span class="pre">expr</span></code> is long and repeatedly used.</p>
 <p>There are a number of advantages to using <code class="docutils literal notranslate"><span class="pre">have</span></code>.
 For one thing, it makes the proof more readable:
 the example above states <code class="docutils literal notranslate"><span class="pre">B</span></code> explicitly as an auxiliary goal.
@@ -686,7 +685,10 @@ stating <code class="docutils literal notranslate"><span class="pre">B</span></c
 informative error message when the goal is not properly met.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">have</span></code> and <code class="docutils literal notranslate"><span class="pre">exact</span></code> are mixing term mode and tactic mode,
 since the expression <code class="docutils literal notranslate"><span class="pre">h1</span> <span class="pre">h</span></code> is a term mode proof of <code class="docutils literal notranslate"><span class="pre">B</span></code>
-and <code class="docutils literal notranslate"><span class="pre">h2</span> <span class="pre">h3</span></code> is a term mode proof of <code class="docutils literal notranslate"><span class="pre">C</span></code>.</p>
+and <code class="docutils literal notranslate"><span class="pre">h2</span> <span class="pre">h3</span></code> is a term mode proof of <code class="docutils literal notranslate"><span class="pre">C</span></code>.
+For <code class="docutils literal notranslate"><span class="pre">exact</span></code>, this is the very purpose of the tactic.
+For <code class="docutils literal notranslate"><span class="pre">have</span></code>, we can switch back to tactic mode to prove the auxiliary goal
+by writing <code class="docutils literal notranslate"><span class="pre">have</span> <span class="pre">h3</span> <span class="pre">:</span> <span class="pre">B</span> <span class="pre">:=</span> <span class="pre">by</span> <span class="pre">...</span></code>.</p>
 <p>Previously we have considered the following statement,
 which we partially translate to tactic mode:</p>
 <div style="position: relative">
@@ -1090,9 +1092,9 @@ try it!</a></div><div class="highlight-lean notranslate"><div class="highlight">
 <hr />
 <ul>
     
-    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
-    
     <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
     
 </ul>
 

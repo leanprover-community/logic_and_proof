@@ -22,7 +22,7 @@ At its core, Lean is what is known as a *type checker*. This means that we can w
 
 In the online version of this text, you can press the "try it!" button to copy the example to an editor window, and then hover over the markers on the text to read the messages.
 
-In the example, we declare three variables ranging over propositions, and ask Lean to check the expression ``A ∧ ¬ B → C``. The output of the ``#check`` command is ``A ∧ ¬ B → C : Prop``, which asserts that ``A ∧ ¬ B → C`` is of type ``Prop``. In Lean, every well-formed expression has a type.
+In the example, we declare three variables ranging over propositions, and ask Lean to check the expression ``A ∧ ¬ B → C``. The output of the ``#check`` command is ``A ∧ ¬ B → C : Prop``, which asserts that ``A ∧ ¬ B → C`` is of type ``Prop``, i.e. that it is a well formed proposition. In Lean, every well-formed expression has a type.
 
 The logical connectives are rendered in unicode. The following chart shows you how you can type these symbols in the editor, and also provides ascii equivalents, for the purists among you.
 
@@ -54,7 +54,7 @@ The logical connectives are rendered in unicode. The following chart shows you h
 
 So far, we have only talked about the first seven items on the list. We will discuss the quantifiers, lambda, and equality later. Try typing some expressions and checking them on your own. You should try changing one of the variables in the example above to ``D``, or inserting a nonsense symbol into the expression, and take a look at the error message that Lean returns.
 
-In addition to declaring variables, if ``P`` is any expression of type ``Prop``, we can declare the hypothesis that ``P`` is true:
+In addition to declaring variables, if ``P`` is any expression of type ``Prop`` such as ``A ∧ ¬ B``, we can declare the hypothesis that ``P`` is true:
 
 .. code-block:: lean
 
@@ -67,7 +67,9 @@ In addition to declaring variables, if ``P`` is any expression of type ``Prop``,
     -- END
     end
 
-Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Building proofs is then a matter of writing down expressions of the correct type. For example, if ``h`` is any expression of type ``A ∧ B``, then ``And.left h`` is an expression of type ``A``, and ``And.right h`` is an expression of type ``B``. In other words, if ``h`` is a proof of ``A ∧ B``, and ``And.left h`` is a name for the proof you get by applying the left elimination rule for and:
+Formally, what is going on is that any proposition can be viewed as a type, namely, the type of proofs of that proposition. A hypothesis, or premise, is just a variable of that type. Just as a proposition variable ``A : Prop`` can take the place of an actual proposition, and just as a boolean variable in a programming language can take the place of an actual boolean, a hypothesis in Lean is represented as a proof variable, which can be used whenever we require a proof of the assumed proposition.
+
+Building proofs is then a matter of writing down expressions of the correct type. For example, if ``h`` is any expression of type ``A ∧ B``, then ``And.left h`` is an expression of type ``A``, and ``And.right h`` is an expression of type ``B``. In other words, if ``h`` is a proof of ``A ∧ B``, then ``And.left h`` is a name for the proof you get by applying the left elimination rule for and:
 
 .. raw:: html
 
@@ -235,7 +237,7 @@ The expression ``fun h : A ↦ hB``
 makes the premise ``h`` local to the expression in parentheses,
 and we can refer to ``h`` later within the parentheses.
 Given the assumption ``h : A``,
-``And.intro h h`` is a proof of ``A ∧ A``,
+the expression ``And.intro h h`` is a proof of ``A ∧ A``,
 and so the expression ``fun h : A ↦ And.intro h h``
 is a proof of ``A → A ∧ A``.
 In this case,
@@ -456,17 +458,17 @@ We have already explained that implication introduction is implemented with ``fu
 .. code-block:: lean
 
     section
-    variable (A B : Prop)
+      variable (A B : Prop)
 
-    example : A → B :=
-    fun h : A ↦
-    show B from sorry
+      example : A → B :=
+      fun h : A ↦
+      show B from sorry
 
-    section
-    variable (h1 : A → B) (h2 : A)
+      section
+        variable (h1 : A → B) (h2 : A)
 
-    example : B := h1 h2
-    end
+        example : B := h1 h2
+      end
     end
 
 Note that there is a section within a section to further limit the scope of
@@ -480,16 +482,16 @@ We have already seen that and-introduction is implemented with ``And.intro``, an
 .. code-block:: lean
 
     section
-    variable (h1 : A) (h2 : B)
+      variable (h1 : A) (h2 : B)
 
-    example : A ∧ B := And.intro h1 h2
+      example : A ∧ B := And.intro h1 h2
     end
 
     section
-    variable (h : A ∧ B)
+      variable (h : A ∧ B)
 
-    example : A := And.left h
-    example : B := And.right h
+      example : A := And.left h
+      example : B := And.right h
     end
 
 Disjunction
@@ -500,15 +502,15 @@ The or-introduction rules are given by ``Or.inl`` and ``Or.inr``.
 .. code-block:: lean
 
     section
-    variable (h : A)
+      variable (h : A)
 
-    example : A ∨ B := Or.inl h
+      example : A ∨ B := Or.inl h
     end
 
     section
-    variable (h : B)
+      variable (h : B)
 
-    example : A ∨ B := Or.inr h
+      example : A ∨ B := Or.inr h
     end
 
 The elimination rule is the tricky one. To prove ``C`` from ``A ∨ B``, you need three arguments: a proof ``h`` of ``A ∨ B``, a proof of ``C`` from ``A``, and a proof of ``C`` from ``B``. Using line breaks and indentation to highlight the structure as a proof by cases, we can write it with the following form:
@@ -596,17 +598,17 @@ and "modus ponens (reverse)":
 .. code-block:: lean
 
     section
-    variable (h1 : A ↔ B)
-    variable (h2 : A)
+      variable (h1 : A ↔ B)
+      variable (h2 : A)
 
-    example : B := Iff.mp h1 h2
+      example : B := Iff.mp h1 h2
     end
 
     section
-    variable (h1 : A ↔ B)
-    variable (h2 : B)
+      variable (h1 : A ↔ B)
+      variable (h2 : B)
 
-    example : A := Iff.mpr h1 h2
+      example : A := Iff.mpr h1 h2
     end
 
 Reductio ad absurdum (proof by contradiction)
@@ -767,8 +769,7 @@ Here is a version in Lean:
       (fun h2 : B ↦
         show (A ∧ B) ∨ (A ∧ C) from Or.inl (And.intro (And.left h1) h2))
       (fun h2 : C ↦
-        show (A ∧ B) ∨ (A ∧ C)
-          from Or.inr (And.intro (And.left h1) h2))
+        show (A ∧ B) ∨ (A ∧ C) from Or.inr (And.intro (And.left h1) h2))
 
 In fact,
 bearing in mind that ``fun`` is alternative syntax for the symbol ``λ``,
@@ -858,7 +859,7 @@ and for any ``h : A → B``,
 We can see this as "since ``A`` implies ``B``, in order to prove ``B``
 it suffices to prove ``A``".
 Finally, when our goal is ``A`` and ``h1 : A`` we can close the goal
-by writing ``exact A``.
+by writing ``exact h1``.
 
 We will mix tactics and terms in order to suit our needs.
 We will slowly introduce more and more tactics throughout this textbook.
@@ -876,8 +877,8 @@ Forward Reasoning
 
 Lean supports forward reasoning by allowing you to write
 proofs using ``have``,
-which is both a term mode expression and a tactic.
-Notice that ``show`` is also a tactic.
+which exists both as a term mode expression and as a tactic.
+Notice that ``show`` also exists as a tactic.
 
 .. code-block:: lean
 
@@ -904,16 +905,15 @@ Notice that ``show`` is also a tactic.
 
     end
 
-Writing a proof with
-``have h : A := _`` then continuing the proof with
-``... h ...`` has the same effect as writing ``... _ ...``.
-This ``have`` command checks that ``_`` is a proof of ``A``,
-and then give you the label ``h`` to use in place of ``_``.
+The line ``have h : A := expr`` assigns the name ``h``
+to the (possibly long) proof expression ``expr`` of ``A``.
+In the remainder of the proof, the full proof expression ``expr`` or its name ``h``
+can be used interchangeably and have precisely the same meaning.
 Thus the last line of the previous proof can be thought of as
 abbreviating ``exact h2 (h1 h)``,
 since ``h3`` abbreviates ``h1 h``.
 Such abbreviations can make a big difference,
-especially when the proof ``_`` is long and repeatedly used.
+especially when the proof ``expr`` is long and repeatedly used.
 
 There are a number of advantages to using ``have``.
 For one thing, it makes the proof more readable:
@@ -928,6 +928,9 @@ informative error message when the goal is not properly met.
 Note that ``have`` and ``exact`` are mixing term mode and tactic mode,
 since the expression ``h1 h`` is a term mode proof of ``B``
 and ``h2 h3`` is a term mode proof of ``C``.
+For ``exact``, this is the very purpose of the tactic.
+For ``have``, we can switch back to tactic mode to prove the auxiliary goal
+by writing ``have h3 : B := by ...``.
 
 Previously we have considered the following statement,
 which we partially translate to tactic mode:

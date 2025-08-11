@@ -89,7 +89,7 @@ Alice was with her brother or son.
 
 ----
 
-This rule is sometimes known as *modus ponens*, or "implication elimination," since it tells us how to use an implication in an argument. As a rule, it is expressed as follows:
+This rule is sometimes known as *modus ponens*, or "implication elimination" (labeled as :math:`\mathord{\to}\mathrm{E}`), since it tells us how to use an implication in an argument. Here, *eliminating* a piece of knowledge is somewhat dramatic terminology to say that we are *using* the knowledge. Implication elimination tells us how to draw a conclusion from the knowledge that an implication holds. As a rule, it is expressed as follows:
 
 .. raw:: html
 
@@ -144,7 +144,9 @@ This is a form of *hypothetical reasoning*. On the supposition that :math:`A` ho
    \DP
    \end{center}
 
-The hypothesis is given the label :math:`1`; when the introduction rule is applied, the label :math:`1` indicates the relevant hypothesis. The line over the hypothesis indicates that the assumption has been "canceled" by the introduction rule.
+The rule above is called the *introduction rule* for implication (labeled :math:`\mathord{\to}\mathrm{I}`), as it tells us how to introduce the knowledge that an implication holds. The implication's hypothesis is given the label :math:`1`; when the introduction rule is applied, the label :math:`1` indicates the relevant hypothesis. The line over the hypothesis indicates that the assumption has been "canceled" by the introduction rule.
+
+As a side note: If we make the list of hypotheses explicit as we did in the last chapter, then we can understand the implication introduction rule more precisely as deriving :math:`\Gamma \vdash A \to B` from :math:`\Gamma, A \vdash B`: in order to prove the implication :math:`A \to B` from the hypotheses in :math:`\Gamma`, we have to prove :math:`B` from the same hypotheses *and* the hypothesis that :math:`A` holds.
 
 Conjunction
 ~~~~~~~~~~~
@@ -586,7 +588,7 @@ Therefore Alice's husband was on the beach.
 
 ----
 
-At first glance, you might think this argument follows the same pattern as the one before. But a closer look should reveal a difference: in the first argument, a negation is *introduced* into the conclusion, whereas in the second, it is *eliminated* from the hypothesis. Using negation introduction to close the second argument would yield the conclusion "It is not the case that Alice's husband was not on the beach." The rule of inference that replaces the conclusion with the positive statement that Alice's husband *was* on the beach is called a *proof by contradiction*. (It also has a fancy name, *reductio ad absurdum*, "reduction to an absurdity.")
+At first glance, you might think this argument follows the same pattern as the one before. But a closer look should reveal a difference: in the first argument, a negation is *introduced* into the conclusion, whereas in the second, it is *eliminated* from the hypothesis. Using negation introduction to close the second argument would yield the conclusion "It is not the case that Alice's husband was not on the beach." The rule of inference that replaces the conclusion with the positive statement that Alice's husband *was* on the beach is called a *proof by contradiction*. (It also has a fancy name, *reductio ad absurdum*, "reduction to an absurdity", labeled :math:`\mathrm{RAA}` below.)
 
 It may be hard to see the difference between the two rules, because we commonly take the statement "Alice's husband was not not on the beach" to be a roundabout and borderline ungrammatical way of saying that Alice's husband was on the beach. Indeed, the rule is equivalent to adding an axiom that says that for every statement A, "not not A" is equivalent to A.
 
@@ -654,7 +656,7 @@ Consider, for example, a statement like "Alice was with her son on the beach, bu
 -  :math:`B`: Alice's son was on the beach
 -  :math:`C`: Alice's husband was alone
 
-In that case, we might represent the statement in symbols as :math:`A \wedge B \wedge C`. Using the word "with" may seem to connote more than the fact that Alice and her son were both on the beach; for example, it seems to connote that they aware of each others' presence, interacting, etc. Similarly, although we have translated the word "but" and "and," the word "but" also convey information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.
+In that case, we might represent the statement in symbols as :math:`A \wedge B \wedge C`. Using the word "with" may seem to connote more than the fact that Alice and her son were both on the beach; for example, it seems to connote that they were aware of each others' presence, interacting, etc. Similarly, although we have translated the word "but" as "and," the word "but" also conveys information; in this case, it seems to emphasize a contrast, while in other situations, it can be used to assert a fact that is contrary to expectations. In both cases, then, the logical rendering models certain features of the original sentence while abstracting others.
 
 Exercises
 ---------

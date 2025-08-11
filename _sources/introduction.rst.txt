@@ -34,7 +34,7 @@ A natural number :math:`n` greater than or equal to 2 is said to be *composite* 
 
 **Theorem.** Every natural number greater than or equal to 2 can be written as a product of primes.
 
-**Proof.** We proceed by induction on :math:`n`. Let :math:`n` be any natural number greater than 2. If :math:`n` is prime, we are done; we can consider :math:`n` itself as a product with one term. Otherwise, :math:`n` is composite, and we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the inductive hypothesis, each of :math:`m` and :math:`k` can be written as a product of primes, say
+**Proof.** We proceed by induction on :math:`n`. Let :math:`n` be any natural number greater than 2. If :math:`n` is prime, we are done; we can consider :math:`n` itself as a product with one factor. Otherwise, :math:`n` is composite, and we can write :math:`n = m \cdot k` where :math:`m` and :math:`k` are smaller than :math:`n` and greater than 1. By the inductive hypothesis, each of :math:`m` and :math:`k` can be written as a product of primes, say
 :math:`m = p_1 \cdot p_2 \cdot \ldots \cdot p_u` and :math:`k = q_1 \cdot q_2 \cdot \ldots \cdot q_v`. But then we have
 
 .. math::
@@ -53,7 +53,7 @@ The first goal of this course is to teach you to write clear, readable mathemati
 Symbolic Logic
 --------------
 
-Toward understanding how proofs work, it will be helpful to study a subject known as "symbolic logic," which provides an idealized model of mathematical language and proof. In the *Prior Analytics*, the ancient Greek philosopher set out to analyze patterns of reasoning, and developed the theory of the *syllogism*. Here is one instance of a syllogism:
+Toward understanding how proofs work, it will be helpful to study a subject known as "symbolic logic," which provides an idealized model of mathematical language and proof. In the *Prior Analytics*, the ancient Greek philosopher Aristotle set out to analyze patterns of reasoning, and developed the theory of the *syllogism*. Here is one instance of a syllogism:
 
 ----
 
@@ -81,7 +81,7 @@ We can substitute various properties for A, B, and C; try substituting the prope
 
 Although the patterns of language addressed by Aristotle's theory of reasoning are limited, we have him to thank for a crucial insight: we can classify valid patterns of inference by their logical form, while abstracting away specific content. It is this fundamental observation that underlies the entire field of symbolic logic.
 
-In the seventeenth century, Leibniz proposed the design of a *characteristica universalis*, a universal symbolic language in which one would express any assertion in a precise way, and a *calculus ratiocinatur*, a "calculus of thought" which would express the precise rules of reasoning. Leibniz himself took some steps to develop such a language and calculus, but much greater strides were made in the nineteenth century, through the work of Boole, Frege, Peirce, Schroeder, and others. Early in the twentieth century, these efforts blossomed into the field of mathematical logic.
+In the seventeenth century, Leibniz proposed the design of a *characteristica universalis*, a universal symbolic language in which one would express any assertion in a precise way, and a *calculus ratiocinator*, a "calculus of thought" which would express the precise rules of reasoning. Leibniz himself took some steps to develop such a language and calculus, but much greater strides were made in the nineteenth century, through the work of Boole, Frege, Peirce, Schroeder, and others. Early in the twentieth century, these efforts blossomed into the field of mathematical logic.
 
 If you consider the examples of proofs in the last section, you will notice that some terms and rules of inference are specific to the subject matter at hand, having to do with numbers and the properties of being prime, composite, even, odd, and so on. But there are other terms and rules of inference that are not domain specific, such as those related to the words "every," "some," "and," and "if ... then." The goal of symbolic logic is to identify these core elements of reasoning and argumentation and explain how they work, as well as to explain how more domain-specific notions are introduced and used.
 

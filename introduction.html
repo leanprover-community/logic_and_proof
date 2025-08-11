@@ -50,7 +50,7 @@
 <p>A natural number <span class="math notranslate nohighlight">\(n\)</span> greater than or equal to 2 is said to be <em>composite</em> if it can be written as a product <span class="math notranslate nohighlight">\(n = m \cdot k\)</span> where neither <span class="math notranslate nohighlight">\(m\)</span> nor <span class="math notranslate nohighlight">\(k\)</span> is equal to <span class="math notranslate nohighlight">\(1\)</span>, and <em>prime</em> otherwise. Notice that if <span class="math notranslate nohighlight">\(n = m \cdot k\)</span> witnesses the fact that <span class="math notranslate nohighlight">\(n\)</span> is composite, then <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> are both smaller than <span class="math notranslate nohighlight">\(n\)</span>. Notice also that, by convention, 0 and 1 are considered neither prime nor composite.</p>
 <hr class="docutils" />
 <p><strong>Theorem.</strong> Every natural number greater than or equal to 2 can be written as a product of primes.</p>
-<p><strong>Proof.</strong> We proceed by induction on <span class="math notranslate nohighlight">\(n\)</span>. Let <span class="math notranslate nohighlight">\(n\)</span> be any natural number greater than 2. If <span class="math notranslate nohighlight">\(n\)</span> is prime, we are done; we can consider <span class="math notranslate nohighlight">\(n\)</span> itself as a product with one term. Otherwise, <span class="math notranslate nohighlight">\(n\)</span> is composite, and we can write <span class="math notranslate nohighlight">\(n = m \cdot k\)</span> where <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> are smaller than <span class="math notranslate nohighlight">\(n\)</span> and greater than 1. By the inductive hypothesis, each of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> can be written as a product of primes, say
+<p><strong>Proof.</strong> We proceed by induction on <span class="math notranslate nohighlight">\(n\)</span>. Let <span class="math notranslate nohighlight">\(n\)</span> be any natural number greater than 2. If <span class="math notranslate nohighlight">\(n\)</span> is prime, we are done; we can consider <span class="math notranslate nohighlight">\(n\)</span> itself as a product with one factor. Otherwise, <span class="math notranslate nohighlight">\(n\)</span> is composite, and we can write <span class="math notranslate nohighlight">\(n = m \cdot k\)</span> where <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> are smaller than <span class="math notranslate nohighlight">\(n\)</span> and greater than 1. By the inductive hypothesis, each of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(k\)</span> can be written as a product of primes, say
 <span class="math notranslate nohighlight">\(m = p_1 \cdot p_2 \cdot \ldots \cdot p_u\)</span> and <span class="math notranslate nohighlight">\(k = q_1 \cdot q_2 \cdot \ldots \cdot q_v\)</span>. But then we have</p>
 <div class="math notranslate nohighlight">
 \[n = m \cdot k = p_1 \cdot p_2 \cdot \ldots \cdot p_u \cdot q_1 \cdot
@@ -62,7 +62,7 @@ q_2 \cdot \ldots \cdot q_v,\]</div>
 </div>
 <div class="section" id="symbolic-logic">
 <h2><span class="section-number">1.2. </span>Symbolic Logic<a class="headerlink" href="#symbolic-logic" title="Permalink to this headline">&#182;</a></h2>
-<p>Toward understanding how proofs work, it will be helpful to study a subject known as &#8220;symbolic logic,&#8221; which provides an idealized model of mathematical language and proof. In the <em>Prior Analytics</em>, the ancient Greek philosopher set out to analyze patterns of reasoning, and developed the theory of the <em>syllogism</em>. Here is one instance of a syllogism:</p>
+<p>Toward understanding how proofs work, it will be helpful to study a subject known as &#8220;symbolic logic,&#8221; which provides an idealized model of mathematical language and proof. In the <em>Prior Analytics</em>, the ancient Greek philosopher Aristotle set out to analyze patterns of reasoning, and developed the theory of the <em>syllogism</em>. Here is one instance of a syllogism:</p>
 <hr class="docutils" />
 <p>Every man is an animal.</p>
 <p>Every animal is mortal.</p>
@@ -76,7 +76,7 @@ q_2 \cdot \ldots \cdot q_v,\]</div>
 <hr class="docutils" />
 <p>We can substitute various properties for A, B, and C; try substituting the properties of being a fish, being a unicorn, being a swimming creature, being a mythical creature, etc. The various statements that result may come out true or false, but all the instantiations will have the following crucial feature: if the two hypotheses come out true, then the conclusion comes out true as well. We express this by saying that the inference is <em>valid</em>.</p>
 <p>Although the patterns of language addressed by Aristotle&#8217;s theory of reasoning are limited, we have him to thank for a crucial insight: we can classify valid patterns of inference by their logical form, while abstracting away specific content. It is this fundamental observation that underlies the entire field of symbolic logic.</p>
-<p>In the seventeenth century, Leibniz proposed the design of a <em>characteristica universalis</em>, a universal symbolic language in which one would express any assertion in a precise way, and a <em>calculus ratiocinatur</em>, a &#8220;calculus of thought&#8221; which would express the precise rules of reasoning. Leibniz himself took some steps to develop such a language and calculus, but much greater strides were made in the nineteenth century, through the work of Boole, Frege, Peirce, Schroeder, and others. Early in the twentieth century, these efforts blossomed into the field of mathematical logic.</p>
+<p>In the seventeenth century, Leibniz proposed the design of a <em>characteristica universalis</em>, a universal symbolic language in which one would express any assertion in a precise way, and a <em>calculus ratiocinator</em>, a &#8220;calculus of thought&#8221; which would express the precise rules of reasoning. Leibniz himself took some steps to develop such a language and calculus, but much greater strides were made in the nineteenth century, through the work of Boole, Frege, Peirce, Schroeder, and others. Early in the twentieth century, these efforts blossomed into the field of mathematical logic.</p>
 <p>If you consider the examples of proofs in the last section, you will notice that some terms and rules of inference are specific to the subject matter at hand, having to do with numbers and the properties of being prime, composite, even, odd, and so on. But there are other terms and rules of inference that are not domain specific, such as those related to the words &#8220;every,&#8221; &#8220;some,&#8221; &#8220;and,&#8221; and &#8220;if &#8230; then.&#8221; The goal of symbolic logic is to identify these core elements of reasoning and argumentation and explain how they work, as well as to explain how more domain-specific notions are introduced and used.</p>
 <p>To that end, we will introduce symbols for key logical notions, including the following:</p>
 <ul class="simple">
@@ -250,9 +250,9 @@ Alexandre Rademaker, Matt Rice, and Jason Siefken.</p>
 <hr />
 <ul>
     
-    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
-    
     <li class="toctree-l1"><a href="logic_and_proof.pdf">PDF version</a></li>
+    
+    <li class="toctree-l1"><a href="https://leanprover.github.io/">Lean Home</a></li>
     
 </ul>
 
