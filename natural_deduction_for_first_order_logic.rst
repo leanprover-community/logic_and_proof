@@ -106,7 +106,7 @@ Then we can go on to derive :math:`\forall n \; (\mathit{even}(n) \vee \mathit{o
    \UIM{\fa n (\mathit{even} (n) \vee \mathit{odd}(n))}
    \end{prooftree}
 
-We can also prove and :math:`\forall n \; \neg (\mathit{even}(n) \wedge \mathit{odd}(n))`:
+We can also prove that :math:`\forall n \; \neg (\mathit{even}(n) \wedge \mathit{odd}(n))`:
 
 .. raw:: html
 
@@ -116,6 +116,7 @@ We can also prove and :math:`\forall n \; \neg (\mathit{even}(n) \wedge \mathit{
 
    \begin{prooftree}
    \AXM{}
+   \UIM{\fa n \mathit{odd}(n) \to \neg \mathit{even}(n)}
    \UIM{\mathit{odd}(n) \to \neg \mathit{even}(n)}
    \AXM{}
    \RLM{H}
