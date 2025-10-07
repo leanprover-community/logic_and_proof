@@ -341,6 +341,7 @@ Having introduced a symbol for "false," it is only fair to introduce a symbol fo
 
    \begin{prooftree}
    \AXM{}
+   \RLM{\top \mathrm{I}}
    \UIM{\top}
    \end{prooftree}
 
