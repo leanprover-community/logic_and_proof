@@ -13,7 +13,7 @@ which uses `lean3`.
 ## Overview
 
 We need
-- an old version of `python` e.g. 3.5.4
+- an old version of `python` e.g. 3.5.4 (although Python versions as new as 3.14 have been found to work)
 - the virtual environment for this version of `python`
 - `convert` from [imagemagick](https://imagemagick.org/)
 - `xelatex` and `latexmk`
