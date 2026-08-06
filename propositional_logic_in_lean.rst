@@ -190,7 +190,7 @@ Lean adopts the convention that applications associate to the left, so that an e
     variable (A B C D : Prop)
 
     -- BEGIN
-    variable (h1 : A → (B → C))
+    variable (h1 : A → B → C)
     variable (h2 : D → A)
     variable (h3 : D)
     variable (h4 : B)
@@ -209,8 +209,8 @@ because it can cancel a hypothesis.
 In terms of Lean expressions,
 the rule translates as follows.
 Suppose ``A`` and ``B`` have type ``Prop``,
-and, assuming ``hA`` is the premise that ``A`` holds,
-``hB`` is proof of ``B``, possibly involving ``hA``.
+and, assuming ``h`` is the premise that ``A`` holds,
+``hB`` is proof of ``B``, possibly involving ``h``.
 Then the expression ``fun h : A ↦ hB`` is a proof of ``A → B``.
 You can type ``\mapsto`` for the ``↦`` symbol.
 For example, we can construct a proof of ``A → A ∧ A`` as follows:
