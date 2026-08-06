@@ -149,6 +149,7 @@ This example motivates the following rule in natural deduction:
 
    \begin{prooftree}
    \AXM{A(x)}
+   \RLM{\forall \mathrm{I}}
    \UIM{\forall x \; A(x)}
    \end{prooftree}
 
@@ -163,7 +164,8 @@ What about the elimination rule? Suppose we know that every number is even or od
 .. raw:: latex
 
    \begin{prooftree}
-   \AXM{\forall x A(x)}
+   \AXM{\forall x \; A(x)}
+   \RLM{\forall \mathrm{E}}
    \UIM{A(t)}
    \end{prooftree}
 
@@ -218,6 +220,7 @@ This illustrates the introduction rule for the existential quantifier:
 
    \begin{center}
    \AXM{A(t)}
+   \RLM{\exists \mathrm{I}}
    \UIM{\exists x A(x)}
    \DP
    \end{center}
@@ -251,7 +254,7 @@ In natural deduction, the elimination rule is expressed as follows:
    \UIM{\vdots}
    \noLine
    \UIM{B}
-   \RLM{1}
+   \RLM{\exists \mathrm{E}, 1}
    \BIM{B}
    \end{prooftree}
 
