@@ -96,7 +96,7 @@ We can introduce notation ``ℕ`` for it.
 
     #check ℕ
 
-You can enter the unicode ``ℕ`` with ``\nat`` or ``\N``. The two expressions mean the same thing.
+Now ``Nat`` and ``ℕ`` mean the same thing. You can enter the unicode ``ℕ`` with ``\nat`` or ``\N``.
 
 Using this built-in type, we can model the language of arithmetic, as described in the last chapter, as follows:
 
@@ -710,7 +710,7 @@ In Lean, reflexivity, symmetry, and transitivity are called ``Eq.refl``, ``Eq.sy
     have h2 : P x := sorry
     show P y from Eq.subst h1 h2
 
-The rule ``Eq.refl`` above assumes ``x`` as an argument, because there is no hypothesis to infer it from. All the other rules assume their premises as arguments. Here is an example of equational reasoning:
+The rule ``Eq.refl`` above takes ``x`` as an explicit argument, because there is no hypothesis to infer it from. All the other rules take only their premises as explicit arguments, while the objects ``x``, ``y``, ``z`` and the proposition ``P`` are inferred by Lean and thus need not be written. Here is an example of equational reasoning:
 
 .. code-block:: lean
 
@@ -763,8 +763,8 @@ Here is the example from earlier in tactic mode:
       apply h2
     -- END
 
-The tactic ``apply`` can combine hypothesis and
-only require us to provide those that remain.
+The tactic ``apply`` can combine arguments and
+only requires us to provide those that cannot be inferred.
 For example, if we were to immediately do ``apply h1``
 when showing ``B y``
 Lean would recognize that we need to supply ``y``
@@ -929,7 +929,7 @@ ________
 
 Because calculations are so important in mathematics,
 Lean provides more efficient ways of carrying them out.
-One method is to use the ```rewrite`` tactic,
+One method is to use the ``rewrite`` tactic,
 which carries out substitutions along equalities on parts of the goal.
 
 Recall the example
@@ -963,7 +963,7 @@ the left-facing arrow before ``hyx`` (which you can enter as ``\<-``)
 tells Lean to use the equation in the reverse direction.
 If you put the cursor before ``exact``
 Lean shows you the new goal, ``y = z``.
-The ``apply`` command uses ``hyz`` to complete the proof.
+The ``exact`` command uses ``hyz`` to complete the proof.
 
 An alternative is to rewrite the goal using ``hyx`` and ``hyz``,
 which reduces the goal to ``x = x``.
@@ -1074,7 +1074,7 @@ The chain can go on as long as needed, and in this example the result is a proof
 As usual, the syntax is finicky; notice that there are no commas in the
 ``calc`` expression,
 and the ``:=`` and underscores must be in the correct form.
-It is also sensitive to whitespace
+It is also sensitive to whitespace.
 All that varies are the expressions ``e1, e2, e3, ...``
 and the justifications themselves.
 
