@@ -134,7 +134,7 @@ The "soundness" direction---the fact that if :math:`A` is provable from :math:`\
 
 ----
 
-**Theorem** (Soundness of First Order Logic). If a sentence :math:`A` is provable from a set of sentences :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`), then :math:`A` is a logical consequence of :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`).
+**Theorem** (Soundness of First Order Logic). If a sentence :math:`A` is provable from a set of zero or more sentences :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`), then :math:`A` is a logical consequence of :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`).
 
 ----
 
@@ -142,7 +142,7 @@ The completeness theorem for first order logic was first proved by Kurt Gödel i
 
 ----
 
-**Theorem** (Completeness of First Order Logic). If a sentence :math:`A` is a logical consequence of a set of sentences :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`), then :math:`A` is provable from :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`).
+**Theorem** (Completeness of First Order Logic). If a sentence :math:`A` is a logical consequence of a set of zero or more sentences :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`), then :math:`A` is provable from :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`).
 
 ----
 
