@@ -271,25 +271,30 @@ Recall the natural deduction rules for equality:
 
    \begin{center}
    \AXM{}
+   \RLM{\mathrm{refl}}
    \UIM{t = t}
    \DP
    \quad
    \AXM{s = t}
+   \RLM{\mathrm{symm}}
    \UIM{t = s}
    \DP
    \quad
    \AXM{r = s}
    \AXM{s = t}
+   \RLM{\mathrm{trans}}
    \BIM{r = t}
    \DP
    \\
    \ \\
    \AXM{s = t}
+   \RLM{\mathrm{subst}}
    \UIM{r(s) = r(t)}
    \DP
    \quad
    \AXM{s = t}
    \AXM{P(s)}
+   \RLM{\mathrm{subst}}
    \BIM{P(t)}
    \DP
    \end{center}
