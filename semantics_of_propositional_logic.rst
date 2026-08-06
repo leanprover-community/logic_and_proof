@@ -277,6 +277,16 @@ Because of the way we have chosen our inference rules and defined the notion of 
 
 These notions of soundness and completeness extend to provability from hypotheses. If :math:`\Gamma` is a set of propositional formulas and :math:`A` is a propositional formula, then :math:`A` is said to be a *logical consequence* of :math:`\Gamma` if, given any truth assignment that makes every formula in :math:`\Gamma` true, :math:`A` is true as well. In this extended setting, soundness says that if :math:`A` is provable from :math:`\Gamma`, then :math:`A` is a logical consequence of :math:`\Gamma`. Completeness runs the other way: if :math:`A` is a logical consequence of :math:`\Gamma`, it is provable from :math:`\Gamma`. In symbolic terms, we write :math:`\Gamma \vdash A` to express that :math:`A` is provable from the formulas in :math:`\Gamma` (or that :math:`\Gamma` *proves* :math:`A`), and we write :math:`\Gamma \vDash A` to express that :math:`A` is a logical consequence of :math:`\Gamma` (or that :math:`\Gamma` *entails* :math:`A`). With this notation, soundness says that for every propositional formula :math:`A` and set of propositional formulas :math:`\Gamma`, if :math:`\Gamma \vdash A` then :math:`\Gamma \vDash A`, and completeness says that for every :math:`A` and :math:`\Gamma`, if :math:`\Gamma \vDash A` then :math:`\Gamma \vdash A`.
 
+----
+
+**Theorem** (Soundness of Propositional Logic). If a formula :math:`A` is provable from a set of zero or more formulas :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`), then :math:`A` is a logical consequence of :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`).
+
+----
+
+**Theorem** (Completeness of Propositional Logic). If a formula :math:`A` is a logical consequence of a set of zero or more formulas :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`), then :math:`A` is provable from :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`).
+
+----
+
 Given a set of propositional formulas :math:`\Gamma` and a propositional formula :math:`A`, the previous section gives us a recipe for deciding whether :math:`\Gamma` entails :math:`A`: construct a truth tables for all the formulas in :math:`\Gamma` and :math:`A`, and check whether every :math:`A` comes out true on every line of the table on which every formula of :math:`\Gamma` is true. (It doesn't matter what happens to :math:`A` on the lines where some formula in :math:`\Gamma` is false.)
 
 Notice that with the rules of natural deduction, a formula :math:`A` is provable from a set of hypotheses :math:`\{ B_1, B_2, \ldots, B_n \}` if and only if the formula :math:`B_1 \wedge B_2 \wedge \cdots \wedge B_n \to A` is provable outright, that is, from no hypotheses. So, at least for finite sets of formulas :math:`\Gamma`, the two statements of soundness and completeness are equivalent.
