@@ -360,9 +360,11 @@ Equality rules let us carry out calculations in symbolic logic. This typically a
 -  associativity of multiplication: :math:`(x \cdot y) \cdot z = x \cdot (y \cdot z)`
 -  distributivity: :math:`x \cdot (y + z) = x \cdot y + x \cdot z, \quad (x + y) \cdot z = x \cdot z + y \cdot z`
 
-You should imagine that there are implicit universal quantifiers in front of each statement, asserting that the statement holds for *any* values of :math:`x`, :math:`y`, and :math:`z`. Note that :math:`x`, :math:`y`, and :math:`z` can, in particular, be integers or rational numbers as well. Calculations involving real numbers, rational numbers, or integers generally involve identities like this.
+You should imagine that there are implicit universal quantifiers in front of each statement, asserting that the statement holds for *any* values of :math:`x`, :math:`y`, and :math:`z`.
+For example, commutativity of addition should really be :math:`\forall x, y \; (x + y = y + x)`.
+Note that :math:`x`, :math:`y`, and :math:`z` can, in particular, be integers or rational numbers as well. Calculations involving real numbers, rational numbers, or integers generally involve identities like this.
 
-The strategy is to use the elimination rule for the universal quantifier to instantiate general identities, use symmetry, if necessary, to orient an equation in the right direction, and then using the substitution rule for equality to change something in a previous result. For example, here is a natural deduction proof of a simple identity, :math:`\forall x, y, z \; ((x + y) + z = (x + z) + y)`, using only commutativity and associativity of addition. We have taken the liberty of using a brief name to denote the relevant identities, and combining multiple instances of the universal quantifier introduction and elimination rules into a single step.
+The strategy is to use the elimination rule for the universal quantifier to instantiate general identities, use symmetry, if necessary, to orient an equation in the right direction, and then using the substitution rule for equality to change something in a previous result. For example, here is a natural deduction proof of a simple identity, :math:`\forall x, y, z \; ((x + y) + z = (x + z) + y)`, using only commutativity and associativity of addition. We have taken the liberty of using a brief name to denote the relevant (universally quantified) identities, and combining multiple instances of the universal quantifier introduction and elimination rules into a single step.
 
 .. raw:: html
 
