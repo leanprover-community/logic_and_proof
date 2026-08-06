@@ -128,15 +128,21 @@ As was the case with propositional logic, we can extend the notion of validity t
 Soundness and Completeness
 --------------------------
 
-In propositional logic, we saw a close connection between the provable formulas and the tautologies---specifically, a formula is provable if and only if it is a tautology. More generally, we say that a formula :math:`A` is a logical consequence of a set of hypotheses, :math:`\Gamma`, if and only if there is a natural deduction proof of :math:`A` from :math:`\Gamma`. It turns out that the analogous statements hold for first order logic.
+In propositional logic, we saw a close connection between the provable formulas and the tautologies---specifically, a formula is provable if and only if it is a tautology. More generally, we saw that a formula :math:`A` is a logical consequence of a set of hypotheses, :math:`\Gamma`, if and only if there is a natural deduction proof of :math:`A` from :math:`\Gamma`. It turns out that the analogous statements hold for first order logic.
 
 The "soundness" direction---the fact that if :math:`A` is provable from :math:`\Gamma` then :math:`A` is true in any model of :math:`\Gamma`---holds for reasons that are similar to the reasons it holds in the propositional case. Specifically, the proof proceeds by showing that each rule of natural deduction preserves the truth in a model.
+
+----
+
+**Theorem** (Soundness of First Order Logic). If a sentence :math:`A` is provable from a set of zero or more sentences :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`), then :math:`A` is a logical consequence of :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`).
+
+----
 
 The completeness theorem for first order logic was first proved by Kurt Gödel in his 1929 dissertation. Another, simpler proof was later provided by Leon Henkin.
 
 ----
 
-**Theorem.** If a formula :math:`A` is a logical consequence of a set of sentences :math:`\Gamma`, then :math:`A` is provable from :math:`\Gamma`.
+**Theorem** (Completeness of First Order Logic). If a sentence :math:`A` is a logical consequence of a set of zero or more sentences :math:`\Gamma` (i.e. :math:`\Gamma \vDash A`), then :math:`A` is provable from :math:`\Gamma` (i.e. :math:`\Gamma \vdash A`).
 
 ----
 
@@ -214,6 +220,6 @@ Exercises
 
 #. For each the following formulas, show whether the formula is valid, satisfiable, or unsatisfiable.
 
-   - :math:`\exists x \; \forall y \; R (y, x) \wedge R (x, y)`
+   - :math:`\exists x \; \forall y \; (R (y, x) \wedge R (x, y))`
    - :math:`(\exists x \; \forall y \; R (x, y)) \to (\exists x \; \exists y \; R (x, y))`
    - :math:`(\exists x\; P (x)) \wedge (\exists x \; \neg P(x))`
