@@ -190,7 +190,7 @@ The following proof shows that if there is something satisfying either :math:`A`
    \RLM{2}
    \BIM{\ex x A(x) \vee \ex x B(x)}
    \RLM{1}
-   \UIM{\ex x (A(x) \vee B(x)) \to \ex x A(x) \vee \ex x B(x))}
+   \UIM{\ex x (A(x) \vee B(x)) \to \ex x A(x) \vee \ex x B(x)}
    \end{prooftree}
 
 The following example is more involved:
@@ -271,25 +271,30 @@ Recall the natural deduction rules for equality:
 
    \begin{center}
    \AXM{}
+   \RLM{\mathrm{refl}}
    \UIM{t = t}
    \DP
    \quad
    \AXM{s = t}
+   \RLM{\mathrm{symm}}
    \UIM{t = s}
    \DP
    \quad
    \AXM{r = s}
    \AXM{s = t}
+   \RLM{\mathrm{trans}}
    \BIM{r = t}
    \DP
    \\
    \ \\
    \AXM{s = t}
+   \RLM{\mathrm{subst}}
    \UIM{r(s) = r(t)}
    \DP
    \quad
    \AXM{s = t}
    \AXM{P(s)}
+   \RLM{\mathrm{subst}}
    \BIM{P(t)}
    \DP
    \end{center}
@@ -355,9 +360,11 @@ Equality rules let us carry out calculations in symbolic logic. This typically a
 -  associativity of multiplication: :math:`(x \cdot y) \cdot z = x \cdot (y \cdot z)`
 -  distributivity: :math:`x \cdot (y + z) = x \cdot y + x \cdot z, \quad (x + y) \cdot z = x \cdot z + y \cdot z`
 
-You should imagine that there are implicit universal quantifiers in front of each statement, asserting that the statement holds for *any* values of :math:`x`, :math:`y`, and :math:`z`. Note that :math:`x`, :math:`y`, and :math:`z` can, in particular, be integers or rational numbers as well. Calculations involving real numbers, rational numbers, or integers generally involve identities like this.
+You should imagine that there are implicit universal quantifiers in front of each statement, asserting that the statement holds for *any* values of :math:`x`, :math:`y`, and :math:`z`.
+For example, commutativity of addition should really be :math:`\forall x, y \; (x + y = y + x)`.
+Note that :math:`x`, :math:`y`, and :math:`z` can, in particular, be integers or rational numbers as well. Calculations involving real numbers, rational numbers, or integers generally involve identities like this.
 
-The strategy is to use the elimination rule for the universal quantifier to instantiate general identities, use symmetry, if necessary, to orient an equation in the right direction, and then using the substitution rule for equality to change something in a previous result. For example, here is a natural deduction proof of a simple identity, :math:`\forall x, y, z \; ((x + y) + z = (x + z) + y)`, using only commutativity and associativity of addition. We have taken the liberty of using a brief name to denote the relevant identities, and combining multiple instances of the universal quantifier introduction and elimination rules into a single step.
+The strategy is to use the elimination rule for the universal quantifier to instantiate general identities, use symmetry, if necessary, to orient an equation in the right direction, and then using the substitution rule for equality to change something in a previous result. For example, here is a natural deduction proof of a simple identity, :math:`\forall x, y, z \; ((x + y) + z = (x + z) + y)`, using only commutativity and associativity of addition. We have taken the liberty of using a brief name to denote the relevant (universally quantified) identities, and combining multiple instances of the universal quantifier introduction and elimination rules into a single step.
 
 .. raw:: html
 
@@ -465,7 +472,7 @@ For reference, here is a list of valid sentences involving quantifiers:
 -  :math:`\forall x \; (A(x) \to B) \leftrightarrow (\exists x \; A(x) \to B)` if :math:`x` is not free in :math:`B`
 -  :math:`\exists x \; (A(x) \to B) \leftrightarrow (\forall x \; A(x) \to B)` if :math:`x` is not free in :math:`B`
 -  :math:`\forall x \; (A \to B(x)) \leftrightarrow (A \to \forall x \; B(x))` if :math:`x` is not free in :math:`A`
--  :math:`\exists x \; (A(x) \to B) \leftrightarrow (A(x) \to \exists \; x B)` if :math:`x` is not free in :math:`B`
+-  :math:`\exists x \; (A \to B(x)) \leftrightarrow (A \to \exists \; x B(x))` if :math:`x` is not free in :math:`B`
 -  :math:`\exists x \; A(x) \leftrightarrow \neg \forall x \; \neg A(x)`
 -  :math:`\forall x \; A(x) \leftrightarrow \neg \exists x \; \neg A(x)`
 -  :math:`\neg \exists x \; A(x) \leftrightarrow \forall x \; \neg A(x)`
