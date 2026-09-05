@@ -123,7 +123,7 @@ In the propositional setting, there is an easy method to figure out if a formula
 
 This is not to say that we can *never* figure out if a first-order sentence is a tautology. For example, we have argued that :math:`\forall y \; (\mathit{lt}(0, y) \to \mathit{lt}(0, y))` was one. It is just a more difficult question than for propositional logic.
 
-As was the case with propositional logic, we can extend the notion of validity to a notion of logical consequence. Fix a first-order language, :math:`L`. Suppose :math:`\Gamma` is a set of sentences in :math:`L`, and :math:`A` is a sentence of :math:`L`. We will say that :math:`A` *is a logical consequence of* :math:`\Gamma` if every model of :math:`\Gamma` is a model of :math:`A`. This is one way of spelling out that :math:`A` is a "necessary consequence" of :math:`A`: under any interpretation, if the hypotheses in :math:`\Gamma` come out true, :math:`A` is true as well.
+As was the case with propositional logic, we can extend the notion of validity to a notion of logical consequence. Fix a first-order language, :math:`L`. Suppose :math:`\Gamma` is a set of sentences in :math:`L`, and :math:`A` is a sentence of :math:`L`. We will say that :math:`A` *is a logical consequence of* :math:`\Gamma` if every model of :math:`\Gamma` is a model of :math:`A`. This is one way of spelling out that :math:`A` is a "necessary consequence" of :math:`\Gamma`: under any interpretation, if the hypotheses in :math:`\Gamma` come out true, :math:`A` is true as well.
 
 Soundness and Completeness
 --------------------------
